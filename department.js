@@ -69,5 +69,3 @@ Department.prototype.GetFiltredE = function (filterFun = null) {
 
 
 module.exports = Department;
-
-//Git SSH Testing2
