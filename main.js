@@ -1,15 +1,11 @@
 var Department = require('./department');
-var Emploee = require('./emploee');
+var Employe = require('./employe');
 
 var qa = new Department('QA');
 var numEmployes = 5;
 
 for (var i = 0; i < numEmployes; i++) {
-  var emploee = new Emploee(i.toString(), qa, i * 100 + 100);
+  qa.addEmploye(new Employe(i.toString(), i * 100 + 100));
 }
-// qa.ReculEmploeeDifPay();
-
-// qa.GetMidlePay();
-
 console.log(qa);
-console.log(qa.GetFiltredE());
+console.log(qa.getFiltredEmployes());

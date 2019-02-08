@@ -4,65 +4,45 @@
  */
 var Department = function (name = 'NoName') {
   this.name = name;
-  this.employees = [];
-  this.midlePay = this.GetMidlePay();
-  this.totalPay = this.GetTotalPay();
+  this.employes = [];
+  this.totalPay = 0;
 };
 
-Department.prototype.GetMidlePay = function () {
-  if (!this.employees.length) {
+Department.prototype.getMidlePay = function () {
+  if (!this.employes.length) {
     return 0;
   }
-  /** Variant 1 */
-  // var sum = 0;
-  // for (var i = 0; i < this.employees.length; i++) {
-  //     sum += this.employees[i].pay;
-  // }
-  // this.midlePay = sum / this.employees.length;
-  // return this.midlePay;
-
-  /** Variant 2 */
-  // return this.midlePay / this.totalPay;
-
-  /** Variant 3 */
-  this.GetTotalPay();
-  this.midlePay = this.totalPay / this.employees.length;
-  return this.midlePay;
+  return this.getTotalPay() / this.employes.length;
 };
 
-Department.prototype.GetTotalPay = function () {
-  if (!this.employees.length) {
+Department.prototype.getTotalPay = function () {
+  if (!this.employes.length) {
     return 0;
   }
-
-  var Suming = function (sum, current) {
-    return (sum += current.pay);
-  };
-  this.totalPay = this.employees.reduce(Suming, 0);
-  return this.totalPay;
+  return this.employes.reduce(suming, 0);
 };
 
-Department.prototype.ReculEmployeesDifPay = function () {
-  if (!this.employees.length) {
-    return 0;
-  }
-  this.GetMidlePay();
-  this.employees = this.employees.map(function (emploee) {
-    emploee.differentPay = emploee.GetDifferentPay();
-    return emploee;
-  });
+Department.prototype.getFiltredEmployes = function () {
+  this.midlePay = this.getMidlePay();
+  return this.employes.filter(filterFun, this);
 };
 
-Department.prototype.GetFiltredE = function (filterFun = null) {
-  if (!this.employees.length) {
+Department.prototype.addEmploye = function (employe) {
+  if (!employe) {
     return;
   }
-  if (!filterFun || typeof filterFun !== 'function') {
-    filterFun = function (emploee) {
-      return emploee.differentPay < 0;
-    };
-  }
-  return this.employees.filter(filterFun);
+  this.employes.push(employe);
+  this.totalPay = this.getTotalPay();
+
+  return this.employes.length;
+};
+
+function suming (sum, current) {
+  return (sum += current.pay);
+};
+
+function filterFun (employe) {
+  return employe.pay < (this.getTotalPay() / this.employes.length);
 };
 
 module.exports = Department;
