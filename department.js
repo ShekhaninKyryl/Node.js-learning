@@ -32,7 +32,7 @@ Department.prototype.addEmploye = function (employe) {
     return;
   }
   this.employes.push(employe);
-  this.totalPay = this.getTotalPay();
+  this.totalPay += employe.pay;
 
   return this.employes.length;
 };
@@ -42,7 +42,7 @@ function suming (sum, current) {
 };
 
 function filterFun (employe) {
-  return employe.pay < (this.getTotalPay() / this.employes.length);
+  return employe.pay < (this.totalPay / this.employes.length);
 };
 
 module.exports = Department;
