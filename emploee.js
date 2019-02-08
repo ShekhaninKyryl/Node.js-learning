@@ -18,7 +18,7 @@ var Emploee = function(name = 'NoName', department = null, pay = 0){
     }
 
 
-}
+};
 
 //
 Emploee.prototype.GetDifferentPay = function(department = null){
@@ -30,6 +30,6 @@ Emploee.prototype.GetDifferentPay = function(department = null){
     }
     return this.pay - department.midlePay;
 
-}
+};
 
 module.exports = Emploee;

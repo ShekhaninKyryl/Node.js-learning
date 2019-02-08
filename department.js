@@ -7,7 +7,7 @@ var Department = function (name = 'NoName') {
     this.employees = new Array();
     this.midlePay = this.GetMidlePay();
     this.totalPay = this.GetTotalPay();
-}
+};
 
 Department.prototype.GetMidlePay = function () {
     if (!this.employees.length) {
@@ -39,10 +39,10 @@ Department.prototype.GetTotalPay = function () {
 
     var Suming = function (sum, current) {
         return sum += current.pay;
-    }
+    };
     this.totalPay = this.employees.reduce(Suming, 0);
     return this.totalPay;
-}
+};
 
 Department.prototype.ReculEmployeesDifPay = function () {
     if (!this.employees.length) {
@@ -53,19 +53,19 @@ Department.prototype.ReculEmployeesDifPay = function () {
         emploee.differentPay = emploee.GetDifferentPay();
         return emploee;
     });
-}
+};
 
-Department.prototype.GetFiltredE = function (filterFun = null, key = 'differentPay') {
+Department.prototype.GetFiltredE = function (filterFun = null) {
     if (!this.employees.length) {
         return;
     }
     if (!filterFun || typeof filterFun !== 'function') {
         filterFun = function (emploee) {
-            return emploee[key] < 0;
+            return emploee.differentPay < 0;
         }
     }
     return this.employees.filter(filterFun);
-}
+};
 
 
 module.exports = Department;
