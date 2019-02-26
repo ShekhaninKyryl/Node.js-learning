@@ -1,0 +1,139 @@
+<html lang="en">
+
+<head>
+    <%- include('Header')%>
+</head>
+<body>
+
+<div class="container">
+    <table class="table table-striped">
+        <tr>
+            <td>Name</td>
+            <td>Payment</td>
+            <td>Email</td>
+            <td></td>
+        </tr>
+        <% for(var i = 0;i < objects.length;i++) { %>
+            <tr>
+                <form method="POST">
+                    <% if (error.id == objects[i].id) { %>
+                        <td>
+                            <% if(error.name) { %>
+                                <input type="text" name="name" value="<%= error.name %>">
+                            <% } else  { %>
+                                <input type="text" name="name" value="<%= objects[i].name %>">
+                            <% } %>
+
+                            <% if(error.message.name) { %>
+                                <div tooltip="<%= error.message.name %>"></div>
+                            <% } %>
+                            <% if(error.message.sql) { %>
+                                <div tooltip="<%= error.message.sql %>"></div>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if(error.pay) { %>
+                                <input type="text" name="pay" value="<%= error.pay %>">
+                            <% } else  { %>
+                                <input type="text" name="pay" value="<%= objects[i].pay %>">
+                            <% } %>
+                            <% if(error.message.pay) { %>
+                                <div tooltip="<%= error.message.pay %>"></div>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if(error.email) { %>
+                                <input type="text" name="email" value="<%= error.email %>">
+                            <% } else  { %>
+                                <input type="text" name="email" value="<%= objects[i].email %>">
+                            <% } %>
+                            <% if(error.message.email) { %>
+                                <div tooltip="<%= error.message.email %>"></div>
+                            <% } %>
+                        </td>
+                    <% } else { %>
+                        <td>
+                            <input type="text" name="name" value="<%= objects[i].name %>">
+                        </td>
+                        <td>
+                            <input type="text" name="pay" value="<%= objects[i].pay %>">
+                        </td>
+                        <td>
+                            <input type="text" name="email" value="<%= objects[i].email %>">
+                        </td>
+                    <% } %>
+                    <td>
+                        <input type="submit" class="btn btn-default"
+                               formaction="/departments/<%= objects[i].department %>/employee/<%= objects[i].id %>/action_remove"
+                               name="button" value="Remove">
+                        <input type="submit" class="btn btn-default"
+                               formaction="/departments/<%= objects[i].department %>/employee/<%= objects[i].id %>/action_save"
+                               name="button" value="Save">
+                    </td>
+                    <input type="text" name="id" value="<%= objects[i].id %>" style="display: none">
+                    <input type="text" name="department" value="<%= objects[i].department %>" style="display: none">
+                </form>
+            </tr>
+        <% } %>
+        <tr>
+            <form action="/departments/<%= error.department %>/employee/action_add" method="POST">
+                <% if (error.id == 0) { %>
+                    <td>
+                        <input type="text" name="name" value="<%= error.name %>">
+                        <% if(error.message.name) { %>
+                            <div tooltip="<%= error.message.name %>"></div>
+                        <% } %>
+                        <% if(error.message.sql) { %>
+                            <div tooltip="<%= error.message.sql %>"></div>
+                        <% } %>
+                    </td>
+                    <td>
+                        <input type="text" name="pay" value="<%= error.pay %>">
+                        <% if(error.message.pay) { %>
+                            <div tooltip="<%= error.message.pay %>"></div>
+                        <% } %>
+                    </td>
+                    <td>
+                        <input type="text" name="email" value="<%= error.email %>">
+                        <% if(error.message.email) { %>
+                            <div tooltip="<%= error.message.email %>"></div>
+                        <% } %>
+                    </td>
+                <% } else  { %>
+                    <td>
+                        <input type="text" name="name" value="">
+                    </td>
+                    <td>
+                        <input type="text" name="pay" value="">
+                    </td>
+                    <td>
+                        <input type="text" name="email" value="">
+                    </td>
+                <% } %>
+
+                <td>
+                    <input type="submit" class="btn btn-info" name="button" value="Add new">
+                </td>
+                <input type="text" name="department" value="<%= error.department %>" style="display: none">
+            </form>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <button class="btn btn-secondary"
+                        onclick="window.location.href = '/departments'">Back
+                </button>
+
+            </td>
+        </tr>
+
+
+        </tr>
+    </table>
+</div>
+</body>
+
+
+</html>
