@@ -1,58 +1,70 @@
 var parse = require('querystring');
+var bodyParser = require('body-parser');
+var express = require('express');
 var ejs = require('ejs');
+
 var DepartmentController = require('../department/DepartmentController');
 var EmployeeController = require('../employee/EmployeeController');
 var errorHandler = require('./errorHandler');
 var crypto = require('./crypto');
 
+var router = express.Router();
 var handlers = {
   'departmentsadd': {
     fn: DepartmentController.addDepartment,
     needRedirect: true,
-    regExp: /\/departments\/action_add/,
+    method: 'post',
+    regExp: /^\/departments\/action_add$/,
     additionalParse: false
   },
   'departmentsremove': {
     fn: DepartmentController.removeDepartment,
     needRedirect: true,
-    regExp: /\/departments\/[0-9]{1,10}\/action_remove/,
+    method: 'post',
+    regExp: /^\/departments\/[0-9]{1,10}\/action_remove$/,
     additionalParse: false
   },
   'departmentssave': {
     fn: DepartmentController.updateDepartment,
     needRedirect: true,
-    regExp: /\/departments\/[0-9]{1,10}\/action_save/,
+    method: 'post',
+    regExp: /^\/departments\/[0-9]{1,10}\/action_save$/,
     additionalParse: false
   },
   'departments': {
     fn: DepartmentController.getDepartments,
     needRedirect: false,
-    regExp: /\/departments/,
+    method: 'get',
+    regExp: /^\/departments$/,
     additionalParse: false
   },
 
   'employeeadd': {
     fn: EmployeeController.addEmployee,
     needRedirect: true,
-    regExp: /\/departments\/[0-9]{1,10}\/employee\/action_add/,
+    method: 'post',
+    regExp: /^\/departments\/[0-9]{1,10}\/employee\/action_add$/,
     additionalParse: false
   },
   'employeeremove': {
     fn: EmployeeController.removeEmployee,
     needRedirect: true,
-    regExp: /\/departments\/[0-9]{1,10}\/employee\/[0-9]{1,10}\/action_remove/,
+    method: 'post',
+    regExp: /^\/departments\/[0-9]{1,10}\/employee\/[0-9]{1,10}\/action_remove$/,
     additionalParse: false
   },
   'employeesave': {
     fn: EmployeeController.editEmployee,
     needRedirect: true,
-    regExp: /\/departments\/[0-9]{1,10}\/\employee\/[0-9]{1,10}\/action_save/,
+    method: 'post',
+    regExp: /^\/departments\/[0-9]{1,10}\/\employee\/[0-9]{1,10}\/action_save$/,
     additionalParse: false
   },
   'employee': {
     fn: DepartmentController.showEmployees,
     needRedirect: false,
-    regExp: /\/departments\/[0-9]+\/employee/,
+    method: 'get',
+    regExp: /^\/departments\/[0-9]+\/employee$/,
     additionalParse: true,
     parse: {
       property: 'department',
@@ -70,12 +82,16 @@ var instances = [
   'departments'
 ];
 
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
+
+for(var key in handlers){
+  router[handlers[key].method](handlers[key].regExp,serverConfig);
+}
+router.all('*', serverConfig);
+
 function serverConfig(req, res) {
   var requestData = '';
-  req.needRedirect = false;
-  req.on('data', chunk => {
-    requestData += chunk.toString();
-  });
   req.on('end', serverLogic);
 
   function serverLogic() {
@@ -119,13 +135,10 @@ function serverConfig(req, res) {
         res.writeHead(303);
         res.end();
       } else {
-
         res.end(html);
       }
-
     });
   }
-
 
   function parseUrl(url) {
     var arrayJSON = url.split('?');
@@ -165,6 +178,4 @@ function serverConfig(req, res) {
   }
 }
 
-module.exports = {
-  serverConfig
-};
+module.exports = router;
