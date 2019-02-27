@@ -1,14 +1,14 @@
-var parse = require('querystring');
 var bodyParser = require('body-parser');
 var express = require('express');
 var ejs = require('ejs');
+var fs = require('fs');
 
 var DepartmentController = require('../department/DepartmentController');
 var EmployeeController = require('../employee/EmployeeController');
 var errorHandler = require('./errorHandler');
 var crypto = require('./crypto');
 
-var router = express.Router();
+var router = express();
 var handlers = {
   'departmentsadd': {
     fn: DepartmentController.addDepartment,
@@ -77,105 +77,101 @@ var ejsFilePath = {
   'departments': './views/Department.ejs',
   '404': './views/Error404.ejs'
 };
-var instances = [
-  'employee',
-  'departments'
-];
 
-router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
 
-for(var key in handlers){
-  router[handlers[key].method](handlers[key].regExp,serverConfig);
+
+for (var key in handlers) {
+  router[handlers[key].method](handlers[key].regExp, option(handlers[key]));
 }
-router.all('*', serverConfig);
 
-function serverConfig(req, res) {
-  var requestData = '';
-  req.on('end', serverLogic);
+// todo 404 middleware DONE
+router.all('*', function (req, res, next) {
+  render.call(undefined, res, req, next, {type: '404'});
+});
 
-  function serverLogic() {
-    var requestObject = parseUrl(req.url);
-    if (req.method === 'POST') {
-      handlers[requestObject.action].fn(requestObject.object, render);
-    } else if (req.method === 'GET') {
-      if (instances.includes(requestObject.action)) {
-        handlers[requestObject.action].fn(requestObject.object, render);
-      } else {
-        render({type: '404'});
-      }
-    } else {
-      render({type: '404'});
-    }
-  }
+router.use(consoleLogger);
+router.use(fileLogger);
 
-  function render(err, result, myError, renderPath) {
-    if (err) {
-      myError = errorHandler.errorParse(err, myError);
-      if (err.type === '404') {
-        renderPath = '404';
+
+
+
+function option(handler) {
+    return function (req, res, next) {
+      var queryObj = req.body;
+      delete queryObj.button;
+        //todo :id/
+      if (handler.additionalParse) {
+        queryObj[handler.parse.property] = req.url.match(handler.parse.regExp)[0];
       }
-    }
-    ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: myError}, function (err, html) {
-      if (err) {
-        err.type = 'ejs';
-        res.end(errorHandler.errorParse(err, myError));
-      }
-      if (req.needRedirect) {
-        var locationString = `http://${req.headers['host']}/departments`;
-        if (renderPath === 'employee') {
-          locationString += `/${myError.department}/employee`;
+
+      var arrayJSON = req.url.split('?');
+      if (arrayJSON.length === 2) {
+        try {
+          var decr = crypto.Decrypt(arrayJSON[1]);
+          queryObj = JSON.parse(decr);
+        } catch (e) {
+          console.log(e.message);
         }
-        if (myError.error) {
-          var queryString = JSON.stringify(myError);
-          queryString = crypto.Encrypt(queryString);
-          locationString += `?${queryString}`;
-        }
-        res.setHeader('Location', locationString);
-        res.writeHead(303);
-        res.end();
-      } else {
-        res.end(html);
       }
-    });
-  }
 
-  function parseUrl(url) {
-    var arrayJSON = url.split('?');
-    url = arrayJSON[0];
+      res.locals.needRedirect = handler.needRedirect;
+      var rendering = render.bind(undefined, res, req, next);
+      handler.fn(queryObj, rendering);
 
-    var request = {
-      action: '404',
-      object: null
+
     };
-
-    if (arrayJSON.length === 2) {
-      try {
-        var decr = crypto.Decrypt(arrayJSON[1]);
-        var objJSON = JSON.parse(decr);
-      } catch (e) {
-        return request;
-      }
-    }
-
-    request.object = objJSON ? objJSON : parse.parse(requestData);
-    delete request.object.button;
-    for (var key in handlers) {
-      var matchedArray = url.match(handlers[key].regExp);
-      if (matchedArray) {
-        if (url.length === matchedArray[0].length) {
-          request.action = key;
-          req.needRedirect = handlers[key].needRedirect;
-          if (handlers[key].additionalParse) {
-            request.object[handlers[key].parse.property] = url.match(handlers[key].parse.regExp)[0];
-          }
-          return request;
-        }
-      }
-    }
-    return request;
-
-  }
 }
 
+function render(res, req, next, err, result, myError, renderPath) {
+  if (err) {
+    myError = errorHandler.errorParse(err, myError);
+    if (err.type === '404') {
+      renderPath = '404';
+      next(myError);
+
+    }
+  }
+  ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: myError}, function (err, html) {
+    if (err) {
+      err.type = 'ejs';
+      res.end(errorHandler.errorParse(err, myError));
+      next(errorHandler.errorParse(err, myError));
+
+    }
+    if (res.locals.needRedirect) {
+      var locationString = `http://${req.headers['host']}/departments`;
+      if (renderPath === 'employee') {
+        locationString += `/${myError.department}/employee`;
+      }
+      if (myError.error) {
+        var queryString = JSON.stringify(myError);
+        queryString = crypto.Encrypt(queryString);
+        locationString += `?${queryString}`;
+        next(myError);
+      }
+      res.setHeader('Location', locationString);
+      res.writeHead(303);
+      res.end();
+    } else {
+      res.end(html);
+    }
+  });
+}
+
+//todo log lib (morgan || winston)
+function consoleLogger(err, req, res, next) {
+  var time = new Date();
+  var str = `${time.toUTCString()}: ${JSON.stringify(err.message)}`;
+
+  console.error(str);
+  next(str);
+}
+function fileLogger(err, req, res, next) {
+  var time = new Date();
+  var filename = `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`;
+  fs.appendFileSync(`./logs/${filename}.txt`, err + '\n');
+  next();
+}
 module.exports = router;

@@ -9,7 +9,7 @@ function errorParse(error, errorWrapper) {
       return errorParseEjs(error, returnedError);
     }
     case '404': {
-      returnedError.message = 'Oops! ';
+      returnedError.message = 'Page not found!';
       return returnedError;
     }
     default: {

@@ -1,4 +1,6 @@
+var Schema = require('validate');
 var connect = require('../utilities/mySqlConnector');
+
 
 var tableName = 'departments';
 var render = 'departments';
@@ -26,7 +28,8 @@ var getSql = function (stringCommand, departmentName) {
 };
 
 function addDepartment(department, cb) {
-  var myError = validate(departmentWrapper(department));
+  //  var  departmentWrapper = Wrappered(department);
+  var myError = validate(Wrapper(department));
   if (myError.error) {
     getDepartments(null, myError, cb);
   } else {
@@ -38,7 +41,7 @@ function addDepartment(department, cb) {
       if (err) {
         err.type = 'sql';
       } else {
-        myError.id = -1;
+        department.id = -1;
       }
       getDepartments(err, myError, cb);
     });
@@ -46,7 +49,7 @@ function addDepartment(department, cb) {
 }
 
 function removeDepartment(department, cb) {
-  var myError = departmentWrapper(department);
+  var myError = Wrapper(department);
   var sql = getSql('DELETE');
   var queryArray = [
     department.id,
@@ -60,7 +63,7 @@ function removeDepartment(department, cb) {
 }
 
 function updateDepartment(department, cb) {
-  var myError = validate(departmentWrapper(department));
+  var myError = validate(Wrapper(department));
   if (myError.error) {
     getDepartments(null, myError, cb);
   } else {
@@ -80,12 +83,11 @@ function updateDepartment(department, cb) {
 
 function getDepartments(error, myError, cb) {
   var sql = getSql('SELECT');
-  if (!myError) {
-    myError = departmentWrapper(myError);
-  }
+
   connect.query(sql, function (err, res) {
     if (err) {
       err.type = 'sql';
+      error.push(err);
     }
     queryRes = [];
     for (var i = 0; i < res.length; i++) {
@@ -125,7 +127,7 @@ function validate(department) {
   return department;
 }
 
-function departmentWrapper(department) {
+function Wrapper(department) {
   var obj = {
     id: 0,
     name: '',

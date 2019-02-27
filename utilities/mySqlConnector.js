@@ -12,5 +12,5 @@ connect.connect(function (err) {
   if (err) throw err;
   console.log('Connected MySQL!');
 });
-
+//todo add emitter
 module.exports = connect;
