@@ -1,7 +1,7 @@
 var bodyParser = require('body-parser');
 var express = require('express');
+var winston = require('winston');
 var ejs = require('ejs');
-var fs = require('fs');
 
 var DepartmentController = require('../department/DepartmentController');
 var EmployeeController = require('../employee/EmployeeController');
@@ -64,7 +64,7 @@ var handlers = {
     fn: DepartmentController.showEmployees,
     needRedirect: false,
     method: 'get',
-    regExp: /^\/departments\/[0-9]+\/employee$/,
+    regExp: '/departments/:department/employee',
     additionalParse: true,
     parse: {
       property: 'department',
@@ -77,6 +77,16 @@ var ejsFilePath = {
   'departments': './views/Department.ejs',
   '404': './views/Error404.ejs'
 };
+
+
+var logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.simple(),
+  transports: [
+    new winston.transports.File({filename: 'log.txt'}),
+    new winston.transports.Console()
+  ]
+});
 
 router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
@@ -91,37 +101,34 @@ router.all('*', function (req, res, next) {
   render.call(undefined, res, req, next, {type: '404'});
 });
 
-router.use(consoleLogger);
-router.use(fileLogger);
-
-
+router.use(loggerFunction);
 
 
 function option(handler) {
-    return function (req, res, next) {
-      var queryObj = req.body;
-      delete queryObj.button;
-        //todo :id/
-      if (handler.additionalParse) {
-        queryObj[handler.parse.property] = req.url.match(handler.parse.regExp)[0];
+  return function (req, res, next) {
+    var queryObj = req.body;
+    delete queryObj.button;
+    //todo :id DONE
+    if (handler.additionalParse) {
+      queryObj[handler.parse.property] = req.params[handler.parse.property];
+    }
+
+    var arrayJSON = req.url.split('?');
+    if (arrayJSON.length === 2) {
+      try {
+        var decr = crypto.Decrypt(arrayJSON[1]);
+        queryObj = JSON.parse(decr);
+      } catch (e) {
+        console.log(e.message);
       }
+    }
 
-      var arrayJSON = req.url.split('?');
-      if (arrayJSON.length === 2) {
-        try {
-          var decr = crypto.Decrypt(arrayJSON[1]);
-          queryObj = JSON.parse(decr);
-        } catch (e) {
-          console.log(e.message);
-        }
-      }
-
-      res.locals.needRedirect = handler.needRedirect;
-      var rendering = render.bind(undefined, res, req, next);
-      handler.fn(queryObj, rendering);
+    res.locals.needRedirect = handler.needRedirect;
+    var rendering = render.bind(undefined, res, req, next);
+    handler.fn(queryObj, rendering);
 
 
-    };
+  };
 }
 
 function render(res, req, next, err, result, myError, renderPath) {
@@ -160,18 +167,13 @@ function render(res, req, next, err, result, myError, renderPath) {
   });
 }
 
-//todo log lib (morgan || winston)
-function consoleLogger(err, req, res, next) {
+//todo log lib (morgan || winston) DONE
+function loggerFunction(err, req, res, next) {
   var time = new Date();
   var str = `${time.toUTCString()}: ${JSON.stringify(err.message)}`;
-
-  console.error(str);
-  next(str);
-}
-function fileLogger(err, req, res, next) {
-  var time = new Date();
-  var filename = `${time.getDate()}.${time.getMonth()}.${time.getFullYear()}`;
-  fs.appendFileSync(`./logs/${filename}.txt`, err + '\n');
-  next();
+  logger.log({
+    level: 'info',
+    message: str
+  });
 }
 module.exports = router;

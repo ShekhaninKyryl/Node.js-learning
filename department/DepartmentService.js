@@ -1,12 +1,15 @@
 var Schema = require('validate');
-var connect = require('../utilities/mySqlConnector');
+var mysql = require('../utilities/mySqlConnector');
+
+var connect = mysql.connect;
+var logEmitter = mysql.logEmitter;
 
 
 var tableName = 'departments';
 var render = 'departments';
 var queryRes = [];
 
-var getSql = function (stringCommand, departmentName) {
+var getSql = function (stringCommand) {
   switch (stringCommand) {
     case 'INSERT': {
       return `INSERT INTO ${tableName} SET name = ?`;
@@ -28,7 +31,6 @@ var getSql = function (stringCommand, departmentName) {
 };
 
 function addDepartment(department, cb) {
-  //  var  departmentWrapper = Wrappered(department);
   var myError = validate(Wrapper(department));
   if (myError.error) {
     getDepartments(null, myError, cb);
@@ -39,10 +41,12 @@ function addDepartment(department, cb) {
     ];
     connect.query(sql, queryArray, function (err, res) {
       if (err) {
+
         err.type = 'sql';
       } else {
         department.id = -1;
       }
+      logEmitter.emit('log', 'department', 'add', `department id - ${res ? res.insertId : 0}`, err);
       getDepartments(err, myError, cb);
     });
   }
@@ -58,6 +62,7 @@ function removeDepartment(department, cb) {
     if (err) {
       err.type = 'sql';
     }
+    logEmitter.emit('log', 'department', 'remove', `department id - ${department.id}`, err);
     getDepartments(err, myError, cb);
   });
 }
@@ -76,6 +81,7 @@ function updateDepartment(department, cb) {
       if (err) {
         err.type = 'sql';
       }
+      logEmitter.emit('log', 'department', 'update', `department id - ${department.id}`, err);
       getDepartments(err, myError, cb);
     });
   }
@@ -100,7 +106,7 @@ function getDepartments(error, myError, cb) {
 function renameTableName(newTablename) {
   tableName = newTablename;
 }
-
+// todo validator
 function validate(department) {
   var probablyKey = [
     'name'

@@ -1,5 +1,7 @@
-var connect = require('../utilities/mySqlConnector');
-var Employee = require('./Employee');
+var mysql = require('../utilities/mySqlConnector');
+
+var connect = mysql.connect;
+var logEmitter = mysql.logEmitter;
 
 var tableName = 'employees';
 var render = 'employee';
@@ -48,6 +50,7 @@ function addEmployee(employee, cb) {
       } else {
         myError.id = -1;
       }
+      logEmitter.emit('log', 'employee', 'add', `employee id - ${res ? res.insertId : 0}`, err);
       getEmployees(err, {department: employee.department}, myError, cb);
     });
   }
@@ -63,6 +66,7 @@ function removeEmployee(employee, cb) {
     if (err) {
       err.type = 'sql';
     }
+    logEmitter.emit('log', 'employee', 'remove', `employee id - ${employee.id}`, err);
     getEmployees(err, {department: employee.department}, myError, cb);
   });
 }
@@ -81,6 +85,7 @@ function removeAllEmployee(employee, cb) {
       cb();
       console.log(`Removed employees: ${employee.department}`);
     }
+    logEmitter.emit('log', 'employee', 'remove All', `department id - ${employee.department}`, err);
   });
 
 }
@@ -101,6 +106,7 @@ function editEmployee(employee, cb) {
       if (err) {
         err.type = 'sql';
       }
+      logEmitter.emit('log', 'employee', 'update', `employee id - ${employee.id}`, err);
       getEmployees(err, {department: employee.department}, myError, cb);
     });
   }
@@ -131,7 +137,7 @@ function getEmployees(error, employee, myError, cb) {
 function renameTableName(newTablename) {
   tableName = newTablename;
 }
-
+// todo validator
 function validate(employee) {
   var probablyKey = [
     'name',
