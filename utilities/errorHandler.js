@@ -7,9 +7,11 @@ function errorParse(error, include) {
       switch (error[0].type) {
         case 'sql': {
           errorParseSql(error[0], returnedError);
+          break;
         }
         case 'ejs': {
           errorParseEjs(error[0], returnedError);
+          break
         }
         case '404': {
           returnedError.type = '404';
@@ -17,6 +19,7 @@ function errorParse(error, include) {
         }
         default: {
           returnedError.message[error[0].field] += error[0].message + ' ';
+          break;
         }
       }
       error.shift();
@@ -89,12 +92,14 @@ function wrapper(include) {
     id: 0,
     name: '',
     pay: 0,
+    email: '',
     department: '',
     type: '',
     message: {
       id: '',
       name: '',
       pay: '',
+      email: '',
       department: '',
       sql: ''
     },

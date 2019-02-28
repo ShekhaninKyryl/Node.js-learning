@@ -33,9 +33,9 @@
                         </td>
                         <td>
                             <% if(error.pay) { %>
-                                <input type="text" name="pay" value="<%= error.pay %>">
+                                <input type="number" name="pay" value="<%= error.pay %>">
                             <% } else  { %>
-                                <input type="text" name="pay" value="<%= objects[i].pay %>">
+                                <input type="number" name="pay" value="<%= objects[i].pay %>">
                             <% } %>
                             <% if(error.message.pay) { %>
                                 <div tooltip="<%= error.message.pay %>"></div>
@@ -56,7 +56,7 @@
                             <input type="text" name="name" value="<%= objects[i].name %>">
                         </td>
                         <td>
-                            <input type="text" name="pay" value="<%= objects[i].pay %>">
+                            <input type="number" name="pay" value="<%= objects[i].pay %>">
                         </td>
                         <td>
                             <input type="text" name="email" value="<%= objects[i].email %>">
@@ -88,7 +88,7 @@
                         <% } %>
                     </td>
                     <td>
-                        <input type="text" name="pay" value="<%= error.pay %>">
+                        <input type="number" name="pay" value="<%= error.pay %>">
                         <% if(error.message.pay) { %>
                             <div tooltip="<%= error.message.pay %>"></div>
                         <% } %>
@@ -104,7 +104,7 @@
                         <input type="text" name="name" value="">
                     </td>
                     <td>
-                        <input type="text" name="pay" value="">
+                        <input type="number" name="pay" value="">
                     </td>
                     <td>
                         <input type="text" name="email" value="">

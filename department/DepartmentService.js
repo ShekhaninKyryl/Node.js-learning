@@ -8,7 +8,7 @@ var logEmitter = mysql.logEmitter;
 var descriptor = {
   name: [
     {
-      type: "string",
+      type: 'string',
       required: true,
       whitespace: true,
       pattern: /\S[\w _.@-]+\S/,

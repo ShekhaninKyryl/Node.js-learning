@@ -1,4 +1,3 @@
-// var Department = require('./Department');
 var DepartmentService = require('./DepartmentService');
 var EmployeeController = require('../employee/EmployeeController');
 
@@ -7,7 +6,7 @@ function addDepartment(department, cb) {
 }
 
 function removeDepartment(department, cb) {
-  var departmentRemove = DepartmentService.removeDepartment.bind(this, department, cb);
+  var departmentRemove = DepartmentService.removeDepartment.bind(null, department, cb);
   EmployeeController.removeAllEmployees({department: department.id}, departmentRemove);
 }
 

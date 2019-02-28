@@ -64,7 +64,7 @@ var handlers = {
     fn: DepartmentController.showEmployees,
     needRedirect: false,
     method: 'get',
-    regExp: '/departments/:department/employee',
+    regExp: '/departments/:department/employee?',
     additionalParse: true,
     parse: {
       property: 'department',
@@ -98,10 +98,10 @@ for (var key in handlers) {
 
 // todo 404 middleware DONE
 router.all('*', function (req, res, next) {
-  render.call(undefined, res, req, next, {type: '404'});
+  render.call(undefined, res, req, next, [{type: '404'}]);
 });
 
-//router.use(loggerFunction);
+router.use(loggerFunction);
 
 
 function option(handler) {
@@ -164,10 +164,10 @@ function render(res, req, next, err, result, instanceObject, renderPath) {
   });
 }
 
-//todo log lib (morgan || winston) DONE
+//todo log lib (morgan || winston) DONE maybe
 function loggerFunction(err, req, res, next) {
   var time = new Date();
-  var str = `${time.toUTCString()}: ${JSON.stringify(err.message)}`;
+  var str = `${time.toUTCString()}: ${JSON.stringify(err)}`;
   logger.log({
     level: 'error',
     message: str
