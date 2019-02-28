@@ -20,7 +20,7 @@ function showEmployees(department, cb) {
 }
 
 function getDepartments(department, cb) {
-  DepartmentService.getDepartments(null,department, cb);
+  DepartmentService.getDepartments(null, department, cb);
 }
 
 module.exports = {

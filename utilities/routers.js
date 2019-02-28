@@ -101,7 +101,7 @@ router.all('*', function (req, res, next) {
   render.call(undefined, res, req, next, {type: '404'});
 });
 
-router.use(loggerFunction);
+//router.use(loggerFunction);
 
 
 function option(handler) {
@@ -131,32 +131,29 @@ function option(handler) {
   };
 }
 
-function render(res, req, next, err, result, myError, renderPath) {
-  if (err) {
-    myError = errorHandler.errorParse(err, myError);
-    if (err.type === '404') {
+function render(res, req, next, err, result, instanceObject, renderPath) {
+    var error = errorHandler.errorParse(err, instanceObject);
+    if (error.type === '404') {
       renderPath = '404';
-      next(myError);
-
+      next(error);
     }
-  }
-  ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: myError}, function (err, html) {
+  ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error}, function (err, html) {
     if (err) {
       err.type = 'ejs';
-      res.end(errorHandler.errorParse(err, myError));
-      next(errorHandler.errorParse(err, myError));
+      res.end(errorHandler.errorParse(err, instanceObject));
+      next(errorHandler.errorParse(err, instanceObject));
 
     }
     if (res.locals.needRedirect) {
       var locationString = `http://${req.headers['host']}/departments`;
       if (renderPath === 'employee') {
-        locationString += `/${myError.department}/employee`;
+        locationString += `/${error.department}/employee`;
       }
-      if (myError.error) {
-        var queryString = JSON.stringify(myError);
+      if (error.error) {
+        var queryString = JSON.stringify(error);
         queryString = crypto.Encrypt(queryString);
         locationString += `?${queryString}`;
-        next(myError);
+        next(error);
       }
       res.setHeader('Location', locationString);
       res.writeHead(303);
@@ -172,7 +169,7 @@ function loggerFunction(err, req, res, next) {
   var time = new Date();
   var str = `${time.toUTCString()}: ${JSON.stringify(err.message)}`;
   logger.log({
-    level: 'info',
+    level: 'error',
     message: str
   });
 }

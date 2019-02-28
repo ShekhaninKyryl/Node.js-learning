@@ -1,23 +1,28 @@
-function errorParse(error, errorWrapper) {
-  var returnedError = Object.assign({}, errorWrapper);
-  returnedError.error = true;
-  switch (error.type) {
-    case 'sql': {
-      return errorParseSql(error, returnedError);
-    }
-    case 'ejs': {
-      return errorParseEjs(error, returnedError);
-    }
-    case '404': {
-      returnedError.message = 'Page not found!';
-      return returnedError;
-    }
-    default: {
-      returnedError.message += 'Something error! ';
-      return returnedError;
+function errorParse(error, include) {
+  var returnedError = Object.assign({}, wrapper(include));
 
+  if (error) {
+    returnedError.error = true;
+    while (error.length) {
+      switch (error[0].type) {
+        case 'sql': {
+          errorParseSql(error[0], returnedError);
+        }
+        case 'ejs': {
+          errorParseEjs(error[0], returnedError);
+        }
+        case '404': {
+          returnedError.type = '404';
+          return returnedError;
+        }
+        default: {
+          returnedError.message[error[0].field] += error[0].message + ' ';
+        }
+      }
+      error.shift();
     }
   }
+  return returnedError;
 }
 
 function errorParseSql(error, errorWrapper) {
@@ -77,6 +82,34 @@ function errorParseSql(error, errorWrapper) {
 function errorParseEjs(error) {
   return 'Ejs error: ' + error.message;
 }
+
+
+function wrapper(include) {
+  var obj = {
+    id: 0,
+    name: '',
+    pay: 0,
+    department: '',
+    type: '',
+    message: {
+      id: '',
+      name: '',
+      pay: '',
+      department: '',
+      sql: ''
+    },
+    error: false
+  };
+  if (include) {
+    for (var key in obj) {
+      if (include[key]) {
+        obj[key] = include[key];
+      }
+    }
+  }
+  return obj;
+}
+
 
 module.exports = {
   errorParse
