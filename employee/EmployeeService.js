@@ -81,6 +81,7 @@ function addEmployee(employee, cb) {
   var source = Object.assign({}, employee);
   validator.validate(source, function (errors, fields) {
     if (errors) {
+      logEmitter.emit('log', 'employee', 'add', `id - ${0}, department - ${employee.department}`, errors);
       getEmployees(errors, employee, cb);
     } else {
       var sql = getSql('INSERT');
@@ -97,7 +98,7 @@ function addEmployee(employee, cb) {
         } else {
           employee.id = -1;
         }
-        logEmitter.emit('log', 'employee', 'add', `employee id - ${res ? res.insertId : 0}`, err);
+        logEmitter.emit('log', 'employee', 'add', `id - ${res ? res.insertId : 0}, department - ${employee.department}`, err);
         getEmployees(err, employee, cb);
       });
     }
@@ -114,7 +115,7 @@ function removeEmployee(employee, cb) {
       err.type = 'sql';
       err = [err];
     }
-    logEmitter.emit('log', 'employee', 'remove', `employee id - ${employee.id}`, err);
+    logEmitter.emit('log', 'employee', 'remove', `id - ${employee.id}, department - ${employee.department}`, err);
     getEmployees(err, employee, cb);
   });
 }
@@ -132,7 +133,7 @@ function removeAllEmployee(employee, cb) {
     } else {
       cb();
     }
-    logEmitter.emit('log', 'employee', 'remove All', `department id - ${employee.department}`, err);
+    logEmitter.emit('log', 'employee', 'remove All', `department - ${employee.department}`, err);
   });
 
 }
@@ -141,6 +142,7 @@ function editEmployee(employee, cb) {
   var source = Object.assign({}, employee);
   validator.validate(source, function (errors, fields) {
     if (errors) {
+      logEmitter.emit('log', 'employee', 'update', `id - ${employee.id}`, errors);
       getEmployees(errors, employee, cb);
     } else {
       var sql = getSql('UPDATE');
@@ -155,7 +157,7 @@ function editEmployee(employee, cb) {
           err.type = 'sql';
           err = [err];
         }
-        logEmitter.emit('log', 'employee', 'update', `employee id - ${employee.id}`, err);
+        logEmitter.emit('log', 'employee', 'update', `id - ${employee.id}`, err);
         getEmployees(err, employee, cb);
       });
     }

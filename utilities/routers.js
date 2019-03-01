@@ -78,15 +78,36 @@ var ejsFilePath = {
   '404': './views/Error404.ejs'
 };
 
+var customFormat = winston.format(function (info,opts) {
+//  var message = Symbol('message');
+  var message = Symbol.for('message');
+  var str = '';
+  str += `${info.timestamp}: `;
+  str += `${info.instance.toUpperCase()}: `;
+  for(var key in info.message){
+    if(info.message[key]){
+      str += `"${info[key]}" - ${info.message[key]};`;
+    }
+  }
+  info[message] = str;
+
+  return info;
+});
+
 
 var logger = winston.createLogger({
   level: 'info',
-  format: winston.format.simple(),
+  format: winston.format.combine(
+    winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
+    winston.format.json(),
+    customFormat()
+  ),
   transports: [
     new winston.transports.File({filename: 'log.txt'}),
     new winston.transports.Console()
   ]
 });
+
 
 router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
@@ -132,11 +153,12 @@ function option(handler) {
 }
 
 function render(res, req, next, err, result, instanceObject, renderPath) {
-    var error = errorHandler.errorParse(err, instanceObject);
-    if (error.type === '404') {
-      renderPath = '404';
-      next(error);
-    }
+  var error = errorHandler.errorParse(err, instanceObject);
+  error.instance = renderPath;
+  if (error.type === '404') {
+    renderPath = '404';
+    next(error);
+  }
   ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error}, function (err, html) {
     if (err) {
       err.type = 'ejs';
@@ -166,11 +188,11 @@ function render(res, req, next, err, result, instanceObject, renderPath) {
 
 //todo log lib (morgan || winston) DONE maybe
 function loggerFunction(err, req, res, next) {
-  var time = new Date();
-  var str = `${time.toUTCString()}: ${JSON.stringify(err)}`;
-  logger.log({
-    level: 'error',
-    message: str
-  });
+
+  logger.log(
+    'error',
+    err
+  );
 }
+
 module.exports = router;

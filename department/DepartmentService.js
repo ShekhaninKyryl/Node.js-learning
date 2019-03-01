@@ -61,6 +61,7 @@ function addDepartment(department, cb) {
   var source = Object.assign({}, department);
   validator.validate(source, function (errors, fields) {
     if (errors) {
+      logEmitter.emit('log', 'department', 'add', `id - ${0}`, errors);
       getDepartments(errors, department, cb);
     } else {
       var sql = getSql('INSERT');
@@ -73,7 +74,7 @@ function addDepartment(department, cb) {
         } else {
           department.id = -1;
         }
-        logEmitter.emit('log', 'department', 'add', `department id - ${res ? res.insertId : 0}`, err);
+        logEmitter.emit('log', 'department', 'add', `id - ${res ? res.insertId : 0}`, err);
         getDepartments(err, department, cb);
       });
     }
@@ -89,7 +90,7 @@ function removeDepartment(department, cb) {
     if (err) {
       err.type = 'sql';
     }
-    logEmitter.emit('log', 'department', 'remove', `department id - ${department.id}`, err);
+    logEmitter.emit('log', 'department', 'remove', `id - ${department.id}`, err);
     getDepartments(err, department, cb);
   });
 }
@@ -98,6 +99,7 @@ function updateDepartment(department, cb) {
   var source = Object.assign({}, department);
   validator.validate(source, function (errors, fields) {
     if (errors) {
+      logEmitter.emit('log', 'department', 'update', `id - ${department.id}`, errors);
       getDepartments(errors, department, cb);
     } else {
       var sql = getSql('UPDATE');
@@ -109,7 +111,7 @@ function updateDepartment(department, cb) {
         if (err) {
           err.type = 'sql';
         }
-        logEmitter.emit('log', 'department', 'update', `department id - ${department.id}`, err);
+        logEmitter.emit('log', 'department', 'update', `id - ${department.id}`, err);
         getDepartments(err, department, cb);
       });
     }

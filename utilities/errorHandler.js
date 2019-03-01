@@ -35,7 +35,7 @@ function errorParseSql(error, errorWrapper) {
     'pay'
   ];
   if (error.code === 'ER_NO_REFERENCED_ROW_2') {
-    errorWrapper.message.name += 'Department not found! '
+    errorWrapper.message.department += 'Department not found! '
   }
   keys.forEach(function (item, i, keys) {
     if (error.message.match(`for column '${keys[i]}'`)) {
@@ -101,7 +101,6 @@ function wrapper(include) {
       pay: '',
       email: '',
       department: '',
-      sql: ''
     },
     error: false
   };
