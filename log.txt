@@ -1,0 +1,4 @@
+2019-03-12 17:02:09: 404: 
+2019-03-12 17:03:20: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-12 17:03:36: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-12 17:06:17: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
