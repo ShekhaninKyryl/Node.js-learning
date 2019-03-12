@@ -1,6 +1,9 @@
-var {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
+const {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
 
-var Logger = sequelize.define('log',
+/** @namespace Sequelize.STRING */
+/** @namespace Sequelize.BOOLEAN */
+/** @namespace Sequelize.INTEGER */
+const Logger = sequelize.define('log',
   {
     id: {
       type: Sequelize.INTEGER,

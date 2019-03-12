@@ -1,9 +1,9 @@
-var EventEmitter = require('events');
-var {Logger} = require('./Logger');
+const EventEmitter = require('events');
+const {Logger} = require('./Logger');
 
-var logEmitter = new EventEmitter();
+const logEmitter = new EventEmitter();
 logEmitter.on('log', function (instance, action, eventMessage, err) {
-  var mes = '';
+  let mes = '';
   if (err) {
     try {
       mes = eventMessage.errors.reduce(function (accumulator, currentValue) {

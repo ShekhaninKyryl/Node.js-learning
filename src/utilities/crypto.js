@@ -1,17 +1,23 @@
-var crypto = require('crypto');
-var config = require('../config');
+const crypto = require('crypto');
+const config = require('../config');
 
 
+/**
+ * @return {string}
+ */
 function Encrypt (str) {
-  var encrypt = crypto.createCipher(config.CRYPTO.ALGORITHM, config.CRYPTO.PASSWORD);
-  var returnedStr = encrypt.update(str, 'utf8', 'hex');
+  const encrypt = crypto.createCipher(config.CRYPTO.ALGORITHM, config.CRYPTO.PASSWORD);
+  let returnedStr = encrypt.update(str, 'utf8', 'hex');
   returnedStr+= encrypt.final('hex');
   return returnedStr;
 }
 
+/**
+ * @return {string}
+ */
 function Decrypt (str) {
-  var decrypt = crypto.createDecipher(config.CRYPTO.ALGORITHM, config.CRYPTO.PASSWORD);
-  var returnedStr = decrypt.update(str, 'hex', 'utf8');
+  const decrypt = crypto.createDecipher(config.CRYPTO.ALGORITHM, config.CRYPTO.PASSWORD);
+  let returnedStr = decrypt.update(str, 'hex', 'utf8');
   returnedStr+= decrypt.final('utf8');
   return returnedStr;
 }

@@ -1,7 +1,7 @@
-var {sequelize} = require('../utilities/sequelizeConnector');
-var {logEmitter} = require('../logger/LoggerService');
-var {Department} = require('./Department');
-var render = 'departments';
+const {sequelize} = require('../utilities/sequelizeConnector');
+const {logEmitter} = require('../logger/LoggerService');
+const {Department} = require('./Department');
+const render = 'departments';
 
 function addDepartment(department, cb) {
   return Department.create(department)
@@ -16,9 +16,9 @@ function addDepartment(department, cb) {
 }
 
 function removeDepartment(department, cb) {
-  var currentDepartment = Department.scope({method: ['employees', department.id]});
+  const currentDepartment = Department.scope({method: ['employees', department.id]});
   sequelize.transaction(function (transaction) {
-    var departmentObject;
+    let departmentObject;
     return currentDepartment.find({transaction: transaction})
       .then(dep => {
         departmentObject = dep;
@@ -40,7 +40,7 @@ function removeDepartment(department, cb) {
 
 function updateDepartment(department, cb) {
   return Department.update(department, {where: {id: department.id}})
-    .then(res => {
+    .then(() => {
       logEmitter.emit('log', render, 'update', department, false);
       cb(null, null, department, render);
     })

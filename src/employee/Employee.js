@@ -1,6 +1,6 @@
-var {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
+const {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
 
-var Employee = sequelize.define('employee',
+const Employee = sequelize.define('employee',
   {
     id: {type: Sequelize.INTEGER, unique: true, primaryKey: true, autoIncrement: true},
     name: {

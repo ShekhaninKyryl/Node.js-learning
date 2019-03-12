@@ -2,3 +2,6 @@
 2019-03-12 17:03:20: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
 2019-03-12 17:03:36: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
 2019-03-12 17:06:17: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-12 18:02:46: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-12 18:02:52: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"" - Email must be email format! ;
+2019-03-12 18:02:55: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"-2" - Payment must be decimal value great 0! ;"" - Email must be email format! ;

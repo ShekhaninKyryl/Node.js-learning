@@ -1,4 +1,4 @@
-var EmployeeService = require('./EmployeeService');
+const EmployeeService = require('./EmployeeService');
 
 function addEmployee(employee, cb) {
   EmployeeService.addEmployee(employee, cb);

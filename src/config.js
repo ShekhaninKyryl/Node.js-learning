@@ -1,10 +1,10 @@
 require('dotenv').config();
 
-var SERVER = {
+const SERVER = {
   PORT: process.env.SERVER_PORT
 };
 
-var SEQUELIZE = {
+const SEQUELIZE = {
   HOST: process.env.SEQ_HOST,
   USER: process.env.SEQ_USER,
   PASSWORD: process.env.SEQ_PASSWORD,
@@ -12,7 +12,7 @@ var SEQUELIZE = {
   DIALECT: process.env.SEQ_DIALECT
 };
 
-var CRYPTO = {
+const CRYPTO = {
   ALGORITHM: process.env.CRYPTO_ALGORITHM,
   PASSWORD: process.env.CRYPTO_PASSWORD
 };

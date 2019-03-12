@@ -1,5 +1,5 @@
 function errorParse(error, include) {
-  var returnedError = Object.assign({}, wrapper(include));
+  let returnedError = Object.assign({}, wrapper(include));
 
   if (error) {
     returnedError.error = true;
@@ -26,13 +26,8 @@ function errorParseSql(error, errorWrapper) {
   return errorWrapper;
 }
 
-function errorParseEjs(error) {
-  return 'Ejs error: ' + error.message;
-}
-
-
 function wrapper(include) {
-  var obj = {
+  const obj = {
     id: 0,
     name: '',
     pay: 0,
@@ -49,7 +44,7 @@ function wrapper(include) {
     error: false
   };
   if (include) {
-    for (var key in obj) {
+    for (let key in obj) {
       if (include[key]) {
         obj[key] = include[key];
       }

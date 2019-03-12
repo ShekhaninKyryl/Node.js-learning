@@ -1,8 +1,8 @@
-var {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
+const {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
 
-var {Employee} = require('../employee/Employee');
+const {Employee} = require('../employee/Employee');
 
-var Department = sequelize.define('department',
+const Department = sequelize.define('department',
   {
     id: {type: Sequelize.INTEGER, unique: true, primaryKey: true, autoIncrement: true},
     name: {
@@ -28,12 +28,9 @@ var Department = sequelize.define('department',
       'departments',
   });
 
-
 Department.prototype.destroyEmployees = function (options) {
   return Employee.destroy({where: {department: this.id}, ...options});
 };
-
-//Department.hasMany(Employee, {foreignKey: 'department', onUpdate: 'CASCADE', onDelete: 'RESTRICT'});
 
 module.exports = {
   Department

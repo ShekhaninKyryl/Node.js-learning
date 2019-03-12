@@ -1,6 +1,6 @@
-var {logEmitter} = require('../logger/LoggerService');
-var {Employee} = require('./Employee');
-var render = 'employee';
+const {logEmitter} = require('../logger/LoggerService');
+const {Employee} = require('./Employee');
+const render = 'employee';
 
 function addEmployee(employee, cb) {
 
@@ -18,7 +18,7 @@ function addEmployee(employee, cb) {
 function removeEmployee(employee, cb) {
 
   Employee.destroy({where: {id: employee.id}})
-    .then(res => {
+    .then(() => {
       logEmitter.emit('log', render, 'remove', employee, false);
       cb(null, null, employee, render);
     })
@@ -30,7 +30,7 @@ function removeEmployee(employee, cb) {
 
 function updateEmployee(employee, cb) {
   return Employee.update(employee, {where: {id: employee.id}})
-    .then(res => {
+    .then(() => {
       logEmitter.emit('log', render, 'update', employee, false);
       cb(null, null, employee, render);
     })
@@ -44,7 +44,7 @@ function updateEmployee(employee, cb) {
 function getEmployees(error, employee, cb) {
   Employee.findAll({where: {department: employee.department}})
     .then(res => {
-      var resArray = res.map(obj => {
+      const resArray = res.map(obj => {
         return obj.dataValues
       });
       cb(error, resArray, employee, render);

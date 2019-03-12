@@ -1,9 +1,9 @@
-var {Employee} = require('./employee/Employee');
-var {Department} = require('./department/Department');
-var {Logger} = require('./logger/Logger');
+const {Employee} = require('./employee/Employee');
+const {Department} = require('./department/Department');
+const {Logger} = require('./logger/Logger');
 require('./utilities/associations');
 
-var options = {
+const options = {
   alter: true,
   force: false
 };

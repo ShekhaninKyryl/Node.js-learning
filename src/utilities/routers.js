@@ -1,16 +1,16 @@
-var bodyParser = require('body-parser');
-var express = require('express');
-var winston = require('winston');
-var ejs = require('ejs');
+const bodyParser = require('body-parser');
+const express = require('express');
+const winston = require('winston');
+const ejs = require('ejs');
 require('./associations');
 
-var DepartmentController = require('../department/DepartmentController');
-var EmployeeController = require('../employee/EmployeeController');
-var errorHandler = require('./errorHandler');
-var crypto = require('./crypto');
+const DepartmentController = require('../department/DepartmentController');
+const EmployeeController = require('../employee/EmployeeController');
+const errorHandler = require('./errorHandler');
+const crypto = require('./crypto');
 
-var router = express();
-var handlers = {
+const router = express();
+const handlers = {
   'departmentsadd': {
     fn: DepartmentController.addDepartment,
     needRedirect: true,
@@ -75,19 +75,21 @@ var handlers = {
 };
 
 
-var ejsFilePath = {
+const ejsFilePath = {
   'employee': './views/Employee.ejs',
   'departments': './views/Department.ejs',
   '404': './views/Error404.ejs'
 };
 
-var customFormat = winston.format(function (info, opts) {
-  var message = Symbol.for('message');
+const customFormat = winston.format(function (info) {
+  const message = Symbol.for('message');
   try {
-    var str = `${info.timestamp}: ${info.instance.toUpperCase()}: `;
-    for (var key in info.message) {
-      if (info.message[key]) {
-        str += `"${info[key]}" - ${info.message[key]};`;
+    let str = `${info.timestamp}: ${info.instance.toUpperCase()}: `;
+    for (let key in info.message) {
+      if (info.message.hasOwnProperty(key)) {
+        if (info.message[key]) {
+          str += `"${info[key]}" - ${info.message[key]};`;
+        }
       }
     }
     info[message] = str;
@@ -96,7 +98,7 @@ var customFormat = winston.format(function (info, opts) {
   }
   return info;
 });
-var logger = winston.createLogger({
+const logger = winston.createLogger({
   level: 'info',
   format: winston.format.combine(
     winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
@@ -114,7 +116,7 @@ router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
 
 
-for (var key in handlers) {
+for (let key in handlers) {
   router[handlers[key].method](handlers[key].regExp, option(handlers[key]));
 }
 
@@ -127,16 +129,16 @@ router.use(loggerFunction);
 
 function option(handler) {
   return function (req, res, next) {
-    var queryObj = req.body;
+    let queryObj = req.body;
     delete queryObj.button;
     if (handler.additionalParse) {
       queryObj[handler.parse.property] = req.params[handler.parse.property];
     }
 
-    var arrayJSON = req.url.split('?');
+    const arrayJSON = req.url.split('?');
     if (arrayJSON.length === 2) {
       try {
-        var decr = crypto.Decrypt(arrayJSON[1]);
+        const decr = crypto.Decrypt(arrayJSON[1]);
         queryObj = JSON.parse(decr);
       } catch (e) {
         console.log(e.message);
@@ -144,7 +146,7 @@ function option(handler) {
     }
 
     res.locals.needRedirect = handler.needRedirect;
-    var rendering = render.bind(undefined, res, req, next);
+    const rendering = render.bind(undefined, res, req, next);
     handler.fn(queryObj, rendering);
 
 
@@ -152,7 +154,7 @@ function option(handler) {
 }
 
 function render(res, req, next, err, result, instanceObject, renderPath) {
-  var error = errorHandler.errorParse(err, instanceObject);
+  const error = errorHandler.errorParse(err, instanceObject);
   error.instance = renderPath;
   if (error.type === '404') {
     renderPath = '404';
@@ -160,12 +162,12 @@ function render(res, req, next, err, result, instanceObject, renderPath) {
     next(error);
   }
   if (res.locals.needRedirect) {
-    var locationString = `http://${req.headers['host']}/departments`;
+    let locationString = `http://${req.headers['host']}/departments`;
     if (renderPath === 'employee') {
       locationString += `/${error.department}/employee`;
     }
     if (error.error) {
-      var queryString = JSON.stringify(error);
+      let queryString = JSON.stringify(error);
       queryString = crypto.Encrypt(queryString);
       locationString += `?${queryString}`;
       next(error);
