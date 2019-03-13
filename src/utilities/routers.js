@@ -6,6 +6,7 @@ require('./associations');
 
 const DepartmentController = require('../department/DepartmentController');
 const EmployeeController = require('../employee/EmployeeController');
+const {logEmitter} = require('../logger/LoggerService');
 const errorHandler = require('./errorHandler');
 const crypto = require('./crypto');
 
@@ -16,50 +17,57 @@ const handlers = {
     needRedirect: true,
     method: 'post',
     regExp: '/departments/action_add',
-    additionalParse: false
+    additionalParse: false,
+    render: 'departments'
   },
   'departmentsremove': {
     fn: DepartmentController.removeDepartment,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:id/action_remove',
-    additionalParse: false
+    additionalParse: false,
+    render: 'departments'
   },
   'departmentssave': {
     fn: DepartmentController.updateDepartment,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:id/action_save',
-    additionalParse: false
+    additionalParse: false,
+    render: 'departments'
   },
   'departments': {
     fn: DepartmentController.getDepartments,
     needRedirect: false,
     method: 'get',
     regExp: '/departments',
-    additionalParse: false
+    additionalParse: false,
+    render: 'departments'
   },
-
+//todo render
   'employeeadd': {
     fn: EmployeeController.addEmployee,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:department/employee/action_add',
-    additionalParse: false
+    additionalParse: false,
+    render: 'departments'
   },
   'employeeremove': {
     fn: EmployeeController.removeEmployee,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:department/employee/:id/action_remove',
-    additionalParse: false
+    additionalParse: false,
+    render: 'departments'
   },
   'employeesave': {
     fn: EmployeeController.updateEmployee,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:department/employee/:id/action_save',
-    additionalParse: false
+    additionalParse: false,
+    render: 'departments'
   },
   'employee': {
     fn: EmployeeController.getEmployees,
@@ -67,6 +75,7 @@ const handlers = {
     method: 'get',
     regExp: '/departments/:department/employee',
     additionalParse: true,
+    render: 'departments',
     parse: {
       property: 'department',
       regExp: /[0-9]+/
@@ -121,14 +130,15 @@ for (let key in handlers) {
 }
 
 router.all('*', function (req, res, next) {
-  render.call(undefined, res, req, next, {type: '404'});
+  next({err: {type: '404'}});
 });
 
+router.use(render);
 router.use(loggerFunction);
 
 
 function option(handler) {
-  return function (req, res, next) {
+  return async function (req, res, next) {
     let queryObj = req.body;
     delete queryObj.button;
     if (handler.additionalParse) {
@@ -146,14 +156,27 @@ function option(handler) {
     }
 
     res.locals.needRedirect = handler.needRedirect;
-    const rendering = render.bind(undefined, res, req, next);
-    handler.fn(queryObj, rendering);
 
+    let instanceObject = queryObj;
+    let renderPath = handler.render;
+    let result = null;
+    let err = null;
+
+    try {
+      result = await handler.fn(queryObj);
+    } catch (e) {
+      err = e;
+    }
+    if (handler.method !== 'get') {
+      logEmitter.emit('log', renderPath, handler.fn.name, err ? err : result, err);
+    }
+    next({err, result, instanceObject, renderPath});
 
   };
 }
 
-function render(res, req, next, err, result, instanceObject, renderPath) {
+function render(ErrorResInstanceRender, req, res, next) {
+  let {err, result, instanceObject, renderPath} = ErrorResInstanceRender;
   const error = errorHandler.errorParse(err, instanceObject);
   error.instance = renderPath;
   if (error.type === '404') {

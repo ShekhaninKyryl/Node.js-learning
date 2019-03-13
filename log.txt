@@ -5,3 +5,23 @@
 2019-03-12 18:02:46: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
 2019-03-12 18:02:52: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"" - Email must be email format! ;
 2019-03-12 18:02:55: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"-2" - Payment must be decimal value great 0! ;"" - Email must be email format! ;
+2019-03-12 19:41:06: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-12 19:43:45: 404: 
+2019-03-12 19:44:25: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-13 10:38:09: 404: 
+2019-03-13 10:38:09: 404: 
+2019-03-13 10:53:46: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-13 10:53:52: DEPARTMENTS: "QA" - Department name must be unique! ;
+2019-03-13 10:54:45: DEPARTMENTS: "QA" - Department name must be unique! ;
+2019-03-13 11:20:34: DEPARTMENTS: "QA" - Department name must be unique! ;
+2019-03-13 11:22:13: DEPARTMENTS: "QA" - Department name must be unique! ;
+2019-03-13 11:23:07: DEPARTMENTS: "QA" - Department name must be unique! ;
+2019-03-13 11:28:14: DEPARTMENTS: "QA" - Department name must be unique! ;
+2019-03-13 11:29:40: DEPARTMENTS: "QA" - Department name must be unique! ;
+2019-03-13 11:31:34: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-13 11:32:37: DEPARTMENTS: "TR" - Department name must be unique! ;
+2019-03-13 11:40:55: DEPARTMENTS: "RR" - Department name must be unique! ;
+2019-03-13 11:42:20: DEPARTMENTS: "TT" - Department name must be unique! ;
+2019-03-13 11:45:24: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-13 11:45:26: DEPARTMENTS: "TT" - Department name must be unique! ;
+2019-03-13 11:45:29: DEPARTMENTS: "TT" - Department name must be unique! ;

@@ -1,19 +1,19 @@
 const DepartmentService = require('./DepartmentService');
 
-function addDepartment(department, cb) {
-  DepartmentService.addDepartment(department, cb);
+async function addDepartment(department) {
+  return await DepartmentService.addDepartment(department);
 }
 
-function removeDepartment(department, cb) {
-  DepartmentService.removeDepartment(department,cb);
+async function removeDepartment(department) {
+  return await DepartmentService.removeDepartment(department);
 }
 
-function updateDepartment(department, cb) {
-  DepartmentService.updateDepartment(department, cb);
+async function updateDepartment(department) {
+  return await DepartmentService.updateDepartment(department);
 }
 
-function getDepartments(department, cb) {
-  DepartmentService.getDepartments(null, department, cb);
+async function getDepartments() {
+  return await DepartmentService.getDepartments();
 }
 
 module.exports = {

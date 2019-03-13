@@ -1,70 +1,54 @@
 const {sequelize} = require('../utilities/sequelizeConnector');
-const {logEmitter} = require('../logger/LoggerService');
 const {Department} = require('./Department');
-const render = 'departments';
 
-function addDepartment(department, cb) {
-  return Department.create(department)
-    .then(res => {
-      logEmitter.emit('log', render, 'add', res.dataValues, false);
-      cb(null, null, department, render);
-    })
-    .catch(err => {
-      logEmitter.emit('log', render, 'add', err, true);
-      cb(err, null, department, render);
-    });
+//todo
+async function addDepartment(department) {
+  let newDepartment = await Department.create(department);
+  let {id, name} = {...newDepartment.dataValues};
+  return {id, name};
 }
 
-function removeDepartment(department, cb) {
+//todo
+async function removeDepartment(department) {
   const currentDepartment = Department.scope({method: ['employees', department.id]});
-  sequelize.transaction(function (transaction) {
-    let departmentObject;
-    return currentDepartment.find({transaction: transaction})
-      .then(dep => {
-        departmentObject = dep;
-        return departmentObject.destroyEmployees({transaction: transaction});
-      })
-      .then(() => {
-        return departmentObject.destroy({transaction: transaction});
-      })
-  })
-    .then(res => {
-      logEmitter.emit('log', render, 'remove', res.dataValues, false);
-      cb(null, null, department, render);
-    })
-    .catch(err => {
-      logEmitter.emit('log', render, 'remove', err, true);
-      cb(err, null, department, render);
-    });
+  let transaction;
+  try {
+    transaction = await sequelize.transaction();
+
+    let departmentObject = await currentDepartment.find({transaction: transaction});
+    await departmentObject.destroyEmployees({transaction: transaction});
+    await departmentObject.destroy({transaction: transaction});
+
+    await transaction.commit();
+    let {id,name} = department;
+    return {id,name};
+  } catch (e){
+    await transaction.rollback();
+  }
+
 }
 
-function updateDepartment(department, cb) {
-  return Department.update(department, {where: {id: department.id}})
-    .then(() => {
-      logEmitter.emit('log', render, 'update', department, false);
-      cb(null, null, department, render);
-    })
-    .catch(err => {
-      logEmitter.emit('log', render, 'update', err, true);
-      cb(err, null, department, render);
-    });
+//todo
+async function updateDepartment(department) {
+  await Department.update(department, {where: {id: department.id}});
+  let {id,name} = department;
+  return {id,name};
 }
 
-function getDepartments(error, department, cb) {
-  return sequelize.query(
-    `SELECT departments.id, departments.name, IFNULL(AVG(employees.pay),0) as averagePayment, COUNT(employees.id) as employeeCount  from departments
-     LEFT JOIN employees on departments.id = employees.department
-     GROUP BY departments.id`,
+//todo
+async function getDepartments() {
+  return await sequelize.query(
+      `SELECT departments.id,
+              departments.name,
+              IFNULL(AVG(employees.pay), 0) as averagePayment,
+              COUNT(employees.id)           as employeeCount
+       from departments
+              LEFT JOIN employees on departments.id = employees.department
+       GROUP BY departments.id`,
     {
       type: sequelize.QueryTypes.SELECT,
-    })
-    .then(res => {
-      cb(null, res, department, render);
-    })
-    .catch(err => {
-      err = [err];
-      cb(err, null, department, render);
     });
+
 }
 
 module.exports = {
