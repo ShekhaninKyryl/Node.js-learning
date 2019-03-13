@@ -51,7 +51,7 @@ const handlers = {
     method: 'post',
     regExp: '/departments/:department/employee/action_add',
     additionalParse: false,
-    render: 'departments'
+    render: 'employee'
   },
   'employeeremove': {
     fn: EmployeeController.removeEmployee,
@@ -59,7 +59,7 @@ const handlers = {
     method: 'post',
     regExp: '/departments/:department/employee/:id/action_remove',
     additionalParse: false,
-    render: 'departments'
+    render: 'employee'
   },
   'employeesave': {
     fn: EmployeeController.updateEmployee,
@@ -67,7 +67,7 @@ const handlers = {
     method: 'post',
     regExp: '/departments/:department/employee/:id/action_save',
     additionalParse: false,
-    render: 'departments'
+    render: 'employee'
   },
   'employee': {
     fn: EmployeeController.getEmployees,
@@ -75,7 +75,7 @@ const handlers = {
     method: 'get',
     regExp: '/departments/:department/employee',
     additionalParse: true,
-    render: 'departments',
+    render: 'employee',
     parse: {
       property: 'department',
       regExp: /[0-9]+/
@@ -175,7 +175,7 @@ function option(handler) {
   };
 }
 
-function render(ErrorResInstanceRender, req, res, next) {
+async function render(ErrorResInstanceRender, req, res, next) {
   let {err, result, instanceObject, renderPath} = ErrorResInstanceRender;
   const error = errorHandler.errorParse(err, instanceObject);
   error.instance = renderPath;
@@ -195,22 +195,12 @@ function render(ErrorResInstanceRender, req, res, next) {
       locationString += `?${queryString}`;
       next(error);
     }
-
     res.redirect(locationString);
   } else {
-    ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error}, function (err, html) {
-      if (err) {
-        err.type = 'ejs';
-        res.end(errorHandler.errorParse(err, instanceObject));
-        next(errorHandler.errorParse(err, instanceObject));
-
-      } else {
-        res.end(html);
-      }
-    });
+    let html = await ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error});
+    res.end(html);
   }
 }
-
 function loggerFunction(err, req, res, next) {
   logger.log('error', err);
 }

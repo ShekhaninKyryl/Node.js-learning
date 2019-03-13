@@ -1,19 +1,19 @@
 const EmployeeService = require('./EmployeeService');
 
-function addEmployee(employee, cb) {
-  EmployeeService.addEmployee(employee, cb);
+async function addEmployee(employee) {
+  return await EmployeeService.addEmployee(employee);
 }
 
-function removeEmployee(employee, cb) {
-  EmployeeService.removeEmployee(employee, cb);
+async function removeEmployee(employee) {
+  return await EmployeeService.removeEmployee(employee);
 }
 
-function updateEmployee(employee, cb) {
-  EmployeeService.updateEmployee(employee, cb);
+async function updateEmployee(employee) {
+  return await EmployeeService.updateEmployee(employee);
 }
 
-function getEmployees(employee, cb) {
-  EmployeeService.getEmployees(null, employee, cb);
+async function getEmployees(employee) {
+  return await EmployeeService.getEmployees(employee);
 }
 
 module.exports = {
