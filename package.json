@@ -4,20 +4,23 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "build-back": "npx babel src --out-dir out",
+    "start": "node  ./out/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "async-validator": "^1.10.1",
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/polyfill": "^7.2.5",
+    "@babel/preset-env": "^7.3.4",
     "body-parser": "^1.18.3",
     "crypto": "^1.0.1",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "events": "^3.0.0",
     "express": "^4.16.4",
-    "mysql": "^2.16.0",
     "mysql2": "^1.6.5",
     "sequelize": "^4.43.0",
     "winston": "^3.2.1"

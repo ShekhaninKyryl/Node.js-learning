@@ -44,7 +44,7 @@ const handlers = {
     additionalParse: false,
     render: 'departments'
   },
-//todo render
+
   'employeeadd': {
     fn: EmployeeController.addEmployee,
     needRedirect: true,

@@ -1,14 +1,12 @@
 const {sequelize} = require('../utilities/sequelizeConnector');
 const {Department} = require('./Department');
 
-//todo
 async function addDepartment(department) {
   let newDepartment = await Department.create(department);
   let {id, name} = {...newDepartment.dataValues};
   return {id, name};
 }
 
-//todo
 async function removeDepartment(department) {
   const currentDepartment = Department.scope({method: ['employees', department.id]});
   let transaction;
@@ -28,14 +26,12 @@ async function removeDepartment(department) {
 
 }
 
-//todo
 async function updateDepartment(department) {
   await Department.update(department, {where: {id: department.id}});
   let {id,name} = department;
   return {id,name};
 }
 
-//todo
 async function getDepartments() {
   return await sequelize.query(
       `SELECT departments.id,

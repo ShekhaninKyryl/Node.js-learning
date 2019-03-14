@@ -36,3 +36,7 @@
 2019-03-13 12:41:27: DEPARTMENTS: "JS" - Department name must be unique! ;
 2019-03-13 12:44:04: EMPLOYEE: "1@1.com" - Email must be unique! ;
 2019-03-13 12:44:08: EMPLOYEE: "100" - Department not found! ;
+2019-03-13 13:03:14: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-13 13:07:49: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-13 13:08:00: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
+2019-03-13 13:08:04: DEPARTMENTS: "WE" - Department name must be unique! ;
