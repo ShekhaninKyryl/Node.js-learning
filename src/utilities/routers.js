@@ -1,19 +1,56 @@
+/*
+NPM modules
+ */
 const bodyParser = require('body-parser');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const winston = require('winston');
 const ejs = require('ejs');
-require('./associations');
 
-const DepartmentController = require('../department/DepartmentController');
-const EmployeeController = require('../employee/EmployeeController');
-const {logEmitter} = require('../logger/LoggerService');
+/*
+Project modules
+ */
+const DepartmentService = require('../models/department/DepartmentService');
+const EmployeeService = require('../models/employee/EmployeeService');
+const {logEmitter} = require('../models/logger/LoggerService');
+const {authorizationGetLoginToken, authorizationSetPassword} = require('../models/authorization/authorizationService');
+
+/*
+Utilities
+ */
 const errorHandler = require('./errorHandler');
+const {authorization, logout} = require('../middlewares/authorization');
 const crypto = require('./crypto');
+require('./associations');
 
 const router = express();
 const handlers = {
+  'guestlogin': {
+    fn: authorizationGetLoginToken,
+    needRedirect: true,
+    method: 'post',
+    regExp: '/guest/login',
+    additionalParse: false,
+    render: 'guest'
+  },
+  'guestregistration': {
+    fn: authorizationSetPassword,
+    needRedirect: true,
+    method: 'post',
+    regExp: '/guest/registration',
+    additionalParse: false,
+    render: 'guest'
+  },
+  'guest': {
+    fn: _ => _,
+    needRedirect: false,
+    method: 'get',
+    regExp: '/guest',
+    additionalParse: false,
+    render: 'guest'
+  },
   'departmentsadd': {
-    fn: DepartmentController.addDepartment,
+    fn: DepartmentService.addDepartment,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/action_add',
@@ -21,7 +58,7 @@ const handlers = {
     render: 'departments'
   },
   'departmentsremove': {
-    fn: DepartmentController.removeDepartment,
+    fn: DepartmentService.removeDepartment,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:id/action_remove',
@@ -29,7 +66,7 @@ const handlers = {
     render: 'departments'
   },
   'departmentssave': {
-    fn: DepartmentController.updateDepartment,
+    fn: DepartmentService.updateDepartment,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:id/action_save',
@@ -37,7 +74,7 @@ const handlers = {
     render: 'departments'
   },
   'departments': {
-    fn: DepartmentController.getDepartments,
+    fn: DepartmentService.getDepartments,
     needRedirect: false,
     method: 'get',
     regExp: '/departments',
@@ -46,7 +83,7 @@ const handlers = {
   },
 
   'employeeadd': {
-    fn: EmployeeController.addEmployee,
+    fn: EmployeeService.addEmployee,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:department/employee/action_add',
@@ -54,7 +91,7 @@ const handlers = {
     render: 'employee'
   },
   'employeeremove': {
-    fn: EmployeeController.removeEmployee,
+    fn: EmployeeService.removeEmployee,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:department/employee/:id/action_remove',
@@ -62,7 +99,7 @@ const handlers = {
     render: 'employee'
   },
   'employeesave': {
-    fn: EmployeeController.updateEmployee,
+    fn: EmployeeService.updateEmployee,
     needRedirect: true,
     method: 'post',
     regExp: '/departments/:department/employee/:id/action_save',
@@ -70,7 +107,7 @@ const handlers = {
     render: 'employee'
   },
   'employee': {
-    fn: EmployeeController.getEmployees,
+    fn: EmployeeService.getEmployees,
     needRedirect: false,
     method: 'get',
     regExp: '/departments/:department/employee',
@@ -82,14 +119,12 @@ const handlers = {
     }
   }
 };
-
-
 const ejsFilePath = {
   'employee': './views/Employee.ejs',
   'departments': './views/Department.ejs',
+  'guest': './views/Login.ejs',
   '404': './views/Error404.ejs'
 };
-
 const customFormat = winston.format(function (info) {
   const message = Symbol.for('message');
   try {
@@ -119,23 +154,34 @@ const logger = winston.createLogger({
     new winston.transports.Console()
   ]
 });
+const expires = process.env.JWT_EXPIRES_MS;
 
 
 router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
+router.use(cookieParser());
 
+let {guestregistration, guestlogin, guest, ...other} = handlers;
 
-for (let key in handlers) {
-  router[handlers[key].method](handlers[key].regExp, option(handlers[key]));
+registrationMiddleWare(guestregistration);
+registrationMiddleWare(guestlogin);
+registrationMiddleWare(guest);
+router.use(authorization);
+router.get('/logout', logout);
+
+for (let middleWare in other) {
+  registrationMiddleWare(other[middleWare])
 }
-
 router.all('*', function (req, res, next) {
   next({err: {type: '404'}});
 });
-
 router.use(render);
 router.use(loggerFunction);
 
+
+function registrationMiddleWare(handler) {
+  router[handler.method](handler.regExp, option(handler));
+}
 
 function option(handler) {
   return async function (req, res, next) {
@@ -164,30 +210,64 @@ function option(handler) {
 
     try {
       result = await handler.fn(queryObj);
+      try {
+        if (result.type === 'token') {
+          res.cookie('token', result.token, {maxAge: expires});
+          result = {email: queryObj.email};
+          renderPath = 'departments';
+        }
+      } catch {
+      }
     } catch (e) {
       err = e;
     }
     if (handler.method !== 'get') {
-      logEmitter.emit('log', renderPath, handler.fn.name, err ? err : result, err);
+      logEmitter.emit('log', handler.render, handler.fn.name, err ? err : result, err);
     }
     next({err, result, instanceObject, renderPath});
-
   };
 }
 
 async function render(ErrorResInstanceRender, req, res, next) {
   let {err, result, instanceObject, renderPath} = ErrorResInstanceRender;
+
   const error = errorHandler.errorParse(err, instanceObject);
   error.instance = renderPath;
-  if (error.type === '404') {
-    renderPath = '404';
-    error.instance = renderPath;
-    next(error);
+  switch (error.type) {
+    case '401': {
+      renderPath = 'guest';
+      error.instance = renderPath;
+      res.locals.needRedirect = true;
+      error.error = false;
+      next(error);
+      break
+    }
+    case '404': {
+      renderPath = '404';
+      error.instance = renderPath;
+      next(error);
+      break;
+    }
   }
+
   if (res.locals.needRedirect) {
-    let locationString = `http://${req.headers['host']}/departments`;
-    if (renderPath === 'employee') {
-      locationString += `/${error.department}/employee`;
+    let locationString;
+    switch (renderPath) {
+      case 'departments': {
+        locationString = `http://${req.headers['host']}/${renderPath}`;
+        break;
+      }
+      case 'employee': {
+        locationString = `http://${req.headers['host']}/departments/${error.department}/${renderPath}`;
+        break;
+      }
+      case 'guest': {
+        locationString = `http://${req.headers['host']}/${renderPath}`;
+        break;
+      }
+      default: {
+        locationString = `http://${req.headers['host']}`;
+      }
     }
     if (error.error) {
       let queryString = JSON.stringify(error);
@@ -201,6 +281,7 @@ async function render(ErrorResInstanceRender, req, res, next) {
     res.end(html);
   }
 }
+
 function loggerFunction(err, req, res, next) {
   logger.log('error', err);
 }

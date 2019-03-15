@@ -14,13 +14,28 @@ async function removeEmployee(employee) {
 
 async function updateEmployee(employee) {
   await Employee.update(employee, {where: {id: employee.id}});
-  let {id, name, pay, email, department} = employee;
+  let emp = await Employee.find({where: {id: employee.id}});
+  let {id, name, pay, email, department} = emp.dataValues;
   return {id, name, pay, email, department};
-
 }
 
 async function getEmployees(employee) {
-  return await Employee.findAll({where: {department: employee.department}});
+  let employees;
+  if (employee.department === '*') {
+    employees = await Employee.findAll();
+  } else {
+    employees = await Employee.findAll({where: {department: employee.department}});
+  }
+  employees = employees.map(value => {
+    return value.dataValues
+  });
+  return employees;
+}
+
+async function getEmployeesAttribValue(attribute, value) {
+  let whereOption = {};
+  whereOption[attribute] = value;
+  return await Employee.find({where: whereOption});
 }
 
 module.exports = {
@@ -28,4 +43,5 @@ module.exports = {
   removeEmployee,
   updateEmployee,
   getEmployees,
+  getEmployeesAttribValue
 };

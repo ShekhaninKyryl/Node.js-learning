@@ -1,4 +1,4 @@
-const {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
+const {sequelize, Sequelize} = require('../../utilities/sequelizeConnector');
 
 const {Employee} = require('../employee/Employee');
 

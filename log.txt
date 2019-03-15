@@ -1,42 +1,82 @@
-2019-03-12 17:02:09: 404: 
-2019-03-12 17:03:20: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-12 17:03:36: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-12 17:06:17: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-12 18:02:46: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-12 18:02:52: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"" - Email must be email format! ;
-2019-03-12 18:02:55: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"-2" - Payment must be decimal value great 0! ;"" - Email must be email format! ;
-2019-03-12 19:41:06: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-12 19:43:45: 404: 
-2019-03-12 19:44:25: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-13 10:38:09: 404: 
-2019-03-13 10:38:09: 404: 
-2019-03-13 10:53:46: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-13 10:53:52: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 10:54:45: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 11:20:34: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 11:22:13: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 11:23:07: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 11:28:14: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 11:29:40: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 11:31:34: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-13 11:32:37: DEPARTMENTS: "TR" - Department name must be unique! ;
-2019-03-13 11:40:55: DEPARTMENTS: "RR" - Department name must be unique! ;
-2019-03-13 11:42:20: DEPARTMENTS: "TT" - Department name must be unique! ;
-2019-03-13 11:45:24: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-13 11:45:26: DEPARTMENTS: "TT" - Department name must be unique! ;
-2019-03-13 11:45:29: DEPARTMENTS: "TT" - Department name must be unique! ;
-2019-03-13 12:03:01: DEPARTMENTS: "QA" - Department name must be unique! ;
-2019-03-13 12:03:16: EMPLOYEE: "1@1.com" - Email must be unique! ;
-2019-03-13 12:05:00: EMPLOYEE: "0" - Payment must be decimal value great 0! ;"" - Email must be email format! ;
-2019-03-13 12:05:22: EMPLOYEE: "1@2.com" - Email must be unique! ;
-2019-03-13 12:40:02: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"" - Email must be email format! ;
-2019-03-13 12:40:05: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"-1" - Payment must be decimal value great 0! ;"" - Email must be email format! ;
-2019-03-13 12:40:09: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"9999999999999999999999999999999" - Payment must be decimal value lower one billion! ;"" - Email must be email format! ;
-2019-03-13 12:40:39: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"" - Email must be email format! ;
-2019-03-13 12:41:27: DEPARTMENTS: "JS" - Department name must be unique! ;
-2019-03-13 12:44:04: EMPLOYEE: "1@1.com" - Email must be unique! ;
-2019-03-13 12:44:08: EMPLOYEE: "100" - Department not found! ;
-2019-03-13 13:03:14: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-13 13:07:49: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-13 13:08:00: DEPARTMENTS: "" - Department name must be not empty, without whitespace! ;
-2019-03-13 13:08:04: DEPARTMENTS: "WE" - Department name must be unique! ;
+2019-03-15 14:21:32: LOGIN: "" - Authorization is wrong ;
+2019-03-15 14:21:36: LOGIN: "123" - Authorization is wrong ;
+2019-03-15 14:21:46: 404: 
+2019-03-15 14:21:50: 404: 
+2019-03-15 15:12:27: LOGIN: "" - Authorization is wrong ;
+2019-03-15 15:12:30: LOGIN: "123" - Authorization is wrong ;
+2019-03-15 15:12:32: LOGIN: "123" - Authorization is wrong ;
+2019-03-15 15:12:42: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"" - Email must be email format! ;
+2019-03-15 15:25:33: LOGIN: "2" - Authorization is wrong ;
+2019-03-15 15:35:58: LOGIN: "sdfsf" - Authorization is wrong ;
+2019-03-15 15:38:16: LOGIN: "" - Authorization is wrong ;
+2019-03-15 15:43:45: LOGIN: "" - Authorization is wrong ;
+2019-03-15 15:43:53: LOGIN: 
+2019-03-15 15:44:00: LOGIN: 
+2019-03-15 15:44:13: LOGIN: 
+2019-03-15 15:45:42: LOGIN: 
+2019-03-15 15:46:44: LOGIN: 
+2019-03-15 15:47:07: LOGIN: 
+2019-03-15 15:47:40: LOGIN: "2@2.com" - Authorization is wrong ;
+2019-03-15 15:47:47: LOGIN: 
+2019-03-15 15:49:06: LOGIN: "" - Authorization is wrong ;
+2019-03-15 15:49:09: LOGIN: "3423424" - Authorization is wrong ;
+2019-03-15 15:49:12: LOGIN: "3423424" - Authorization is wrong ;
+2019-03-15 15:55:37: DEPARTMENTS: 
+2019-03-15 15:55:49: DEPARTMENTS: "1" - Department name must be unique! ;
+2019-03-15 16:06:56: DEPARTMENTS: "1" - Department not found ;
+2019-03-15 16:07:42: DEPARTMENTS: "1" - Department not found ;
+2019-03-15 16:07:57: DEPARTMENTS: "1" - Department not found ;
+2019-03-15 16:17:01: LOGIN: "" - Authorization is wrong ;
+2019-03-15 16:17:23: LOGIN: "2@2.com" - Authorization is wrong ;
+2019-03-15 16:17:45: DEPARTMENTS: "1" - Department name must be unique! ;
+2019-03-15 16:17:52: DEPARTMENTS: "1" - Department not found ;
+2019-03-15 16:18:51: LOGIN: "" - Authorization is wrong ;
+2019-03-15 16:44:29: LOGIN: "" - Authorization is wrong ;
+2019-03-15 16:58:04: LOGIN: "" - Authorization is wrong ;
+2019-03-15 17:18:55: LOGIN: "" - Authorization is wrong! ;
+2019-03-15 17:23:30: GUEST: "" - Registration is wrong! ;
+2019-03-15 17:23:48: GUEST: "" - Registration is wrong! ;
+2019-03-15 17:24:43: GUEST: "2@2.com" - Registration is wrong! ;
+2019-03-15 17:24:50: GUEST: "2@2.com" - Registration is wrong! ;
+2019-03-15 17:26:14: GUEST: "2@2.com" - Registration is wrong! ;
+2019-03-15 17:26:23: GUEST: "2@2.com" - Authorization is wrong ;
+2019-03-15 17:34:13: GUEST: "3@3.com" - Authorization is wrong ;
+2019-03-15 17:34:55: GUEST: "2@2.com" - Authorization is wrong ;
+2019-03-15 17:35:20: GUEST: "2@2.com" - Registration is wrong! ;
+2019-03-15 17:42:24: GUEST: "2@2.com" - Authorization: Email not found!  ;
+2019-03-15 17:42:30: GUEST: "1@1.com" - Authorization:  Incorrect password!  ;
+2019-03-15 17:42:35: GUEST: "1@1.com" - Registration: Employee is already registered!  ;
+2019-03-15 17:43:52: EMPLOYEE: "1@1.com" - Email must be unique! ;
+2019-03-15 17:48:51: GUEST: "2@2.com" - Registration:  Incorrect password!  ;
+2019-03-15 17:49:16: GUEST: "2@2.com" - Registration: Employee is already registered!  ;
+2019-03-15 17:55:20: GUEST: "1@1.com" - Registration: Employee is already registered!  ;
+2019-03-15 17:55:31: GUEST: "1@1.com" - Registration: Employee is already registered!  ;
+2019-03-15 17:55:42: GUEST: "" - Registration: Email not found!  ;
+2019-03-15 17:55:44: GUEST: "" - Authorization: Email not found!  ;
+2019-03-15 17:55:52: GUEST: "1@1.com" - Authorization:  Incorrect password!  ;
+2019-03-15 17:55:55: GUEST: "1@1.com" - Authorization:  Incorrect password!  ;
+2019-03-15 17:56:10: GUEST: 
+2019-03-15 17:56:16: GUEST: 
+2019-03-15 17:56:22: GUEST: "1jkjkjk@1.com" - Authorization: Email not found!  ;
+2019-03-15 18:28:39: GUEST: 
+2019-03-15 18:32:50: GUEST: "123" - Authorization is wrong! ;
+2019-03-15 18:33:39: GUEST: "123" - Authorization is wrong! ;
+2019-03-15 18:40:03: GUEST: 
+2019-03-15 18:41:05: GUEST: "123" - Registration is wrong! ;
+2019-03-15 18:50:41: GUEST: "123" - Authorization is wrong! ;
+2019-03-15 18:52:20: /GUEST: 
+2019-03-15 18:52:50: /GUEST: 
+2019-03-15 18:53:18: GUEST: 
+2019-03-15 18:53:21: GUEST: 
+2019-03-15 18:53:22: GUEST: 
+2019-03-15 18:54:06: GUEST: 
+2019-03-15 18:54:48: GUEST: 
+2019-03-15 18:54:51: GUEST: 
+2019-03-15 18:57:30: GUEST: 
+2019-03-15 18:58:35: GUEST: "" - Registration is wrong! ;
+2019-03-15 19:10:06: GUEST: "" - Registration is wrong! ;
+2019-03-15 19:10:07: GUEST: "" - Authorization is wrong! ;
+2019-03-15 19:10:10: GUEST: "" - Registration is wrong! ;
+2019-03-15 19:10:11: GUEST: "" - Authorization is wrong! ;
+2019-03-15 19:10:16: GUEST: "2@2.com" - Registration is wrong! ;
+2019-03-15 19:10:30: GUEST: "4@4.com" - Authorization is wrong! ;

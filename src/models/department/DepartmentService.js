@@ -1,4 +1,4 @@
-const {sequelize} = require('../utilities/sequelizeConnector');
+const {sequelize} = require('../../utilities/sequelizeConnector');
 const {Department} = require('./Department');
 
 async function addDepartment(department) {
@@ -14,22 +14,37 @@ async function removeDepartment(department) {
     transaction = await sequelize.transaction();
 
     let departmentObject = await currentDepartment.find({transaction: transaction});
-    await departmentObject.destroyEmployees({transaction: transaction});
-    await departmentObject.destroy({transaction: transaction});
+    if (!departmentObject) {
+      throw {
+        errors:
+          [
+            {
+              value: department.name,
+              path: 'name',
+              message: 'Department not found'
+            },
+          ]
+      }
+    } else {
+      await departmentObject.destroyEmployees({transaction: transaction});
+      await departmentObject.destroy({transaction: transaction});
 
-    await transaction.commit();
-    let {id,name} = department;
-    return {id,name};
-  } catch (e){
+      await transaction.commit();
+      let {id, name} = department;
+      return {id, name};
+    }
+  } catch (e) {
     await transaction.rollback();
+    throw e
   }
 
 }
 
+//todo * DONE?
 async function updateDepartment(department) {
   await Department.update(department, {where: {id: department.id}});
-  let {id,name} = department;
-  return {id,name};
+  let dep = Department.find({where: {id: department.id}});
+  return dep.dataValues;
 }
 
 async function getDepartments() {

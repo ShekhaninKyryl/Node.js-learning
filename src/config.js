@@ -14,11 +14,18 @@ const SEQUELIZE = {
 
 const CRYPTO = {
   ALGORITHM: process.env.CRYPTO_ALGORITHM,
-  PASSWORD: process.env.CRYPTO_PASSWORD
+  PASSWORD: process.env.CRYPTO_PASSWORD,
+  HASH_ALGORITHM: process.env.CRYPTO_HASH_ALGORITHM
+};
+
+const JWT = {
+  SECRET: process.env.JWT_SECRET,
+  EXPIRES: process.env.JWT_EXPIRES_MS
 };
 
 module.exports = {
   SERVER,
   SEQUELIZE,
-  CRYPTO
+  CRYPTO,
+  JWT
 };

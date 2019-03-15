@@ -1,25 +1,23 @@
-const {Employee} = require('./employee/Employee');
-const {Department} = require('./department/Department');
-const {Logger} = require('./logger/Logger');
+const {Employee} = require('./models/employee/Employee');
+const {Department} = require('./models/department/Department');
+const {Logger} = require('./models/logger/Logger');
 require('./utilities/associations');
+
+const {sequelize} = require('./utilities/sequelizeConnector');
 
 const options = {
   alter: true,
   force: false
 };
 
-Department.sync(options)
+
+//todo sync (import) DONE
+sequelize.sync(options)
   .then(() => {
-    return Employee.sync(options)
-  })
-  .then(()=>{
-    return Logger.sync(options);
-  })
-  .then(()=>{
     console.log('All table are synchronized!');
     process.exit(0);
   })
-  .catch(()=>{
+  .catch(() => {
     process.exit(1);
   });
 

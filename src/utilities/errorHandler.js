@@ -3,8 +3,8 @@ function errorParse(error, include) {
 
   if (error) {
     returnedError.error = true;
-    if (error.type === '404') {
-      returnedError.type = '404';
+    if (error.type) {
+      returnedError.type = error.type;
     }
     if (error.sql) {
       returnedError = errorParseSql(error.original, returnedError);
@@ -12,6 +12,9 @@ function errorParse(error, include) {
     if (error.errors) {
       while (error.errors.length) {
         returnedError.message[error.errors[0].path] += error.errors[0].message + ' ';
+        if(error.errors[0].message === 'Department not found'){
+          returnedError.id = '0';
+        }
         error.errors.shift();
       }
     }

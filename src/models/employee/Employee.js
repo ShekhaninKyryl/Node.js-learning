@@ -1,4 +1,4 @@
-const {sequelize, Sequelize} = require('../utilities/sequelizeConnector');
+const {sequelize, Sequelize} = require('../../utilities/sequelizeConnector');
 
 const Employee = sequelize.define('employee',
   {
@@ -42,6 +42,9 @@ const Employee = sequelize.define('employee',
           msg: 'Email must be email format!'
         }
       }
+    },
+    password: {
+      type: Sequelize.STRING,
     }
   }, {
     tableName: 'employees',
