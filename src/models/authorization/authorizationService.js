@@ -4,9 +4,7 @@ const Employee = require('../employee/EmployeeService');
 const crypto = require('../../utilities/crypto');
 const config = require('../../config');
 const secret = config.JWT.SECRET;
-const expires = config.JWT.EXPIRES;
-
-//todo validation DONE
+const expired = config.JWT.EXPIRES;
 
 /**
  *Return {id, name, email};
@@ -62,7 +60,7 @@ async function validationRegistrationVerifyingData(verifyingData) {
 async function authorizationGetLoginToken(verifyingData) {
   let employeeInfo = await validationLoginVerifyingData(verifyingData);
 
-  let token = await jwt.sign(employeeInfo, secret, {expiresIn: expires});
+  let token = await jwt.sign(employeeInfo, secret, {expiresIn: expired});
   return {type: 'token', token};
 }
 
@@ -73,7 +71,7 @@ async function authorizationSetPassword(verifyingData) {
   await employees.update({password: hash}, {where: {email: verifyingData.email}});
   let {id, name, email} = employees.dataValues;
   let employeeInfo = {id, name, email};
-  let token = await jwt.sign(employeeInfo, secret, {expiresIn: expires});
+  let token = await jwt.sign(employeeInfo, secret, {expiresIn: expired});
   return {type: 'token', token};
 }
 

@@ -1,82 +1,39 @@
-2019-03-15 14:21:32: LOGIN: "" - Authorization is wrong ;
-2019-03-15 14:21:36: LOGIN: "123" - Authorization is wrong ;
-2019-03-15 14:21:46: 404: 
-2019-03-15 14:21:50: 404: 
-2019-03-15 15:12:27: LOGIN: "" - Authorization is wrong ;
-2019-03-15 15:12:30: LOGIN: "123" - Authorization is wrong ;
-2019-03-15 15:12:32: LOGIN: "123" - Authorization is wrong ;
-2019-03-15 15:12:42: EMPLOYEE: "" - Name must be not empty, without whitespace! ;"" - Email must be email format! ;
-2019-03-15 15:25:33: LOGIN: "2" - Authorization is wrong ;
-2019-03-15 15:35:58: LOGIN: "sdfsf" - Authorization is wrong ;
-2019-03-15 15:38:16: LOGIN: "" - Authorization is wrong ;
-2019-03-15 15:43:45: LOGIN: "" - Authorization is wrong ;
-2019-03-15 15:43:53: LOGIN: 
-2019-03-15 15:44:00: LOGIN: 
-2019-03-15 15:44:13: LOGIN: 
-2019-03-15 15:45:42: LOGIN: 
-2019-03-15 15:46:44: LOGIN: 
-2019-03-15 15:47:07: LOGIN: 
-2019-03-15 15:47:40: LOGIN: "2@2.com" - Authorization is wrong ;
-2019-03-15 15:47:47: LOGIN: 
-2019-03-15 15:49:06: LOGIN: "" - Authorization is wrong ;
-2019-03-15 15:49:09: LOGIN: "3423424" - Authorization is wrong ;
-2019-03-15 15:49:12: LOGIN: "3423424" - Authorization is wrong ;
-2019-03-15 15:55:37: DEPARTMENTS: 
-2019-03-15 15:55:49: DEPARTMENTS: "1" - Department name must be unique! ;
-2019-03-15 16:06:56: DEPARTMENTS: "1" - Department not found ;
-2019-03-15 16:07:42: DEPARTMENTS: "1" - Department not found ;
-2019-03-15 16:07:57: DEPARTMENTS: "1" - Department not found ;
-2019-03-15 16:17:01: LOGIN: "" - Authorization is wrong ;
-2019-03-15 16:17:23: LOGIN: "2@2.com" - Authorization is wrong ;
-2019-03-15 16:17:45: DEPARTMENTS: "1" - Department name must be unique! ;
-2019-03-15 16:17:52: DEPARTMENTS: "1" - Department not found ;
-2019-03-15 16:18:51: LOGIN: "" - Authorization is wrong ;
-2019-03-15 16:44:29: LOGIN: "" - Authorization is wrong ;
-2019-03-15 16:58:04: LOGIN: "" - Authorization is wrong ;
-2019-03-15 17:18:55: LOGIN: "" - Authorization is wrong! ;
-2019-03-15 17:23:30: GUEST: "" - Registration is wrong! ;
-2019-03-15 17:23:48: GUEST: "" - Registration is wrong! ;
-2019-03-15 17:24:43: GUEST: "2@2.com" - Registration is wrong! ;
-2019-03-15 17:24:50: GUEST: "2@2.com" - Registration is wrong! ;
-2019-03-15 17:26:14: GUEST: "2@2.com" - Registration is wrong! ;
-2019-03-15 17:26:23: GUEST: "2@2.com" - Authorization is wrong ;
-2019-03-15 17:34:13: GUEST: "3@3.com" - Authorization is wrong ;
-2019-03-15 17:34:55: GUEST: "2@2.com" - Authorization is wrong ;
-2019-03-15 17:35:20: GUEST: "2@2.com" - Registration is wrong! ;
-2019-03-15 17:42:24: GUEST: "2@2.com" - Authorization: Email not found!  ;
-2019-03-15 17:42:30: GUEST: "1@1.com" - Authorization:  Incorrect password!  ;
-2019-03-15 17:42:35: GUEST: "1@1.com" - Registration: Employee is already registered!  ;
-2019-03-15 17:43:52: EMPLOYEE: "1@1.com" - Email must be unique! ;
-2019-03-15 17:48:51: GUEST: "2@2.com" - Registration:  Incorrect password!  ;
-2019-03-15 17:49:16: GUEST: "2@2.com" - Registration: Employee is already registered!  ;
-2019-03-15 17:55:20: GUEST: "1@1.com" - Registration: Employee is already registered!  ;
-2019-03-15 17:55:31: GUEST: "1@1.com" - Registration: Employee is already registered!  ;
-2019-03-15 17:55:42: GUEST: "" - Registration: Email not found!  ;
-2019-03-15 17:55:44: GUEST: "" - Authorization: Email not found!  ;
-2019-03-15 17:55:52: GUEST: "1@1.com" - Authorization:  Incorrect password!  ;
-2019-03-15 17:55:55: GUEST: "1@1.com" - Authorization:  Incorrect password!  ;
-2019-03-15 17:56:10: GUEST: 
-2019-03-15 17:56:16: GUEST: 
-2019-03-15 17:56:22: GUEST: "1jkjkjk@1.com" - Authorization: Email not found!  ;
-2019-03-15 18:28:39: GUEST: 
-2019-03-15 18:32:50: GUEST: "123" - Authorization is wrong! ;
-2019-03-15 18:33:39: GUEST: "123" - Authorization is wrong! ;
-2019-03-15 18:40:03: GUEST: 
-2019-03-15 18:41:05: GUEST: "123" - Registration is wrong! ;
-2019-03-15 18:50:41: GUEST: "123" - Authorization is wrong! ;
-2019-03-15 18:52:20: /GUEST: 
-2019-03-15 18:52:50: /GUEST: 
-2019-03-15 18:53:18: GUEST: 
-2019-03-15 18:53:21: GUEST: 
-2019-03-15 18:53:22: GUEST: 
-2019-03-15 18:54:06: GUEST: 
-2019-03-15 18:54:48: GUEST: 
-2019-03-15 18:54:51: GUEST: 
-2019-03-15 18:57:30: GUEST: 
-2019-03-15 18:58:35: GUEST: "" - Registration is wrong! ;
-2019-03-15 19:10:06: GUEST: "" - Registration is wrong! ;
-2019-03-15 19:10:07: GUEST: "" - Authorization is wrong! ;
-2019-03-15 19:10:10: GUEST: "" - Registration is wrong! ;
-2019-03-15 19:10:11: GUEST: "" - Authorization is wrong! ;
-2019-03-15 19:10:16: GUEST: "2@2.com" - Registration is wrong! ;
-2019-03-15 19:10:30: GUEST: "4@4.com" - Authorization is wrong! ;
+2019-03-18 15:20:18: GUEST: You have to authorize!;
+2019-03-18 15:21:39: GUEST: You have to authorize!;
+2019-03-18 15:21:59: GUEST: Authorization is wrong! ;
+2019-03-18 15:22:13: GUEST: You have to authorize!;
+2019-03-18 15:24:22: 404: Page not found!;
+2019-03-18 15:24:31: DEPARTMENTS: 
+2019-03-18 15:24:50: EMPLOYEE: 
+2019-03-18 15:26:19: 404: Page not found!;
+2019-03-18 16:00:28: 404: Page not found!;
+2019-03-18 16:03:35: 404: Page not found!;
+2019-03-18 16:04:32: GUEST: You have to authorize!;
+2019-03-18 16:04:33: GUEST: You have to authorize!;
+2019-03-18 16:04:51: 404: /departmentsundefined - Page not found!;
+2019-03-18 16:06:39: 404: /departmentsundefined - Page not found!;
+2019-03-18 16:07:47: 404: /departmentsundefined - Page not found!;
+2019-03-18 16:18:14: GUEST: You have to authorize!: jwt expired;
+2019-03-18 16:18:16: GUEST: You have to authorize!: jwt expired;
+2019-03-18 16:18:37: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:18:39: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:18:44: GUEST: 2@2.com - Authorization is wrong! ;
+2019-03-18 16:18:44: GUEST: 2@2.com - Authorization is wrong! ;
+2019-03-18 16:19:01: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:19:01: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:19:15: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:19:15: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:21:03: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:29:01: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:30:04: GUEST: Authorization is wrong! ;
+2019-03-18 16:30:22: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-18 16:30:30: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:35:59: 404: /dments - Page not found!;
+2019-03-18 16:40:39: DEPARTMENTS: ww - Department name must be unique! ;
+2019-03-18 16:42:49: DEPARTMENTS: ww - Department name must be unique! ;
+2019-03-18 16:43:02: EMPLOYEE: Name must be not empty, without whitespace! ;Email must be email format! ;
+2019-03-18 16:43:20: DEPARTMENTS: CC - Department name must be unique! ;
+2019-03-18 16:44:20: GUEST: Authorization is wrong! ;
+2019-03-18 16:44:23: GUEST: You have to authorize: jwt must be provided;
+2019-03-18 16:44:31: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-18 16:44:34: EMPLOYEE: Name must be not empty, without whitespace! ;Email must be email format! ;

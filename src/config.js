@@ -1,7 +1,8 @@
 require('dotenv').config();
 
 const SERVER = {
-  PORT: process.env.SERVER_PORT
+  PORT: process.env.SERVER_PORT,
+  HOST: process.env.SERVER_HOST
 };
 
 const SEQUELIZE = {

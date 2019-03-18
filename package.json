@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build-back": "npx babel src --out-dir out",
-    "start": "node  ./src/index.js",
+    "start": "node  ./out/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

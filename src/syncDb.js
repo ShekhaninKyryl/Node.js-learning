@@ -10,8 +10,6 @@ const options = {
   force: false
 };
 
-
-//todo sync (import) DONE
 sequelize.sync(options)
   .then(() => {
     console.log('All table are synchronized!');

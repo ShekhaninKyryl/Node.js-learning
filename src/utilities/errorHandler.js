@@ -1,21 +1,33 @@
-function errorParse(error, include) {
-  let returnedError = Object.assign({}, wrapper(include));
-
-  if (error) {
+function errorParse(err, include) {
+  let {error, type, ...returnedError} = Object.assign({}, wrapper(include));
+  if (err) {
     returnedError.error = true;
-    if (error.type) {
-      returnedError.type = error.type;
+    if (err.type) {
+      returnedError.type = err.type;
+      switch (returnedError.type) {
+        case '401': {
+          returnedError.message.email = err.message;
+          returnedError.instance = 'guest';
+          //returnedError.error = false;
+          break;
+        }
+        case  '404': {
+          returnedError.instance = '404';
+          returnedError.message.email = err.message;
+          break;
+        }
+      }
     }
-    if (error.sql) {
-      returnedError = errorParseSql(error.original, returnedError);
+    if (err.sql) {
+      returnedError = errorParseSql(err.original, returnedError);
     }
-    if (error.errors) {
-      while (error.errors.length) {
-        returnedError.message[error.errors[0].path] += error.errors[0].message + ' ';
-        if(error.errors[0].message === 'Department not found'){
+    if (err.errors) {
+      while (err.errors.length) {
+        returnedError.message[err.errors[0].path] += err.errors[0].message + ' ';
+        if(err.errors[0].message === 'Department not found'){
           returnedError.id = '0';
         }
-        error.errors.shift();
+        err.errors.shift();
       }
     }
   }

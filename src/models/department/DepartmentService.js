@@ -40,7 +40,6 @@ async function removeDepartment(department) {
 
 }
 
-//todo * DONE?
 async function updateDepartment(department) {
   await Department.update(department, {where: {id: department.id}});
   let dep = Department.find({where: {id: department.id}});

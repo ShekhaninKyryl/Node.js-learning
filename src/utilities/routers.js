@@ -18,10 +18,13 @@ const {authorizationGetLoginToken, authorizationSetPassword} = require('../model
 /*
 Utilities
  */
+const MyError = require('./MyError');
 const errorHandler = require('./errorHandler');
-const {authorization, logout} = require('../middlewares/authorization');
+const {authorization} = require('../middlewares/authorization');
+const config = require('../config');
 const crypto = require('./crypto');
 require('./associations');
+
 
 const router = express();
 const handlers = {
@@ -123,7 +126,9 @@ const ejsFilePath = {
   'employee': './views/Employee.ejs',
   'departments': './views/Department.ejs',
   'guest': './views/Login.ejs',
+  '401': './views/Login.ejs',
   '404': './views/Error404.ejs'
+
 };
 const customFormat = winston.format(function (info) {
   const message = Symbol.for('message');
@@ -132,13 +137,14 @@ const customFormat = winston.format(function (info) {
     for (let key in info.message) {
       if (info.message.hasOwnProperty(key)) {
         if (info.message[key]) {
-          str += `"${info[key]}" - ${info.message[key]};`;
+          str += info[key]? `${info[key]} - `:'';
+          str += `${info.message[key]};`;
         }
       }
     }
     info[message] = str;
   } catch {
-    throw new Error(info.stack)
+    throw new Error(info.message);
   }
   return info;
 });
@@ -154,7 +160,9 @@ const logger = winston.createLogger({
     new winston.transports.Console()
   ]
 });
-const expires = process.env.JWT_EXPIRES_MS;
+
+const expired = config.JWT.EXPIRES;
+
 
 
 router.use(bodyParser.urlencoded({extended: false}));
@@ -167,13 +175,17 @@ registrationMiddleWare(guestregistration);
 registrationMiddleWare(guestlogin);
 registrationMiddleWare(guest);
 router.use(authorization);
-router.get('/logout', logout);
+router.get('/logout', function (req, res) {
+  res.clearCookie('token');
+  res.redirect('/guest');
+});
 
 for (let middleWare in other) {
   registrationMiddleWare(other[middleWare])
 }
 router.all('*', function (req, res, next) {
-  next({err: {type: '404'}});
+  let err = new MyError(`${req.originalUrl} - Page not found!`, '404');
+  next({err});
 });
 router.use(render);
 router.use(loggerFunction);
@@ -212,14 +224,14 @@ function option(handler) {
       result = await handler.fn(queryObj);
       try {
         if (result.type === 'token') {
-          res.cookie('token', result.token, {maxAge: expires});
+          res.cookie('token', result.token, {maxAge: expired});
           result = {email: queryObj.email};
           renderPath = 'departments';
         }
       } catch {
       }
     } catch (e) {
-      err = e;
+      err = new MyError(e)
     }
     if (handler.method !== 'get') {
       logEmitter.emit('log', handler.render, handler.fn.name, err ? err : result, err);
@@ -230,51 +242,46 @@ function option(handler) {
 
 async function render(ErrorResInstanceRender, req, res, next) {
   let {err, result, instanceObject, renderPath} = ErrorResInstanceRender;
+  let queryString = '';
+  let error = errorHandler.errorParse(err, instanceObject);
 
-  const error = errorHandler.errorParse(err, instanceObject);
-  error.instance = renderPath;
-  switch (error.type) {
-    case '401': {
-      renderPath = 'guest';
-      error.instance = renderPath;
-      res.locals.needRedirect = true;
-      error.error = false;
-      next(error);
-      break
-    }
-    case '404': {
-      renderPath = '404';
-      error.instance = renderPath;
-      next(error);
-      break;
-    }
+  if(error.type) {
+    renderPath = error.type;
+  } else {
+    error.instance = renderPath;
+  }
+
+  if (error.error) {
+    delete error.type;
+    queryString = JSON.stringify(error);
+    queryString = `?${crypto.Encrypt(queryString)}`;
+    next(error);
   }
 
   if (res.locals.needRedirect) {
-    let locationString;
+    let locationString = `http://${config.SERVER.HOST}:${config.SERVER.PORT}/`;
     switch (renderPath) {
       case 'departments': {
-        locationString = `http://${req.headers['host']}/${renderPath}`;
+        locationString += `${renderPath}`;
         break;
       }
       case 'employee': {
-        locationString = `http://${req.headers['host']}/departments/${error.department}/${renderPath}`;
+        locationString += `departments/${error.department}/${renderPath}`;
         break;
       }
       case 'guest': {
-        locationString = `http://${req.headers['host']}/${renderPath}`;
+        locationString += `${renderPath}`;
+        break;
+      }
+      case '401': {
+        locationString += `guest`;
         break;
       }
       default: {
-        locationString = `http://${req.headers['host']}`;
+        locationString += `guest`;
       }
     }
-    if (error.error) {
-      let queryString = JSON.stringify(error);
-      queryString = crypto.Encrypt(queryString);
-      locationString += `?${queryString}`;
-      next(error);
-    }
+    locationString += queryString;
     res.redirect(locationString);
   } else {
     let html = await ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error});
