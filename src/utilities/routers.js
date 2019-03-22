@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const winston = require('winston');
 const ejs = require('ejs');
 
+
 /*
 Project modules
  */
@@ -24,7 +25,6 @@ const {authorization} = require('../middlewares/authorization');
 const config = require('../config');
 const crypto = require('./crypto');
 require('./associations');
-
 
 const router = express();
 const handlers = {
@@ -55,7 +55,7 @@ const handlers = {
   'departmentsadd': {
     fn: DepartmentService.addDepartment,
     needRedirect: true,
-    method: 'post',
+    method: 'put',
     regExp: '/departments/action_add',
     additionalParse: false,
     render: 'departments'
@@ -63,7 +63,7 @@ const handlers = {
   'departmentsremove': {
     fn: DepartmentService.removeDepartment,
     needRedirect: true,
-    method: 'post',
+    method: 'delete',
     regExp: '/departments/:id/action_remove',
     additionalParse: false,
     render: 'departments'
@@ -137,7 +137,7 @@ const customFormat = winston.format(function (info) {
     for (let key in info.message) {
       if (info.message.hasOwnProperty(key)) {
         if (info.message[key]) {
-          str += info[key]? `${info[key]} - `:'';
+          str += info[key] ? `${info[key]} - ` : '';
           str += `${info.message[key]};`;
         }
       }
@@ -160,9 +160,7 @@ const logger = winston.createLogger({
     new winston.transports.Console()
   ]
 });
-
 const expired = config.JWT.EXPIRES;
-
 
 
 router.use(bodyParser.urlencoded({extended: false}));
@@ -226,6 +224,7 @@ function option(handler) {
         if (result.type === 'token') {
           res.cookie('token', result.token, {maxAge: expired});
           result = {email: queryObj.email};
+          result.status = 'ok';
           renderPath = 'departments';
         }
       } catch {
@@ -245,7 +244,7 @@ async function render(ErrorResInstanceRender, req, res, next) {
   let queryString = '';
   let error = errorHandler.errorParse(err, instanceObject);
 
-  if(error.type) {
+  if (error.type) {
     renderPath = error.type;
   } else {
     error.instance = renderPath;
@@ -257,36 +256,38 @@ async function render(ErrorResInstanceRender, req, res, next) {
     queryString = `?${crypto.Encrypt(queryString)}`;
     next(error);
   }
-
-  if (res.locals.needRedirect) {
-    let locationString = `http://${config.SERVER.HOST}:${config.SERVER.PORT}/`;
-    switch (renderPath) {
-      case 'departments': {
-        locationString += `${renderPath}`;
-        break;
-      }
-      case 'employee': {
-        locationString += `departments/${error.department}/${renderPath}`;
-        break;
-      }
-      case 'guest': {
-        locationString += `${renderPath}`;
-        break;
-      }
-      case '401': {
-        locationString += `guest`;
-        break;
-      }
-      default: {
-        locationString += `guest`;
-      }
-    }
-    locationString += queryString;
-    res.redirect(locationString);
-  } else {
-    let html = await ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error});
-    res.end(html);
-  }
+  res.json({error, result, instanceObject, renderPath});
+  // if (res.locals.needRedirect) {
+  //   let locationString = `http://${config.SERVER.HOST}:${config.SERVER.PORT}/`;
+  //   switch (renderPath) {
+  //     case 'departments': {
+  //       locationString += `${renderPath}`;
+  //       break;
+  //     }
+  //     case 'employee': {
+  //       locationString += `departments/${error.department}/${renderPath}`;
+  //       break;
+  //     }
+  //     case 'guest': {
+  //       locationString += `${renderPath}`;
+  //       break;
+  //     }
+  //     case '401': {
+  //       locationString += `guest`;
+  //       break;
+  //     }
+  //     default: {
+  //       locationString += `guest`;
+  //     }
+  //   }
+  //   locationString += queryString;
+  //   res.redirect(locationString);
+  // } else {
+  //   let html = await ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error});
+  //   res.end(html);
+  //   res.sendFile( 'index.html', {root: 'public'});
+  //
+  // }
 }
 
 function loggerFunction(err, req, res, next) {
