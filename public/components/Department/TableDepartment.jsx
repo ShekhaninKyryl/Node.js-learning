@@ -11,13 +11,14 @@ class TableDepartment extends Component {
   render() {
     let {departments} = this.props;
     let {
-      changeRender,
       saveDepartment,
       removeDepartment,
       putDepartment
     } = this.props;
     let rows = departments.map(dep => {
-      return <RowDepartment department={dep} changeRender={changeRender} saveDepartment={saveDepartment}
+      return <RowDepartment key={dep.id}
+                            department={dep}
+                            saveDepartment={saveDepartment}
                             removeDepartment={removeDepartment}/>
     });
     return (
@@ -37,7 +38,7 @@ class TableDepartment extends Component {
         </thead>
         <tbody>
         {rows}
-        <FormDepartment changeRender={changeRender} putDepartment={putDepartment}/>
+        <FormDepartment putDepartment={putDepartment}/>
         </tbody>
       </table>
     )

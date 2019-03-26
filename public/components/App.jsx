@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
-import Input from "./Input.jsx";
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {Redirect} from 'react-router';
 
 import Login from './Login.jsx'
+import Logout from './Logout.jsx'
 import Departments from './Department/Departments.jsx'
 import Employee from './Employee/Employee.jsx'
 
@@ -12,52 +13,65 @@ class App extends Component {
     super(props);
     this.state = {
       login: false,
-      render: 'guest',
-      departmentsId: ''
     };
     this.Login = this.Login.bind(this);
-    this.handleChangeRender = this.handleChangeRender.bind(this);
+    this.Logout = this.Logout.bind(this);
   }
 
   Login(res) {
-    let {result, renderPath} = res;
-    if (result.status === 'ok') {
+    let {result} = res;
+    if (result === 'ok') {
       this.setState({login: true});
-      this.setState({render: renderPath})
     } else {
+      console.log(res.error.message);
       this.setState({login: false});
-      this.setState({render: 'guest'})
+    }
+  }
+  Logout(res) {
+    let {result} = res;
+    if (result === 'ok') {
+      this.setState({login: false});
+    } else {
+      console.log(res.error.message);
+      this.setState({login: true});
     }
   }
 
-  handleChangeRender(obj) {
-    let id;
-    let render;
-    {
-      try {
-        id = obj.attributes.id.nodeValue;
-      } catch {
-        id = '';
-      }
-      try {
-        render = obj.attributes.render.nodeValue;
-      } catch {
-        render = 'guest'
-      }
-    }
-    this.setState({render: render}, () => {
-    });
-    this.setState({departmentsId: id});
-  }
-
-//todo react-router
+//todo react-router Done
   render() {
-    return (
-      <Router>
-        <Route path='/' component={Login}/>
-        <Route path="/departments/" component={Departments}/>
-      </Router>
-    )
+    if (this.state.login) {
+      return (
+        <Router>
+          <Switch>
+            <Route exact path='/departments' component={Departments}/>
+            <Route path='/departments/:departmentId' component={Employee}/>
+            <Route path='*'
+                   render={() =>
+                     <Redirect push to='/departments'/>
+                   }/>
+          </Switch>
+          <Route render={() => {
+            return (<Logout Logout={this.Logout}/>)
+          }}/>
+
+        </Router>
+      );
+    } else {
+      return (
+        <Router>
+          <Switch>
+            <Route path='/guest'
+                   render={() => {
+                     return (<Login Login={this.Login}/>)
+                   }}/>
+            <Route path='*'
+                   render={() => {
+                     return (<Redirect push to='/guest'/>);
+                   }}/>
+          </Switch>
+        </Router>
+      );
+    }
   }
 }
 

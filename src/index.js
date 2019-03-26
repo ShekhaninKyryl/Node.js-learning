@@ -1,5 +1,7 @@
 const express = require('express');
 const webpack = require('webpack');
+const path = require('path');
+const fs = require('fs');
 
 
 const routers = require('./utilities/routers');
@@ -10,19 +12,19 @@ const app = express();
 const compiler = webpack((webpackConfig));
 
 app.use(require('webpack-dev-middleware')(compiler, {
-  noInfo: false,
-  publicPath: webpackConfig.output.publicPath
+  publicPath: webpackConfig.output.publicPath,
+  writeToDisk: true
 }));
 
-// app.use(require('webpack-hot-middleware')(compiler));
-// app.use(express.static('public'));
+app.use('/', express.static(__dirname + '/dist'));
+
 
 app.use('', routers);
-app.listen(config.SERVER.PORT);
+app.use(function (req, res) {
+  console.log(`Request: [${req.method}]`, req.originalUrl);
+  res.sendFile('index.html', {root: path.join(__dirname, '../dist')});
+});
 
-// import React from 'react';
-// import  ReactDOM from 'react-dom';
-// import App from './App.js';
-//
-// ReactDOM.render(<App/>, document.getElementById('root'));
+
+app.listen(config.SERVER.PORT);
 

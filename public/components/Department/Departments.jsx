@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
-import TableDepartment from "./TableDepartment.jsx";
+import TableDepartment from './TableDepartment.jsx';
+import ActionsDepartment from './ActionsDepartment.jsx';
 
 
 class Departments extends Component {
@@ -16,14 +17,7 @@ class Departments extends Component {
   }
 
   saveDepartment(department) {
-    let {id, name} = department;
-    fetch(`/departments/${id}/action_save`,
-      {
-        method: 'POST',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name}),
-      })
-      .then(res => res.json())
+    ActionsDepartment.saveDepartment(department)
       .then(res => {
         if (res.error.error) {
 
@@ -31,62 +25,38 @@ class Departments extends Component {
           let departments = this.state.departments.map(dep => {
             if (dep.id === id) {
               dep.name = name;
-              return dep;
-            } else {
-              return dep;
             }
+            return dep;
           });
           this.setState({departments});
-
         }
       });
   }
 
   removeDepartment(department) {
-    let {id, name} = department;
-    fetch(`/departments/${id}/action_remove`,
-      {
-        method: 'DELETE',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name}),
-      })
-      .then(res => res.json())
+    ActionsDepartment.removeDepartment(department)
       .then(res => {
         if (res.error.error) {
 
         } else {
-          return fetch('/departments',
-            {
-              method: 'get',
-            }).then(res => res.json())
-            .then(res => {
-              this.setState({departments: res.result});
-              return true;
-            });
+          return ActionsDepartment.getDepartments();
         }
+      })
+      .then(res => {
+        this.setState({departments: res.result});
+        return true;
       });
   }
 
   putDepartment(department) {
-    let {name} = department;
-    return fetch('/departments/action_add',
-      {
-        method: 'put',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({name}),
-      })
-      .then(res => res.json())
+    return ActionsDepartment.putDepartment(department)
       .then(res => {
         if (res.error.error) {
-          return Promise.reject(res);
+          return Promise.reject(res.error.message);
         } else {
-          return fetch('/departments',
-            {
-              method: 'get',
-            });
+          return ActionsDepartment.getDepartments();
         }
       })
-      .then(res => res.json())
       .then(res => {
         this.setState({departments: res.result});
         return true;
@@ -94,28 +64,28 @@ class Departments extends Component {
   }
 
   componentDidMount() {
-    fetch('/departments',
-      {
-        method: 'get',
-      }).then(res => res.json())
-      .then(res => this.setState({departments: res.result}));
-
+    ActionsDepartment.getDepartments()
+      .then(res => {
+        if (res.result) {
+          return this.setState({departments: res.result});
+        } else {
+          return Promise.reject(res.error);
+        }
+      })
+      .catch(err => console.log(err));
   }
 
 
   render() {
-    let {changeRender} = this.props;
     return (
       <div>
         <TableDepartment departments={this.state.departments}
-                         changeRender={changeRender}
                          saveDepartment={this.saveDepartment}
                          removeDepartment={this.removeDepartment}
                          putDepartment={this.putDepartment}/>
       </div>
     )
-  }
-  ;
+  };
 }
 
 export default Departments;

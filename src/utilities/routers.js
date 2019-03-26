@@ -6,7 +6,8 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const winston = require('winston');
 const ejs = require('ejs');
-
+const  path = require('path');
+//test comment
 
 /*
 Project modules
@@ -39,7 +40,7 @@ const handlers = {
   'guestregistration': {
     fn: authorizationSetPassword,
     needRedirect: true,
-    method: 'post',
+    method: 'put',
     regExp: '/guest/registration',
     additionalParse: false,
     render: 'guest'
@@ -52,6 +53,7 @@ const handlers = {
     additionalParse: false,
     render: 'guest'
   },
+
   'departmentsadd': {
     fn: DepartmentService.addDepartment,
     needRedirect: true,
@@ -88,7 +90,7 @@ const handlers = {
   'employeeadd': {
     fn: EmployeeService.addEmployee,
     needRedirect: true,
-    method: 'post',
+    method: 'put',
     regExp: '/departments/:department/employee/action_add',
     additionalParse: false,
     render: 'employee'
@@ -96,7 +98,7 @@ const handlers = {
   'employeeremove': {
     fn: EmployeeService.removeEmployee,
     needRedirect: true,
-    method: 'post',
+    method: 'delete',
     regExp: '/departments/:department/employee/:id/action_remove',
     additionalParse: false,
     render: 'employee'
@@ -175,16 +177,17 @@ registrationMiddleWare(guest);
 router.use(authorization);
 router.get('/logout', function (req, res) {
   res.clearCookie('token');
-  res.redirect('/guest');
+  res.json({result: 'ok'});
 });
 
 for (let middleWare in other) {
   registrationMiddleWare(other[middleWare])
 }
-router.all('*', function (req, res, next) {
-  let err = new MyError(`${req.originalUrl} - Page not found!`, '404');
-  next({err});
-});
+// router.all('*', function (req, res, next) {
+//   res.sendFile('index.html', { root: path.join(__dirname, '../dist') });
+//   let err = new MyError(`${req.originalUrl} - Page not found!`, '404');
+//   next({err});
+// });
 router.use(render);
 router.use(loggerFunction);
 
@@ -223,8 +226,7 @@ function option(handler) {
       try {
         if (result.type === 'token') {
           res.cookie('token', result.token, {maxAge: expired});
-          result = {email: queryObj.email};
-          result.status = 'ok';
+          result = 'ok';
           renderPath = 'departments';
         }
       } catch {
@@ -256,38 +258,7 @@ async function render(ErrorResInstanceRender, req, res, next) {
     queryString = `?${crypto.Encrypt(queryString)}`;
     next(error);
   }
-  res.json({error, result, instanceObject, renderPath});
-  // if (res.locals.needRedirect) {
-  //   let locationString = `http://${config.SERVER.HOST}:${config.SERVER.PORT}/`;
-  //   switch (renderPath) {
-  //     case 'departments': {
-  //       locationString += `${renderPath}`;
-  //       break;
-  //     }
-  //     case 'employee': {
-  //       locationString += `departments/${error.department}/${renderPath}`;
-  //       break;
-  //     }
-  //     case 'guest': {
-  //       locationString += `${renderPath}`;
-  //       break;
-  //     }
-  //     case '401': {
-  //       locationString += `guest`;
-  //       break;
-  //     }
-  //     default: {
-  //       locationString += `guest`;
-  //     }
-  //   }
-  //   locationString += queryString;
-  //   res.redirect(locationString);
-  // } else {
-  //   let html = await ejs.renderFile(ejsFilePath[renderPath], {objects: result, error: error});
-  //   res.end(html);
-  //   res.sendFile( 'index.html', {root: 'public'});
-  //
-  // }
+  await res.json({error, result, instanceObject, renderPath});
 }
 
 function loggerFunction(err, req, res, next) {

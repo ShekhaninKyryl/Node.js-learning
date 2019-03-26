@@ -1,4 +1,7 @@
 import React, {Component} from "react";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
+import {Redirect} from 'react-router';
+
 import ReactDOM from "react-dom";
 
 class RowDepartment extends Component {
@@ -9,22 +12,16 @@ class RowDepartment extends Component {
       name: '',
       employeeCount: '',
       averagePayment: '',
-      visible: true
+      redirect: false
     };
-
-    this.changeRender = this.changeRender.bind(this);
     this.onChange = this.onChange.bind(this);
 
     this.saveDepartment = this.saveDepartment.bind(this);
     this.removeDepartment = this.removeDepartment.bind(this);
   }
 
-  changeRender(obj) {
-    this.props.changeRender(obj.target);
-  }
-
   onChange(e) {
-    this.setState({name: e.target.value})
+    this.setState({[e.target.id]: e.target.value})
   }
 
   componentDidMount() {
@@ -44,28 +41,31 @@ class RowDepartment extends Component {
 
   render() {
     let {id, name, employeeCount, averagePayment} = this.state;
-    let {visible} = this.state;
+    let {redirect} = this.state;
 
-    if (visible) {
+    if (redirect) {
+      let url = `/departments/${id}`;
+      return (
+        <Redirect to={url}/>
+      )
+    } else {
       return (
         <tr>
-          <td><input type='text' value={name} onChange={this.onChange}/></td>
+          <td><input type='text' id='name' value={name} onChange={this.onChange}/></td>
           <td>{employeeCount}</td>
           <td>{averagePayment}</td>
           <td>
-            <button id={id} render="employee" onClick={this.changeRender}>Employee</button>
+            <button onClick={()=>{ return this.setState({redirect: true})}}>Employee</button>
           </td>
           <td>
-            <button id={id} onClick={this.saveDepartment}>Save</button>
+            <button onClick={this.saveDepartment}>Save</button>
           </td>
           <td>
-            <button id={id} onClick={this.removeDepartment}>Remove</button>
+            <button onClick={this.removeDepartment}>Remove</button>
           </td>
         </tr>
 
       )
-    } else {
-      return null;
     }
   }
 }
