@@ -6,6 +6,7 @@ import {Redirect} from 'react-router';
 import Login from './Login.jsx'
 import Logout from './Logout.jsx'
 import Departments from './Department/Departments.jsx'
+import ActionDepartments from './Department/ActionsDepartment.jsx'
 import Employee from './Employee/Employee.jsx'
 
 class App extends Component {
@@ -27,6 +28,7 @@ class App extends Component {
       this.setState({login: false});
     }
   }
+
   Logout(res) {
     let {result} = res;
     if (result === 'ok') {
@@ -37,6 +39,18 @@ class App extends Component {
     }
   }
 
+  /*
+  * I`m authorized?
+  * */
+  componentDidMount() {
+    ActionDepartments.getDepartments()
+      .then(res => {
+        if (res.result) {
+          this.setState({login: true});
+        }
+      });
+  }
+
 //todo react-router Done
   render() {
     if (this.state.login) {
@@ -44,10 +58,10 @@ class App extends Component {
         <Router>
           <Switch>
             <Route exact path='/departments' component={Departments}/>
-            <Route path='/departments/:departmentId' component={Employee}/>
+            <Route exact path='/departments/:departmentId' component={Employee}/>
             <Route path='*'
                    render={() =>
-                     <Redirect push to='/departments'/>
+                     <Redirect to='/departments'/>
                    }/>
           </Switch>
           <Route render={() => {
@@ -60,13 +74,13 @@ class App extends Component {
       return (
         <Router>
           <Switch>
-            <Route path='/guest'
+            <Route exact path='/guest'
                    render={() => {
                      return (<Login Login={this.Login}/>)
                    }}/>
             <Route path='*'
                    render={() => {
-                     return (<Redirect push to='/guest'/>);
+                     return (<Redirect to='/guest'/>);
                    }}/>
           </Switch>
         </Router>

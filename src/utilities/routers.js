@@ -6,7 +6,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const winston = require('winston');
 const ejs = require('ejs');
-const  path = require('path');
+const path = require('path');
 //test comment
 
 /*
@@ -45,14 +45,15 @@ const handlers = {
     additionalParse: false,
     render: 'guest'
   },
-  'guest': {
-    fn: _ => _,
-    needRedirect: false,
-    method: 'get',
-    regExp: '/guest',
-    additionalParse: false,
-    render: 'guest'
-  },
+  // 'guest': {
+  //   fn: _ => _,
+  //   needRedirect: false,
+  //   method: 'get',
+  //   regExp: '/guest',
+  //   additionalParse: false,
+  //   render: 'guest'
+  // },
+
 
   'departmentsadd': {
     fn: DepartmentService.addDepartment,
@@ -173,7 +174,6 @@ let {guestregistration, guestlogin, guest, ...other} = handlers;
 
 registrationMiddleWare(guestregistration);
 registrationMiddleWare(guestlogin);
-registrationMiddleWare(guest);
 router.use(authorization);
 router.get('/logout', function (req, res) {
   res.clearCookie('token');
@@ -183,12 +183,6 @@ router.get('/logout', function (req, res) {
 for (let middleWare in other) {
   registrationMiddleWare(other[middleWare])
 }
-// router.all('*', function (req, res, next) {
-//   res.sendFile('index.html', { root: path.join(__dirname, '../dist') });
-//   let err = new MyError(`${req.originalUrl} - Page not found!`, '404');
-//   next({err});
-// });
-router.use(render);
 router.use(loggerFunction);
 
 
@@ -220,6 +214,7 @@ function option(handler) {
     let renderPath = handler.render;
     let result = null;
     let err = null;
+    let emitterError = null;
 
     try {
       result = await handler.fn(queryObj);
@@ -232,33 +227,16 @@ function option(handler) {
       } catch {
       }
     } catch (e) {
-      err = new MyError(e)
+      emitterError = new MyError(e);
     }
     if (handler.method !== 'get') {
-      logEmitter.emit('log', handler.render, handler.fn.name, err ? err : result, err);
+      await logEmitter.emit('log', handler.render, handler.fn.name, emitterError ? emitterError : result, emitterError);
     }
-    next({err, result, instanceObject, renderPath});
+    err = emitterError ? errorHandler.errorParse(emitterError, instanceObject, renderPath) : null;
+    await res.json({err, result});
+    next(err);
+
   };
-}
-
-async function render(ErrorResInstanceRender, req, res, next) {
-  let {err, result, instanceObject, renderPath} = ErrorResInstanceRender;
-  let queryString = '';
-  let error = errorHandler.errorParse(err, instanceObject);
-
-  if (error.type) {
-    renderPath = error.type;
-  } else {
-    error.instance = renderPath;
-  }
-
-  if (error.error) {
-    delete error.type;
-    queryString = JSON.stringify(error);
-    queryString = `?${crypto.Encrypt(queryString)}`;
-    next(error);
-  }
-  await res.json({error, result, instanceObject, renderPath});
 }
 
 function loggerFunction(err, req, res, next) {

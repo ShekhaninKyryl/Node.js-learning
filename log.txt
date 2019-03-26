@@ -175,3 +175,75 @@
 2019-03-26 17:27:02: GUEST: You have to authorize: jwt must be provided;
 2019-03-26 17:27:12: GUEST: You have to authorize: jwt must be provided;
 2019-03-26 17:27:29: GUEST: You have to authorize: jwt must be provided;
+2019-03-26 17:49:45: GUEST: You have to authorize: jwt must be provided;
+2019-03-26 17:49:47: GUEST: You have to authorize: jwt must be provided;
+2019-03-26 17:49:49: GUEST: You have to authorize: jwt must be provided;
+2019-03-26 17:49:52: GUEST: You have to authorize: jwt must be provided;
+2019-03-26 17:49:59: GUEST: You have to authorize: jwt must be provided;
+2019-03-26 17:50:08: GUEST: You have to authorize: jwt must be provided;
+2019-03-26 18:08:03:
+2019-03-26 18:09:54:
+2019-03-26 18:11:10:
+2019-03-26 18:12:40:
+2019-03-26 18:14:58:
+2019-03-26 18:16:04:
+2019-03-26 18:16:08:
+2019-03-26 18:16:12:
+2019-03-26 18:18:05:Authorization is wrong! ;
+2019-03-26 18:18:08:Registration is wrong! ;
+2019-03-26 18:23:43:
+2019-03-26 18:23:43:
+2019-03-26 18:23:46:
+2019-03-26 18:23:46:
+2019-03-26 18:23:49:
+2019-03-26 18:23:49:
+2019-03-26 18:25:13:
+2019-03-26 18:25:13:
+2019-03-26 18:25:16:
+2019-03-26 18:25:16:
+2019-03-26 18:26:17:Department name must be not empty, without whitespace! ;
+2019-03-26 18:31:07:
+2019-03-26 18:31:07:
+2019-03-26 18:31:31:Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-26 18:31:37:Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-26 18:32:07:
+2019-03-26 18:32:12:
+2019-03-26 18:32:15:
+2019-03-26 18:32:15:
+2019-03-26 18:33:30:Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-26 18:35:04:
+2019-03-26 18:35:04:
+2019-03-26 18:50:10:Department name must be not empty, without whitespace! ;
+2019-03-26 18:52:34:
+2019-03-26 18:52:34:
+2019-03-26 18:52:37:
+2019-03-26 18:52:37:
+2019-03-26 18:55:57:Department name must be not empty, without whitespace! ;
+2019-03-26 18:57:12:Department name must be not empty, without whitespace! ;
+2019-03-26 18:57:51:Department name must be not empty, without whitespace! ;
+2019-03-26 19:01:51:V;a;l;i;d;a;t;i;o;n; ;e;r;r;o;r;:; ;D;e;p;a;r;t;m;e;n;t; ;n;a;m;e; ;m;u;s;t; ;b;e; ;n;o;t; ;e;m;p;t;y;,; ;w;i;t;h;o;u;t; ;w;h;i;t;e;s;p;a;c;e;!;
+2019-03-26 19:04:30:V;a;l;i;d;a;t;i;o;n; ;e;r;r;o;r;:; ;D;e;p;a;r;t;m;e;n;t; ;n;a;m;e; ;m;u;s;t; ;b;e; ;n;o;t; ;e;m;p;t;y;,; ;w;i;t;h;o;u;t; ;w;h;i;t;e;s;p;a;c;e;!;
+2019-03-26 19:05:31:V;a;l;i;d;a;t;i;o;n; ;e;r;r;o;r;:; ;D;e;p;a;r;t;m;e;n;t; ;n;a;m;e; ;m;u;s;t; ;b;e; ;n;o;t; ;e;m;p;t;y;,; ;w;i;t;h;o;u;t; ;w;h;i;t;e;s;p;a;c;e;!;
+2019-03-26 19:05:57:D;e;p;a;r;t;m;e;n;t; ;n;a;m;e; ;m;u;s;t; ;b;e; ;u;n;i;q;u;e;!;
+2019-03-26 19:06:45:D;e;p;a;r;t;m;e;n;t; ;n;a;m;e; ;m;u;s;t; ;b;e; ;u;n;i;q;u;e;!;
+2019-03-26 19:06:59:D;e;p;a;r;t;m;e;n;t; ;n;a;m;e; ;m;u;s;t; ;b;e; ;u;n;i;q;u;e;!;
+2019-03-26 19:18:41: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-26 19:19:21: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-26 19:27:43: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-26 19:28:36: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-26 19:28:59: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-26 19:29:14: DEPARTMENTS: 
+2019-03-26 19:29:28: DEPARTMENTS: WS - Department name must be unique! ;
+2019-03-26 19:29:53: EMPLOYEE: 
+2019-03-26 19:29:54: DEPARTMENTS: 
+2019-03-26 19:29:57: DEPARTMENTS: 
+2019-03-26 19:30:06: DEPARTMENTS: 
+2019-03-26 19:30:06: DEPARTMENTS: 
+2019-03-26 19:30:10: DEPARTMENTS: 
+2019-03-26 19:31:33: DEPARTMENTS: WS - Department name must be unique! ;
+2019-03-26 19:31:37: DEPARTMENTS: 
+2019-03-26 19:31:37: DEPARTMENTS: 
+2019-03-26 19:31:39: DEPARTMENTS: 
+2019-03-26 19:34:29: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-26 19:37:08: EMPLOYEE: Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-26 19:38:01: EMPLOYEE: Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;

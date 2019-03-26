@@ -19,7 +19,7 @@ class Departments extends Component {
   saveDepartment(department) {
     ActionsDepartment.saveDepartment(department)
       .then(res => {
-        if (res.error.error) {
+        if (res.err) {
 
         } else {
           let departments = this.state.departments.map(dep => {
@@ -36,7 +36,7 @@ class Departments extends Component {
   removeDepartment(department) {
     ActionsDepartment.removeDepartment(department)
       .then(res => {
-        if (res.error.error) {
+        if (res.err) {
 
         } else {
           return ActionsDepartment.getDepartments();
@@ -51,7 +51,8 @@ class Departments extends Component {
   putDepartment(department) {
     return ActionsDepartment.putDepartment(department)
       .then(res => {
-        if (res.error.error) {
+        console.log(res);
+        if (res.err) {
           return Promise.reject(res.error.message);
         } else {
           return ActionsDepartment.getDepartments();

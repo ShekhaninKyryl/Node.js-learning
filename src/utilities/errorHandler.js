@@ -1,5 +1,6 @@
-function errorParse(err, include) {
+function errorParse(err, include, instance) {
   let {error, type, ...returnedError} = Object.assign({}, wrapper(include));
+  returnedError.instance = instance;
   if (err) {
     returnedError.error = true;
     if (err.type) {
@@ -8,7 +9,6 @@ function errorParse(err, include) {
         case '401': {
           returnedError.message.email = err.message;
           returnedError.instance = 'guest';
-          //returnedError.error = false;
           break;
         }
         case  '404': {
