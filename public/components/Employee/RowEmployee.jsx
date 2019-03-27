@@ -9,6 +9,7 @@ class RowEmployee extends Component {
       name: '',
       pay: '',
       email: '',
+      err:{},
       department: ''
     };
     this.onChange = this.onChange.bind(this);
@@ -17,8 +18,10 @@ class RowEmployee extends Component {
     this.removeEmployee = this.removeEmployee.bind(this);
   }
 
-  onChange(e) {
-    this.setState({[e.target.id]: e.target.value})
+  onChange(event) {
+    let err = this.state.err;
+    err[event.target.id] = '';
+    this.setState({[event.target.id]: event.target.value, err: err});
   }
 
   componentDidMount() {
@@ -28,7 +31,13 @@ class RowEmployee extends Component {
 
   saveEmployee() {
     let {id, name, pay, email, department} = this.state;
-    this.props.saveEmployee({id, name, pay, email, department});
+    this.props.saveEmployee({id, name, pay, email, department})
+      .then(err => {
+        if (err) {
+          this.setState({err: err.message});
+          //this.render();
+        }
+      });
   }
 
   removeEmployee() {
@@ -40,9 +49,18 @@ class RowEmployee extends Component {
     let {id, name, pay, email} = this.state;
     return (
       <tr>
-        <td><input type='text' id='name' value={name} onChange={this.onChange}/></td>
-        <td><input type='text' id='pay' value={pay} onChange={this.onChange}/></td>
-        <td><input type='text' id='email' value={email} onChange={this.onChange}/></td>
+        <td>
+          <input type='text' id='name' value={name} onChange={this.onChange}/>
+          <div>{this.state.err.name}</div>
+        </td>
+        <td>
+          <input type='text' id='pay' value={pay} onChange={this.onChange}/>
+          <div>{this.state.err.pay}</div>
+        </td>
+        <td>
+          <input type='text' id='email' value={email} onChange={this.onChange}/>
+          <div>{this.state.err.email}</div>
+        </td>
         <td>
           <button id={id} onClick={this.saveEmployee}>Save</button>
         </td>

@@ -17,10 +17,10 @@ class Departments extends Component {
   }
 
   saveDepartment(department) {
-    ActionsDepartment.saveDepartment(department)
+    return ActionsDepartment.saveDepartment(department)
       .then(res => {
         if (res.err) {
-
+          return res.err;
         } else {
           let departments = this.state.departments.map(dep => {
             if (dep.id === id) {
@@ -30,6 +30,7 @@ class Departments extends Component {
           });
           this.setState({departments});
         }
+
       });
   }
 
@@ -51,16 +52,19 @@ class Departments extends Component {
   putDepartment(department) {
     return ActionsDepartment.putDepartment(department)
       .then(res => {
-        console.log(res);
         if (res.err) {
-          return Promise.reject(res.error.message);
+          return res;
         } else {
-          return ActionsDepartment.getDepartments();
+          return ActionsDepartment.getDepartments()
+            .then(res => {
+              if (!res.err) {
+                this.setState({departments: res.result});
+                return true;
+              } else {
+                return res;
+              }
+            });
         }
-      })
-      .then(res => {
-        this.setState({departments: res.result});
-        return true;
       });
   }
 
@@ -70,7 +74,7 @@ class Departments extends Component {
         if (res.result) {
           return this.setState({departments: res.result});
         } else {
-          return Promise.reject(res.error);
+          return Promise.reject(res.err);
         }
       })
       .catch(err => console.log(err));

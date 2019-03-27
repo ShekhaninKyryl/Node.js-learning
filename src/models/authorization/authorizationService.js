@@ -75,8 +75,16 @@ async function authorizationSetPassword(verifyingData) {
   return {type: 'token', token};
 }
 
+async function getAuthorizedUser(verifyingData, cookies) {
+  let {token} = cookies;
+  let {id, name, email} = await jwt.verify(token, secret);
+  return {id, name, email};
+
+}
+
 
 module.exports = {
   authorizationGetLoginToken,
-  authorizationSetPassword
+  authorizationSetPassword,
+  getAuthorizedUser
 };

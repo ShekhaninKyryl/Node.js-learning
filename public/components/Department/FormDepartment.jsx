@@ -8,13 +8,16 @@ class FormDepartment extends Component {
     super(props);
     this.state = {
       name: '',
+      err: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.putDepartment = this.putDepartment.bind(this);
   }
 
   handleChange(event) {
-    this.setState({[event.target.id]: event.target.value});
+    let err = this.state.err;
+    err[event.target.id] = '';
+    this.setState({[event.target.id]: event.target.value, err: err});
   }
 
   putDepartment() {
@@ -22,12 +25,15 @@ class FormDepartment extends Component {
     let putDepartment = this.props.putDepartment;
     putDepartment({name})
       .then(res => {
-        console.log('Add dep:', res);
-        if (res) {
+        if (res.err) {
+          this.setState({err: res.err.message})
+        } else {
           this.setState({name: ''});
         }
       })
       .catch(err => console.log(err));
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
   }
 
   render() {
@@ -37,6 +43,7 @@ class FormDepartment extends Component {
         <td>
           <Input className={className} value={this.state.name} type={'text'} id={'name'}
                  handleChange={this.handleChange}/>
+          <div>{this.state.err.name}</div>
         </td>
         <td/>
         <td/>

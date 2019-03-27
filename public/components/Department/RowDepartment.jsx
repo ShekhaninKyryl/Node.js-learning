@@ -12,6 +12,7 @@ class RowDepartment extends Component {
       name: '',
       employeeCount: '',
       averagePayment: '',
+      err: {},
       redirect: false
     };
     this.onChange = this.onChange.bind(this);
@@ -20,8 +21,10 @@ class RowDepartment extends Component {
     this.removeDepartment = this.removeDepartment.bind(this);
   }
 
-  onChange(e) {
-    this.setState({[e.target.id]: e.target.value})
+  onChange(event) {
+    let err = this.state.err;
+    err[event.target.id] = '';
+    this.setState({[event.target.id]: event.target.value, err: err});
   }
 
   componentDidMount() {
@@ -31,7 +34,13 @@ class RowDepartment extends Component {
 
   saveDepartment() {
     let {id, name} = this.state;
-    this.props.saveDepartment({id, name});
+    this.props.saveDepartment({id, name})
+      .then(err => {
+        if (err) {
+          this.setState({err: err.message});
+          //this.render();
+        }
+      });
   }
 
   removeDepartment() {
@@ -51,11 +60,17 @@ class RowDepartment extends Component {
     } else {
       return (
         <tr>
-          <td><input type='text' id='name' value={name} onChange={this.onChange}/></td>
+          <td>
+            <input type='text' id='name' value={name} onChange={this.onChange}/>
+            <div>{this.state.err.name}</div>
+          </td>
           <td>{employeeCount}</td>
           <td>{averagePayment}</td>
           <td>
-            <button onClick={()=>{ return this.setState({redirect: true})}}>Employee</button>
+            <button onClick={() => {
+              return this.setState({redirect: true})
+            }}>Employee
+            </button>
           </td>
           <td>
             <button onClick={this.saveDepartment}>Save</button>

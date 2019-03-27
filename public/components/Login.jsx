@@ -9,7 +9,11 @@ class Login extends Component {
     super(props);
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      err: {
+        email: '',
+        password: ''
+      }
     };
     this.handleChange = this.handleChange.bind(this);
     this.Logging = this.Logging.bind(this);
@@ -17,7 +21,9 @@ class Login extends Component {
   }
 
   handleChange(event) {
-    this.setState({[event.target.id]: event.target.value});
+    let err = this.state.err;
+    err[event.target.id] = '';
+    this.setState({[event.target.id]: event.target.value, err: err});
   }
 
   Logging() {
@@ -31,7 +37,13 @@ class Login extends Component {
         body: JSON.stringify({email, password}),
       })
       .then(res => res.json())
-      .then(res => Login(res))
+      .then(res => {
+        let {err} = res;
+        if (err) {
+          this.setState({err: err.message});
+        }
+        Login(res)
+      })
   }
 
   Registration() {
@@ -45,7 +57,13 @@ class Login extends Component {
         body: JSON.stringify({email, password}),
       })
       .then(res => res.json())
-      .then(res => Login(res));
+      .then(res => {
+        let {err} = res;
+        if (err) {
+          this.setState({err: err.message});
+        }
+        Login(res)
+      });
   }
 
   render() {
@@ -55,10 +73,12 @@ class Login extends Component {
         <label>Email
           <Input className={className} value={this.state.email} type={'text'} id={'email'}
                  handleChange={this.handleChange}/>
+          <div>{this.state.err.email}</div>
         </label>
         <label>Password
           <Input className={className} value={this.state.password} type={'password'} id={'password'}
                  handleChange={this.handleChange}/>
+          <div>{this.state.err.password}</div>
         </label>
         <input type="button" value="Login" id="login" onClick={this.Logging}/>
         <input type="button" value="Registration" id="registration" onClick={this.Registration}/>

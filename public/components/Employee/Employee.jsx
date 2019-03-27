@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import TableEmployee from './TableEmployee.jsx'
+import ActionsEmployee from './ActionsEmployee.jsx'
 
 class Employee extends Component {
   constructor(props) {
@@ -15,27 +16,19 @@ class Employee extends Component {
   }
 
   saveEmployee(employee) {
-    let {id, name, pay, email, department} = employee;
-    fetch(`/departments/${department}/employee/${id}/action_save`,
-      {
-        method: 'POST',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name, pay, email, department}),
-      })
-      .then(res => res.json())
+    let {id, name, pay, email} = employee;
+    return ActionsEmployee.saveEmployee(employee)
       .then(res => {
-        if (res.error.error) {
-
+        if (res.err) {
+          return res.err
         } else {
           let employees = this.state.employees.map(emp => {
             if (emp.id === id) {
               emp.name = name;
               emp.pay = pay;
               emp.email = email;
-              return emp;
-            } else {
-              return emp;
             }
+            return emp;
           });
           this.setState({employees});
         }
@@ -43,63 +36,49 @@ class Employee extends Component {
   };
 
   removeEmployee(employee) {
-    let {id, name, pay, email, department} = employee;
-    fetch(`/departments/${department}/employee/${id}/action_remove`,
-      {
-        method: 'DELETE',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name}),
-      })
-      .then(res => res.json())
+    ActionsEmployee.removeEmployee(employee)
       .then(res => {
-        if (res.error.error) {
-
+        if (res.result) {
+          return ActionsEmployee.getEmployees(employee.department);
         } else {
-          return fetch(`/departments/${department}/employee`,
-            {
-              method: 'get',
-            }).then(res => res.json())
-            .then(res => {
-              this.setState({employees: res.result});
-              return true;
-            });
-        }
-      });
-  }
-
-  putEmployee(employee) {
-    let {name, pay, email, department} = employee;
-     return fetch(`/departments/${department}/employee/action_add`,
-      {
-        method: 'put',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({name, pay, email, department}),
-      })
-      .then(res => res.json())
-      .then(res => {
-        if (res.error.error) {
           return Promise.reject(res);
-        } else {
-          return fetch(`/departments/${department}/employee`,
-            {
-              method: 'get',
-            })
         }
       })
-      .then(res => res.json())
       .then(res => {
         this.setState({employees: res.result});
         return true;
       });
   }
 
+  putEmployee(employee) {
+    return ActionsEmployee.putEmployee(employee)
+      .then(res => {
+        if (res.err) {
+          return res;
+        } else {
+          return ActionsEmployee.getEmployees(employee.department)
+            .then(res => {
+              if (!res.err) {
+                this.setState({employees: res.result});
+                return true;
+              } else {
+                return res;
+              }
+            });
+        }
+      });
+  }
+
   componentDidMount() {
     let department = this.props.match.params.departmentId;
-    fetch(`/departments/${department}/employee`,
-      {
-        method: 'get',
-      }).then(res => res.json())
-      .then(res => this.setState({employees: res.result}));
+    ActionsEmployee.getEmployees(department)
+      .then(res => {
+        if (res.result) {
+          this.setState({employees: res.result});
+        } else {
+          console.log(res.err);
+        }
+      });
 
   }
 

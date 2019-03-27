@@ -15,7 +15,11 @@ Project modules
 const DepartmentService = require('../models/department/DepartmentService');
 const EmployeeService = require('../models/employee/EmployeeService');
 const {logEmitter} = require('../models/logger/LoggerService');
-const {authorizationGetLoginToken, authorizationSetPassword} = require('../models/authorization/authorizationService');
+const {
+  authorizationGetLoginToken,
+  authorizationSetPassword,
+  getAuthorizedUser
+} = require('../models/authorization/authorizationService');
 
 /*
 Utilities
@@ -45,21 +49,29 @@ const handlers = {
     additionalParse: false,
     render: 'guest'
   },
-  // 'guest': {
-  //   fn: _ => _,
-  //   needRedirect: false,
-  //   method: 'get',
-  //   regExp: '/guest',
-  //   additionalParse: false,
-  //   render: 'guest'
-  // },
+  'guest': {
+    fn: _ => _,
+    needRedirect: false,
+    method: 'get',
+    regExp: '/guest',
+    additionalParse: false,
+    render: 'guest'
+  },
+  'getuser': {
+    fn: getAuthorizedUser,
+    needRedirect: true,
+    method: 'get',
+    regExp: '/user',
+    additionalParse: false,
+    render: 'guest'
+  },
 
 
   'departmentsadd': {
     fn: DepartmentService.addDepartment,
     needRedirect: true,
     method: 'put',
-    regExp: '/departments/action_add',
+    regExp: '/departments',
     additionalParse: false,
     render: 'departments'
   },
@@ -67,7 +79,7 @@ const handlers = {
     fn: DepartmentService.removeDepartment,
     needRedirect: true,
     method: 'delete',
-    regExp: '/departments/:id/action_remove',
+    regExp: '/departments/:id',
     additionalParse: false,
     render: 'departments'
   },
@@ -75,7 +87,7 @@ const handlers = {
     fn: DepartmentService.updateDepartment,
     needRedirect: true,
     method: 'post',
-    regExp: '/departments/:id/action_save',
+    regExp: '/departments/:id',
     additionalParse: false,
     render: 'departments'
   },
@@ -92,7 +104,7 @@ const handlers = {
     fn: EmployeeService.addEmployee,
     needRedirect: true,
     method: 'put',
-    regExp: '/departments/:department/employee/action_add',
+    regExp: '/departments/:department/employee',
     additionalParse: false,
     render: 'employee'
   },
@@ -100,7 +112,7 @@ const handlers = {
     fn: EmployeeService.removeEmployee,
     needRedirect: true,
     method: 'delete',
-    regExp: '/departments/:department/employee/:id/action_remove',
+    regExp: '/departments/:department/employee/:id',
     additionalParse: false,
     render: 'employee'
   },
@@ -108,7 +120,7 @@ const handlers = {
     fn: EmployeeService.updateEmployee,
     needRedirect: true,
     method: 'post',
-    regExp: '/departments/:department/employee/:id/action_save',
+    regExp: '/departments/:department/employee/:id',
     additionalParse: false,
     render: 'employee'
   },
@@ -116,7 +128,7 @@ const handlers = {
     fn: EmployeeService.getEmployees,
     needRedirect: false,
     method: 'get',
-    regExp: '/departments/:department/employee',
+    regExp: '/departments/:department',
     additionalParse: true,
     render: 'employee',
     parse: {
@@ -164,16 +176,18 @@ const logger = winston.createLogger({
   ]
 });
 const expired = config.JWT.EXPIRES;
-
+let {guestregistration, guestlogin, getuser, guest, ...other} = handlers;
 
 router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
 router.use(cookieParser());
 
-let {guestregistration, guestlogin, guest, ...other} = handlers;
 
 registrationMiddleWare(guestregistration);
 registrationMiddleWare(guestlogin);
+registrationMiddleWare(guest);
+registrationMiddleWare(getuser);
+
 router.use(authorization);
 router.get('/logout', function (req, res) {
   res.clearCookie('token');
@@ -183,6 +197,11 @@ router.get('/logout', function (req, res) {
 for (let middleWare in other) {
   registrationMiddleWare(other[middleWare])
 }
+router.all('*', function (req, res) {
+  console.log(`Request: [${req.method}]`, req.originalUrl);
+  res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
+});
+
 router.use(loggerFunction);
 
 
@@ -217,7 +236,7 @@ function option(handler) {
     let emitterError = null;
 
     try {
-      result = await handler.fn(queryObj);
+      result = await handler.fn(queryObj, req.cookies);
       try {
         if (result.type === 'token') {
           res.cookie('token', result.token, {maxAge: expired});
@@ -234,7 +253,9 @@ function option(handler) {
     }
     err = emitterError ? errorHandler.errorParse(emitterError, instanceObject, renderPath) : null;
     await res.json({err, result});
-    next(err);
+    if (err) {
+      next(err);
+    }
 
   };
 }

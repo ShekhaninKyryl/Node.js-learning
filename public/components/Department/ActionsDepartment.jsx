@@ -4,12 +4,12 @@ class ActionsDepartment {
       {
         method: 'get',
       })
-      .then(res => res.json())
+      .then(res => res.json());
   }
 
   static saveDepartment(department) {
     let {id, name} = department;
-    return fetch(`/departments/${id}/action_save`,
+    return fetch(`/departments/${id}`,
       {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
@@ -20,7 +20,7 @@ class ActionsDepartment {
 
   static putDepartment(department) {
     let {name} = department;
-    return fetch('/departments/action_add',
+    return fetch('/departments',
       {
         method: 'put',
         headers: {"Content-Type": "application/json"},
@@ -31,7 +31,7 @@ class ActionsDepartment {
 
   static removeDepartment(department) {
     let {id, name} = department;
-    return fetch(`/departments/${id}/action_remove`,
+    return fetch(`/departments/${id}`,
       {
         method: 'DELETE',
         headers: {"Content-Type": "application/json"},

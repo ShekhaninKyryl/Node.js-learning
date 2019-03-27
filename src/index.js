@@ -20,11 +20,5 @@ app.use('/', express.static(__dirname + '/dist'));
 
 
 app.use('', routers);
-app.use(function (req, res) {
-  console.log(`Request: [${req.method}]`, req.originalUrl);
-  res.sendFile('index.html', {root: path.join(__dirname, '../dist')});
-});
-
-
 app.listen(config.SERVER.PORT);
 

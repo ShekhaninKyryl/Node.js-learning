@@ -11,13 +11,16 @@ class FormEmployee extends Component {
       pay: '',
       email: '',
       department: '',
+      err: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.putEmployee = this.putEmployee.bind(this);
   }
 
   handleChange(event) {
-    this.setState({[event.target.id]: event.target.value});
+    let err = this.state.err;
+    err[event.target.id] = '';
+    this.setState({[event.target.id]: event.target.value, err: err});
   }
 
   componentDidMount() {
@@ -30,8 +33,9 @@ class FormEmployee extends Component {
     let putEmployee = this.props.putEmployee;
     putEmployee({name, pay, email, department})
       .then(res => {
-        console.log('Add emp:', res);
-        if (res) {
+        if (res.err) {
+          this.setState({err: res.err.message})
+        } else {
           this.setState({name: '', pay: '', email: ''});
         }
       })
@@ -46,15 +50,18 @@ class FormEmployee extends Component {
         <td>
           <Input className={className} value={name} type={'text'} id={'name'}
                  handleChange={this.handleChange}/>
+          <div>{this.state.err.name}</div>
         </td>
         <td>
           <Input className={className} value={pay} type={'text'} id={'pay'}
                  handleChange={this.handleChange}/>
+          <div>{this.state.err.pay}</div>
         </td>
 
         <td>
           <Input className={className} value={email} type={'text'} id={'email'}
                  handleChange={this.handleChange}/>
+          <div>{this.state.err.email}</div>
         </td>
         <td colSpan='2'>
           <input type="button" value="Create" onClick={this.putEmployee}/>

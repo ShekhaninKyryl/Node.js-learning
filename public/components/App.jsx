@@ -14,17 +14,21 @@ class App extends Component {
     super(props);
     this.state = {
       login: false,
+      id: '',
+      name: 'Guest',
+      email: ''
     };
     this.Login = this.Login.bind(this);
     this.Logout = this.Logout.bind(this);
+    this.isAuthorized = this.isAuthorized.bind(this);
   }
 
   Login(res) {
     let {result} = res;
     if (result === 'ok') {
-      this.setState({login: true});
+      this.isAuthorized();
     } else {
-      console.log(res.error.message);
+      console.log(res.err);
       this.setState({login: false});
     }
   }
@@ -32,37 +36,52 @@ class App extends Component {
   Logout(res) {
     let {result} = res;
     if (result === 'ok') {
-      this.setState({login: false});
+      this.setState({login: false, id: '', name: 'Guest', email: ''});
     } else {
-      console.log(res.error.message);
-      this.setState({login: true});
+      console.log(res.err);
     }
   }
 
-  /*
-  * I`m authorized?
-  * */
-  componentDidMount() {
-    ActionDepartments.getDepartments()
+  isAuthorized() {
+    return fetch(`/user`,
+      {
+        method: 'GET',
+        headers: {"Content-Type": "application/json"},
+      })
+      .then(res => res.json())
       .then(res => {
         if (res.result) {
-          this.setState({login: true});
+          this.setState({...res.result, login: true});
+          return true
+        } else {
+          this.setState({login: false});
+          return false;
         }
-      });
+      })
+      .catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    this.isAuthorized();
   }
 
 //todo react-router Done
   render() {
+
     if (this.state.login) {
       return (
         <Router>
+          <div>
+            {`Hello ${this.state.name}. email: ${this.state.email}`}
+          </div>
           <Switch>
             <Route exact path='/departments' component={Departments}/>
             <Route exact path='/departments/:departmentId' component={Employee}/>
             <Route path='*'
-                   render={() =>
-                     <Redirect to='/departments'/>
-                   }/>
+                   render={() => {
+
+                     return <Redirect to='/departments'/>
+                   }}/>
           </Switch>
           <Route render={() => {
             return (<Logout Logout={this.Logout}/>)
@@ -73,6 +92,7 @@ class App extends Component {
     } else {
       return (
         <Router>
+          <div>{`Hello ${this.state.name}.`}   </div>
           <Switch>
             <Route exact path='/guest'
                    render={() => {
@@ -87,6 +107,9 @@ class App extends Component {
       );
     }
   }
+
 }
 
-ReactDOM.render(<App/>, document.getElementById("root"));
+ReactDOM.render(<App/>, document.getElementById("root")
+)
+;
