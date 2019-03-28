@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import axios from 'axios';
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Input from "./Input.jsx";
@@ -26,43 +27,31 @@ class Login extends Component {
     this.setState({[event.target.id]: event.target.value, err: err});
   }
 
+  //todo axios DONE
   Logging() {
     let {Login} = this.props;
     let {email, password} = this.state;
 
-    fetch('/guest/login',
-      {
-        method: 'post',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({email, password}),
-      })
-      .then(res => res.json())
-      .then(res => {
-        let {err} = res;
-        if (err) {
-          this.setState({err: err.message});
-        }
-        Login(res)
-      })
+    axios.post('/api/guest/login', {email, password})
+      .then(response => Login(response.data))
+      .catch(error => {
+        console.log('Login error', error.response);
+        let err = error.response.data.message;
+        this.setState({err});
+      });
   }
 
+  //todo axios DONE
   Registration() {
     let {Login} = this.props;
     let {email, password} = this.state;
 
-    fetch('/guest/registration',
-      {
-        method: 'put',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({email, password}),
-      })
-      .then(res => res.json())
-      .then(res => {
-        let {err} = res;
-        if (err) {
-          this.setState({err: err.message});
-        }
-        Login(res)
+    axios.put('/api/guest/registration', {email, password})
+      .then(response => Login(response.data))
+      .catch(error => {
+        console.log('Registration error', error.response);
+        let err = error.response.data.message;
+        this.setState({err});
       });
   }
 

@@ -1,4 +1,5 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
+import axios from 'axios';
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Input from "./Input.jsx";
@@ -10,17 +11,14 @@ class Logout extends Component {
     this.Logout = this.Logout.bind(this);
   }
 
+  //todo axios
   Logout() {
     let {Logout} = this.props;
 
-    fetch('/logout',
-      {
-        method: 'get',
-        headers: {"Content-Type": "application/json"},
+    axios.get('/api/logout')
+      .then(response => Logout(response.data))
+      .catch(error => console.log('Logout error:', error.response));
 
-      })
-      .then(res => res.json())
-      .then(res => Logout(res))
   }
 
 

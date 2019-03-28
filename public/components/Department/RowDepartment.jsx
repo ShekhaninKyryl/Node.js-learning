@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {Redirect} from 'react-router';
+import axios from 'axios';
 
 import ReactDOM from "react-dom";
 
@@ -35,17 +36,22 @@ class RowDepartment extends Component {
   saveDepartment() {
     let {id, name} = this.state;
     this.props.saveDepartment({id, name})
-      .then(err => {
-        if (err) {
-          this.setState({err: err.message});
-          //this.render();
-        }
+      .catch(error => {
+        console.log('Save department error:', error.response);
+        let err = error.response.data.message;
+        this.setState({err});
       });
   }
 
   removeDepartment() {
     let {id, name} = this.state;
-    this.props.removeDepartment({id, name});
+    let removeDepartment = this.props.removeDepartment;
+    removeDepartment({id, name})
+      .catch(error => {
+        console.log('Remove department error:', error.response);
+        // let err = error.response.data.message;
+        // this.setState({err});
+      })
   }
 
   render() {

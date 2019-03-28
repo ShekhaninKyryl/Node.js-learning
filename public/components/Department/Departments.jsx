@@ -16,68 +16,47 @@ class Departments extends Component {
     this.putDepartment = this.putDepartment.bind(this);
   }
 
+  //todo react use state (hooks)
   saveDepartment(department) {
+    let {id, name} = department;
     return ActionsDepartment.saveDepartment(department)
-      .then(res => {
-        if (res.err) {
-          return res.err;
-        } else {
-          let departments = this.state.departments.map(dep => {
-            if (dep.id === id) {
-              dep.name = name;
-            }
-            return dep;
-          });
-          this.setState({departments});
-        }
-
+      .then(response => {
+        console.log('Save department:', response);
+        let {departments} = this.state;
+        let index = departments.findIndex(element => element.id === id);
+        departments[index].name = name;
+        this.setState({departments});
       });
   }
 
   removeDepartment(department) {
     ActionsDepartment.removeDepartment(department)
-      .then(res => {
-        if (res.err) {
-
-        } else {
-          return ActionsDepartment.getDepartments();
-        }
+      .then(response => {
+        console.log('Remove department:', response);
+        return ActionsDepartment.getDepartments();
       })
-      .then(res => {
-        this.setState({departments: res.result});
+      .then(departments => {
+        this.setState({departments});
         return true;
       });
   }
 
   putDepartment(department) {
     return ActionsDepartment.putDepartment(department)
-      .then(res => {
-        if (res.err) {
-          return res;
-        } else {
-          return ActionsDepartment.getDepartments()
-            .then(res => {
-              if (!res.err) {
-                this.setState({departments: res.result});
-                return true;
-              } else {
-                return res;
-              }
-            });
-        }
+      .then(response => {
+        console.log('Put department:', response);
+        return ActionsDepartment.getDepartments();
+      })
+      .then(departments => {
+        this.setState({departments});
+        return true;
       });
   }
 
   componentDidMount() {
     ActionsDepartment.getDepartments()
-      .then(res => {
-        if (res.result) {
-          return this.setState({departments: res.result});
-        } else {
-          return Promise.reject(res.err);
-        }
-      })
-      .catch(err => console.log(err));
+      .then(res => this.setState({departments: res}))
+      .catch(error => console.log('Get Departments err', error.response));
   }
 
 

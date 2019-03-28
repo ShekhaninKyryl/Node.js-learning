@@ -75,10 +75,18 @@ async function authorizationSetPassword(verifyingData) {
   return {type: 'token', token};
 }
 
-async function getAuthorizedUser(verifyingData, cookies) {
-  let {token} = cookies;
-  let {id, name, email} = await jwt.verify(token, secret);
-  return {id, name, email};
+async function getAuthorizedUser(verifyingData, user) {
+  if (user) {
+    return user
+  } else throw {
+    errors:
+      [
+        {
+          path: 'name',
+          message: 'User not found!'
+        }
+      ]
+  }
 
 }
 

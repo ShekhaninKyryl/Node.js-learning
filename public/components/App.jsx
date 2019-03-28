@@ -6,8 +6,8 @@ import {Redirect} from 'react-router';
 import Login from './Login.jsx'
 import Logout from './Logout.jsx'
 import Departments from './Department/Departments.jsx'
-import ActionDepartments from './Department/ActionsDepartment.jsx'
 import Employee from './Employee/Employee.jsx'
+import axios from "axios";
 
 class App extends Component {
   constructor(props) {
@@ -20,49 +20,35 @@ class App extends Component {
     };
     this.Login = this.Login.bind(this);
     this.Logout = this.Logout.bind(this);
-    this.isAuthorized = this.isAuthorized.bind(this);
+    this.getUser = this.getUser.bind(this);
   }
 
   Login(res) {
-    let {result} = res;
-    if (result === 'ok') {
-      this.isAuthorized();
+    if (res === 'ok') {
+      this.getUser();
     } else {
-      console.log(res.err);
       this.setState({login: false});
     }
   }
 
   Logout(res) {
-    let {result} = res;
-    if (result === 'ok') {
+    if (res === 'ok') {
       this.setState({login: false, id: '', name: 'Guest', email: ''});
-    } else {
-      console.log(res.err);
     }
   }
 
-  isAuthorized() {
-    return fetch(`/user`,
-      {
-        method: 'GET',
-        headers: {"Content-Type": "application/json"},
-      })
-      .then(res => res.json())
-      .then(res => {
-        if (res.result) {
-          this.setState({...res.result, login: true});
-          return true
-        } else {
-          this.setState({login: false});
-          return false;
-        }
-      })
-      .catch(err => console.log(err));
+  //todo axios DONE
+  getUser() {
+    axios.get('/api/user')
+      .then(response => this.setState({...response.data, login: true}))
+      .catch(error => {
+        this.setState({login: false});
+        console.log('Get user error:', error.response);
+      });
   }
 
   componentDidMount() {
-    this.isAuthorized();
+    this.getUser();
   }
 
 //todo react-router Done

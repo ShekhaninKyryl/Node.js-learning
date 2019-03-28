@@ -42,8 +42,9 @@ async function removeDepartment(department) {
 
 async function updateDepartment(department) {
   await Department.update(department, {where: {id: department.id}});
-  let dep = Department.find({where: {id: department.id}});
-  return dep.dataValues;
+  let dep = await Department.find({where: {id: department.id}});
+  let {id, name} = dep.dataValues;
+  return {id, name};
 }
 
 async function getDepartments() {

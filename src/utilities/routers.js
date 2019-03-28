@@ -31,13 +31,15 @@ const config = require('../config');
 const crypto = require('./crypto');
 require('./associations');
 
+
+//todo check not found department when get employees DONE
 const router = express();
 const handlers = {
   'guestlogin': {
     fn: authorizationGetLoginToken,
     needRedirect: true,
     method: 'post',
-    regExp: '/guest/login',
+    regExp: '/api/guest/login',
     additionalParse: false,
     render: 'guest'
   },
@@ -45,7 +47,7 @@ const handlers = {
     fn: authorizationSetPassword,
     needRedirect: true,
     method: 'put',
-    regExp: '/guest/registration',
+    regExp: '/api/guest/registration',
     additionalParse: false,
     render: 'guest'
   },
@@ -53,7 +55,7 @@ const handlers = {
     fn: _ => _,
     needRedirect: false,
     method: 'get',
-    regExp: '/guest',
+    regExp: '/api/guest',
     additionalParse: false,
     render: 'guest'
   },
@@ -61,7 +63,7 @@ const handlers = {
     fn: getAuthorizedUser,
     needRedirect: true,
     method: 'get',
-    regExp: '/user',
+    regExp: '/api/user',
     additionalParse: false,
     render: 'guest'
   },
@@ -71,7 +73,7 @@ const handlers = {
     fn: DepartmentService.addDepartment,
     needRedirect: true,
     method: 'put',
-    regExp: '/departments',
+    regExp: '/api/departments',
     additionalParse: false,
     render: 'departments'
   },
@@ -79,7 +81,7 @@ const handlers = {
     fn: DepartmentService.removeDepartment,
     needRedirect: true,
     method: 'delete',
-    regExp: '/departments/:id',
+    regExp: '/api/departments/:id',
     additionalParse: false,
     render: 'departments'
   },
@@ -87,7 +89,7 @@ const handlers = {
     fn: DepartmentService.updateDepartment,
     needRedirect: true,
     method: 'post',
-    regExp: '/departments/:id',
+    regExp: '/api/departments/:id',
     additionalParse: false,
     render: 'departments'
   },
@@ -95,7 +97,7 @@ const handlers = {
     fn: DepartmentService.getDepartments,
     needRedirect: false,
     method: 'get',
-    regExp: '/departments',
+    regExp: '/api/departments',
     additionalParse: false,
     render: 'departments'
   },
@@ -104,7 +106,7 @@ const handlers = {
     fn: EmployeeService.addEmployee,
     needRedirect: true,
     method: 'put',
-    regExp: '/departments/:department/employee',
+    regExp: '/api/departments/:department/employee',
     additionalParse: false,
     render: 'employee'
   },
@@ -112,7 +114,7 @@ const handlers = {
     fn: EmployeeService.removeEmployee,
     needRedirect: true,
     method: 'delete',
-    regExp: '/departments/:department/employee/:id',
+    regExp: '/api/departments/:department/employee/:id',
     additionalParse: false,
     render: 'employee'
   },
@@ -120,15 +122,28 @@ const handlers = {
     fn: EmployeeService.updateEmployee,
     needRedirect: true,
     method: 'post',
-    regExp: '/departments/:department/employee/:id',
+    regExp: '/api/departments/:department/employee/:id',
     additionalParse: false,
     render: 'employee'
   },
   'employee': {
-    fn: EmployeeService.getEmployees,
+    fn: async (employee) => {
+      let dep = await DepartmentService.getDepartments();
+      if (dep.find((element) => element.id.toString() === employee.department)) {
+        return await EmployeeService.getEmployees(employee);
+      } else {
+        throw {
+          errors: [{
+            value: employee.department,
+            message: 'Department not found!',
+            path: 'department',
+          }],
+        };
+      }
+    },
     needRedirect: false,
     method: 'get',
-    regExp: '/departments/:department',
+    regExp: '/api/departments/:department',
     additionalParse: true,
     render: 'employee',
     parse: {
@@ -182,18 +197,27 @@ router.use(bodyParser.urlencoded({extended: false}));
 router.use(bodyParser.json());
 router.use(cookieParser());
 
-
+/*
+* Before Auth
+* */
 registrationMiddleWare(guestregistration);
 registrationMiddleWare(guestlogin);
 registrationMiddleWare(guest);
-registrationMiddleWare(getuser);
-
-router.use(authorization);
-router.get('/logout', function (req, res) {
+router.get('/api/logout', function (req, res) {
   res.clearCookie('token');
-  res.json({result: 'ok'});
+  res.json('ok');
 });
 
+/*
+* Auth
+* */
+router.use(authorization);
+
+
+/*
+* After Auth
+* */
+registrationMiddleWare(getuser);
 for (let middleWare in other) {
   registrationMiddleWare(other[middleWare])
 }
@@ -201,7 +225,6 @@ router.all('*', function (req, res) {
   console.log(`Request: [${req.method}]`, req.originalUrl);
   res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
 });
-
 router.use(loggerFunction);
 
 
@@ -232,11 +255,14 @@ function option(handler) {
     let instanceObject = queryObj;
     let renderPath = handler.render;
     let result = null;
-    let err = null;
     let emitterError = null;
+    let err;
+    let status = 400;
+
 
     try {
-      result = await handler.fn(queryObj, req.cookies);
+      result = await handler.fn(queryObj, res.locals.user);
+      status = 200;
       try {
         if (result.type === 'token') {
           res.cookie('token', result.token, {maxAge: expired});
@@ -252,11 +278,8 @@ function option(handler) {
       await logEmitter.emit('log', handler.render, handler.fn.name, emitterError ? emitterError : result, emitterError);
     }
     err = emitterError ? errorHandler.errorParse(emitterError, instanceObject, renderPath) : null;
-    await res.json({err, result});
-    if (err) {
-      next(err);
-    }
-
+    await res.status(status).json(err ? err : result);
+    err ? next(err) : false;
   };
 }
 

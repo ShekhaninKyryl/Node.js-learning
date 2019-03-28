@@ -1,43 +1,41 @@
+import axios from 'axios';
+
 class ActionsDepartment {
+  //todo axios DONE
   static getDepartments() {
-    return fetch('/departments',
-      {
-        method: 'get',
-      })
-      .then(res => res.json());
+    return axios.get('/api/departments')
+      .then(response => {
+        console.log('Get departments (AXIOS)', response);
+        return response.data
+      });
+
   }
 
+
+//todo app/url DONE
+// todo axios DONE
   static saveDepartment(department) {
     let {id, name} = department;
-    return fetch(`/departments/${id}`,
-      {
-        method: 'POST',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name}),
-      })
-      .then(res => res.json());
+    return axios.post(`/api/departments/${id}`, {id, name})
+      .then(response => response.data);
   }
 
+
+  //todo status code to catch
+  //todo axios DONE
   static putDepartment(department) {
     let {name} = department;
-    return fetch('/departments',
-      {
-        method: 'put',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({name}),
-      })
-      .then(res => res.json());
+
+    return axios.put('/api/departments', {name})
+      .then(response => response.data);
+
   }
 
+  //todo axios DONE
   static removeDepartment(department) {
     let {id, name} = department;
-    return fetch(`/departments/${id}`,
-      {
-        method: 'DELETE',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name}),
-      })
-      .then(res => res.json());
+    return axios.delete(`/api/departments/${id}`, {data: {id, name}})
+      .then(response => response.data);
   }
 }
 

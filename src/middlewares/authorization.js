@@ -8,15 +8,15 @@ const secret = config.JWT.SECRET;
 async function authorization(req, res, next) {
   let {token} = req.cookies;
   try {
-    let result = await jwt.verify(token, secret);
+    let {id, name, email} = await jwt.verify(token, secret);
+    res.locals.user = {id, name, email};
     next();
   } catch (e) {
     res.clearCookie('token');
     res.locals.needRedirect = true;
     let err = new MyError(`You have to authorize: ${e.message}`, '401');
     err = errorHandler.errorParse(err, null, 'authorization');
-    //res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
-    //res.redirect('/guest');
+    res.status(401).json(err);
     next(err);
   }
 }

@@ -24,15 +24,14 @@ class FormDepartment extends Component {
     let {name} = this.state;
     let putDepartment = this.props.putDepartment;
     putDepartment({name})
-      .then(res => {
-        if (res.err) {
-          this.setState({err: res.err.message})
-        } else {
-          this.setState({name: ''});
-        }
-      })
-      .catch(err => console.log(err));
+      .then(() => this.setState({name: ''}))
+      .catch(error => {
+        console.log('Put department error:', error.response);
+        let err = error.response.data.message;
+        this.setState({err});
+      });
   }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
   }
 

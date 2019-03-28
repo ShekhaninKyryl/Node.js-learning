@@ -27,7 +27,8 @@ async function getEmployees(employee) {
     employees = await Employee.findAll({where: {department: employee.department}});
   }
   employees = employees.map(value => {
-    return value.dataValues
+    let {id, name, pay, email, department} = value.dataValues;
+    return {id, name, pay, email, department}
   });
   return employees;
 }

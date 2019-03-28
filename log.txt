@@ -2011,3 +2011,105 @@
 2019-03-27 19:05:58: DEPARTMENTS: Department name must be not empty, without whitespace! ;
 2019-03-27 19:06:05: DEPARTMENTS: Department name must be not empty, without whitespace! ;
 2019-03-27 19:06:08: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-27 19:15:16: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-27 19:15:28: EMPLOYEE: Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-27 19:30:09: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-27 19:30:13: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-27 19:46:03: GUEST: You have to authorize: jwt must be provided;
+2019-03-27 19:46:13: GUEST: You have to authorize: jwt must be provided;
+2019-03-27 19:46:17: GUEST: 
+2019-03-27 19:46:29: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-28 11:11:43: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:11:45: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:11:53: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:12:09: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:12:13: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:13:43: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:13:45: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:13:53: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:14:09: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:14:13: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:32:46: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:32:46: GUEST: 
+2019-03-28 11:32:47: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:32:47: GUEST: 
+2019-03-28 11:32:47: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:32:47: GUEST: 
+2019-03-28 11:32:48: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:32:48: GUEST: 
+2019-03-28 11:32:48: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:32:48: GUEST: 
+2019-03-28 11:32:49: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:32:49: GUEST: 
+2019-03-28 11:33:30: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:33:38: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:33:39: GUEST: 
+2019-03-28 11:34:31: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:34:31: GUEST: 
+2019-03-28 11:34:56: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-28 11:42:56: GUEST: You have to authorize: jwt expired;
+2019-03-28 11:46:54: GUEST: 1@1.com - Registration is wrong! ;
+2019-03-28 11:47:09: GUEST: You have to authorize: jwt expired;
+2019-03-28 11:47:09: GUEST: 
+2019-03-28 11:48:54: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:48:54: GUEST: 
+2019-03-28 11:48:55: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:49:27: GUEST: Authorization is wrong! ;
+2019-03-28 11:49:34: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:49:46: GUEST: 
+2019-03-28 11:50:20: GUEST: 1@1.com - Authorization is wrong! ;
+2019-03-28 11:50:26: GUEST: 1@1.com - Registration is wrong! ;
+2019-03-28 11:50:57: GUEST: You have to authorize: jwt expired;
+2019-03-28 11:51:43: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:51:50: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 11:51:50: GUEST: 
+2019-03-28 11:52:38: GUEST: You have to authorize: jwt expired;
+2019-03-28 12:08:25: EMPLOYEE: Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-28 14:18:05: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 14:18:17: GUEST: 
+2019-03-28 14:44:22: EMPLOYEE: 113 - Department not found! ;
+2019-03-28 14:45:54: EMPLOYEE: 122 - Department not found! ;
+2019-03-28 14:46:51: EMPLOYEE: sdf - Department not found! ;
+2019-03-28 14:57:50: GUEST: User not found! ;
+2019-03-28 14:59:37: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-28 15:41:57: EMPLOYEE: Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-28 15:43:21: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-28 16:19:38: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:14:07: GUEST: Authorization is wrong! ;
+2019-03-28 17:18:04: GUEST: 1@1.com - Authorization is wrong! ;
+2019-03-28 17:18:40: GUEST: 1@1.com - Registration is wrong! ;
+2019-03-28 17:32:31: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:35:19: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:39:04: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:42:42: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:42:46: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:42:55: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:44:06: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:44:18: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:44:25: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:44:27: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:44:30: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:44:34: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:47:15: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:47:57: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:53:10: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:54:59: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:55:27: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:57:36: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 17:58:48: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:00:41: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:01:21: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:02:01: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:02:27: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:17:45: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:17:50: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:18:37: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-28 18:20:36: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-28 18:32:41: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-28 18:35:04: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:35:07: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:39:45: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-28 18:47:28: GUEST: You have to authorize: jwt must be provided;
+2019-03-28 18:47:52: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-28 18:53:53: DEPARTMENTS: 
+2019-03-28 18:55:37: DEPARTMENTS: QA - Department name must be unique! ;
