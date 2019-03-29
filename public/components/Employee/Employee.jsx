@@ -40,6 +40,7 @@ class Employee extends Component {
       });
   }
 
+  //todo remove reGet request
   putEmployee(employee) {
     return ActionsEmployee.putEmployee(employee)
       .then(response => {

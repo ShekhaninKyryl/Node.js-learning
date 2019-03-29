@@ -33,11 +33,11 @@ class Departments extends Component {
     ActionsDepartment.removeDepartment(department)
       .then(response => {
         console.log('Remove department:', response);
-        return ActionsDepartment.getDepartments();
-      })
-      .then(departments => {
+
+        let {departments} = this.state;
+        let index = departments.findIndex(element => element.id === id);
+        departments.splice(index, 1);
         this.setState({departments});
-        return true;
       });
   }
 
@@ -45,11 +45,10 @@ class Departments extends Component {
     return ActionsDepartment.putDepartment(department)
       .then(response => {
         console.log('Put department:', response);
-        return ActionsDepartment.getDepartments();
-      })
-      .then(departments => {
+
+        let {departments} = this.state;
+        departments.push(response);
         this.setState({departments});
-        return true;
       });
   }
 

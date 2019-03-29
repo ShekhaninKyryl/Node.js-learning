@@ -4,7 +4,7 @@ const {Department} = require('./Department');
 async function addDepartment(department) {
   let newDepartment = await Department.create(department);
   let {id, name} = {...newDepartment.dataValues};
-  return {id, name};
+  return {id, name, averagePayment: 0, employeeCount: 0};
 }
 
 async function removeDepartment(department) {
