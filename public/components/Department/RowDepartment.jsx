@@ -1,9 +1,5 @@
 import React, {Component} from "react";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {Redirect} from 'react-router';
-import axios from 'axios';
-
-import ReactDOM from "react-dom";
 
 class RowDepartment extends Component {
   constructor(props) {
@@ -51,7 +47,7 @@ class RowDepartment extends Component {
         console.log('Remove department error:', error.response);
         // let err = error.response.data.message;
         // this.setState({err});
-      })
+      });
   }
 
   render() {

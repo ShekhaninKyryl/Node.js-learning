@@ -1,11 +1,11 @@
 import axios from 'axios';
 
 class ActionsDepartment {
-  //todo axios DONE
+  //todo axios Departments DONE
   static getDepartments() {
     return axios.get('/api/departments')
       .then(response => {
-        console.log('Get departments (AXIOS)', response);
+        console.log('Get departments:', response);
         return response.data
       });
 
@@ -13,7 +13,7 @@ class ActionsDepartment {
 
 
 //todo app/url DONE
-// todo axios DONE
+
   static saveDepartment(department) {
     let {id, name} = department;
     return axios.post(`/api/departments/${id}`, {id, name})
@@ -21,8 +21,8 @@ class ActionsDepartment {
   }
 
 
-  //todo status code to catch
-  //todo axios DONE
+  //todo status code to catch DONE
+
   static putDepartment(department) {
     let {name} = department;
 
@@ -31,7 +31,7 @@ class ActionsDepartment {
 
   }
 
-  //todo axios DONE
+
   static removeDepartment(department) {
     let {id, name} = department;
     return axios.delete(`/api/departments/${id}`, {data: {id, name}})

@@ -32,9 +32,6 @@ class FormDepartment extends Component {
       });
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-  }
-
   render() {
     let className = "department-form";
     return (

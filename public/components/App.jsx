@@ -37,7 +37,7 @@ class App extends Component {
     }
   }
 
-  //todo axios DONE
+  //todo axios getUser DONE
   getUser() {
     axios.get('/api/user')
       .then(response => this.setState({...response.data, login: true}))

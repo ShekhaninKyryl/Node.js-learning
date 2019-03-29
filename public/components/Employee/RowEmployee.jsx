@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 
 class RowEmployee extends Component {
   constructor(props) {
@@ -32,17 +31,21 @@ class RowEmployee extends Component {
   saveEmployee() {
     let {id, name, pay, email, department} = this.state;
     this.props.saveEmployee({id, name, pay, email, department})
-      .then(err => {
-        if (err) {
-          this.setState({err: err.message});
-          //this.render();
-        }
+      .catch(error => {
+        console.log('Save employee error:', error.response);
+        let err = error.response.data.message;
+        this.setState({err});
       });
   }
 
   removeEmployee() {
     let {id, name, pay, email, department} = this.state;
-    this.props.removeEmployee({id, name, pay, email, department});
+    this.props.removeEmployee({id, name, pay, email, department})
+      .catch(error => {
+        console.log('Remove employee error:', error.response);
+        // let err = error.response.data.message;
+        // this.setState({err});
+      });
   }
 
   render() {

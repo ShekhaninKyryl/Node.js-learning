@@ -16,70 +16,45 @@ class Employee extends Component {
   }
 
   saveEmployee(employee) {
-    let {id, name, pay, email} = employee;
+    let {id} = employee;
     return ActionsEmployee.saveEmployee(employee)
-      .then(res => {
-        if (res.err) {
-          return res.err
-        } else {
-          let employees = this.state.employees.map(emp => {
-            if (emp.id === id) {
-              emp.name = name;
-              emp.pay = pay;
-              emp.email = email;
-            }
-            return emp;
-          });
-          this.setState({employees});
-        }
+      .then(response => {
+        console.log('Save employee:', response);
+        let {employees} = this.state;
+        let index = employees.findIndex(element => element.id === id);
+        employees[index] = response;
+        this.setState({employees});
       });
   };
 
   removeEmployee(employee) {
+    let {id} = employee;
     ActionsEmployee.removeEmployee(employee)
-      .then(res => {
-        if (res.result) {
-          return ActionsEmployee.getEmployees(employee.department);
-        } else {
-          return Promise.reject(res);
-        }
-      })
-      .then(res => {
-        this.setState({employees: res.result});
-        return true;
+      .then(response => {
+        console.log('Remove employee:', response);
+
+        let {employees} = this.state;
+        let index = employees.findIndex(element => element.id === id);
+        employees.splice(index, 1);
+        this.setState({employees});
       });
   }
 
   putEmployee(employee) {
     return ActionsEmployee.putEmployee(employee)
-      .then(res => {
-        if (res.err) {
-          return res;
-        } else {
-          return ActionsEmployee.getEmployees(employee.department)
-            .then(res => {
-              if (!res.err) {
-                this.setState({employees: res.result});
-                return true;
-              } else {
-                return res;
-              }
-            });
-        }
+      .then(response => {
+        console.log('Put employee:', response);
+        let {employees} = this.state;
+        employees.push(response);
+        this.setState(employees);
       });
   }
 
   componentDidMount() {
     let department = this.props.match.params.departmentId;
     ActionsEmployee.getEmployees(department)
-      .then(res => {
-        if (res.result) {
-          this.setState({employees: res.result});
-        } else {
-          console.log(res.err);
-        }
-      });
-
+      .then(res => this.setState({employees: res}))
+      .catch(error => console.log('Get employees err', error.response));
   }
 
   render() {

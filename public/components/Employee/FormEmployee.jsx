@@ -32,14 +32,12 @@ class FormEmployee extends Component {
     let {name, pay, email, department} = this.state;
     let putEmployee = this.props.putEmployee;
     putEmployee({name, pay, email, department})
-      .then(res => {
-        if (res.err) {
-          this.setState({err: res.err.message})
-        } else {
-          this.setState({name: '', pay: '', email: ''});
-        }
-      })
-      .catch(err => console.log(err));
+      .then(() => this.setState({name: '', pay: '', email: ''}))
+      .catch(error => {
+        console.log('Put employee error:', error.response);
+        let err = error.response.data.message;
+        this.setState({err});
+      });
   }
 
   render() {

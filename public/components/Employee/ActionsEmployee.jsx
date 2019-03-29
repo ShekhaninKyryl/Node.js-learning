@@ -1,45 +1,36 @@
+import axios from 'axios';
+
 class ActionsEmployee {
-  //todo axios
+  //todo axios Employee DONE
   static getEmployees(departmentId) {
-    return fetch(`/api/departments/${departmentId}`,
-      {
-        method: 'get',
-      }).then(res => res.json());
+
+    return axios.get(`/api/departments/${departmentId}`)
+      .then(response => {
+        console.log('Get employees:', response);
+        return response.data
+      });
   }
-  //todo axios
+
   static saveEmployee(employee) {
-    let {id, name, pay, email, department} = employee;
-    return fetch(`/api/departments/${department}/employee/${id}`,
-      {
-        method: 'POST',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name, pay, email, department}),
-      })
-      .then(res => res.json());
+    let {id, department} = employee;
+    return axios.post(`/api/departments/${department}/employee/${id}`, employee)
+      .then(response => response.data);
 
   }
-  //todo axios
+
   static putEmployee(employee) {
-    let {name, pay, email, department} = employee;
-    return fetch(`/api/departments/${department}/employee`,
-      {
-        method: 'put',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({name, pay, email, department}),
-      })
-      .then(res => res.json());
+    let {department} = employee;
+
+    return axios.put(`/api/departments/${department}/employee`, employee)
+      .then(response => response.data);
 
   }
-  //todo axios
+
   static removeEmployee(employee) {
-    let {id, name, department} = employee;
-    return fetch(`/api/departments/${department}/employee/${id}`,
-      {
-        method: 'DELETE',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({id, name}),
-      })
-      .then(res => res.json());
+    let {id, department} = employee;
+
+    return axios.delete(`/api/departments/${department}/employee/${id}`, {data: employee})
+      .then(response => response.data);
   }
 }
 

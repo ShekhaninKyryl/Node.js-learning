@@ -27,7 +27,7 @@ class Login extends Component {
     this.setState({[event.target.id]: event.target.value, err: err});
   }
 
-  //todo axios DONE
+  //todo axios Login DONE
   Logging() {
     let {Login} = this.props;
     let {email, password} = this.state;
@@ -41,7 +41,7 @@ class Login extends Component {
       });
   }
 
-  //todo axios DONE
+  //todo axios Registration DONE
   Registration() {
     let {Login} = this.props;
     let {email, password} = this.state;

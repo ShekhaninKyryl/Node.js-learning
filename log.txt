@@ -2113,3 +2113,14 @@
 2019-03-28 18:47:52: DEPARTMENTS: QA - Department name must be unique! ;
 2019-03-28 18:53:53: DEPARTMENTS: 
 2019-03-28 18:55:37: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-29 11:50:29: GUEST: You have to authorize: jwt must be provided;
+2019-03-29 11:50:32: GUEST: You have to authorize: jwt must be provided;
+2019-03-29 11:51:25: DEPARTMENTS: QA - Department name must be unique! ;
+2019-03-29 11:51:37: DEPARTMENTS: Department name must be not empty, without whitespace! ;
+2019-03-29 12:13:29: EMPLOYEE: 234 - Department not found! ;
+2019-03-29 12:36:30: DEPARTMENTS: QA-1 - Department not found ;
+2019-03-29 12:37:55: EMPLOYEE: Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
+2019-03-29 12:38:23: EMPLOYEE: 1@1.com - Email must be unique! ;
+2019-03-29 12:51:07: GUEST: You have to authorize: jwt must be provided;
+2019-03-29 12:52:47: EMPLOYEE: 5-00 - Payment must be decimal value great 0! ;5@com - Email must be email format! ;
+2019-03-29 12:56:03: EMPLOYEE: Name must be not empty, without whitespace! ;Payment must be decimal value great 0! ;Email must be email format! ;
