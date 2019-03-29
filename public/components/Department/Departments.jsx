@@ -16,7 +16,7 @@ class Departments extends Component {
     this.putDepartment = this.putDepartment.bind(this);
   }
 
-  //todo react use state (hooks)
+  //todo react use state (hooks) DONE
   saveDepartment(department) {
     let {id, name} = department;
     return ActionsDepartment.saveDepartment(department)
@@ -30,6 +30,7 @@ class Departments extends Component {
   }
 
   removeDepartment(department) {
+    let {id} = department;
     ActionsDepartment.removeDepartment(department)
       .then(response => {
         console.log('Remove department:', response);

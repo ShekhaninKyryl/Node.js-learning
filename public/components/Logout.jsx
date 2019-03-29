@@ -13,26 +13,19 @@ class Logout extends Component {
 
   //todo axios
   Logout() {
-    let {Logout} = this.props;
+
+    let {logoutFn} = this.props;
 
     axios.get('/api/logout')
-      .then(response => Logout(response.data))
+      .then(response => logoutFn(response.data))
       .catch(error => console.log('Logout error:', error.response));
 
   }
 
 
   render() {
-
     return (
-      <input style={
-        {
-          position: 'absolute',
-          right: 0,
-          top: 0
-        }
-      }
-             type="button" value="Logout" id="login" onClick={this.Logout}/>
+      <input type="button" value="Logout" id="login" onClick={this.Logout}/>
     )
   }
 }

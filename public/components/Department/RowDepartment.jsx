@@ -89,3 +89,16 @@ class RowDepartment extends Component {
 
 
 export default RowDepartment
+
+
+// function is401(err) {
+//   if (err.status === 401) {
+//     axios.get('/')
+//   } else {
+//     return Promise.reject(err);
+//   }
+// };
+//
+// .then(...)
+// .catch(err=>is401(err))
+//   .catch(...);

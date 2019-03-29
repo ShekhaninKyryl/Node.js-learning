@@ -3,10 +3,12 @@ import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {Redirect} from 'react-router';
 
-import Login from './Login.jsx'
-import Logout from './Logout.jsx'
-import Departments from './Department/Departments.jsx'
-import Employee from './Employee/Employee.jsx'
+import Login from './Login.jsx';
+import Logout from './Logout.jsx';
+import Departments from './Department/Departments.jsx';
+import Employee from './Employee/Employee.jsx';
+
+import Header from './Header.jsx';
 import axios from "axios";
 
 class App extends Component {
@@ -24,31 +26,18 @@ class App extends Component {
   }
 
   Login(res) {
-    if (res === 'ok') {
-      this.getUser();
-    } else {
-      this.setState({login: false});
-    }
+    this.setState({login: (res === 'ok')});
   }
 
   Logout(res) {
-    if (res === 'ok') {
-      this.setState({login: false, id: '', name: 'Guest', email: ''});
-    }
+    console.log('App Logout');
+    this.setState({login: !(res === 'ok')});
   }
 
+  //toto additional data object
   //todo axios getUser DONE
-  getUser() {
-    axios.get('/api/user')
-      .then(response => this.setState({...response.data, login: true}))
-      .catch(error => {
-        this.setState({login: false});
-        console.log('Get user error:', error.response);
-      });
-  }
-
-  componentDidMount() {
-    this.getUser();
+  getUser(result) {
+    this.setState({login: result});
   }
 
 //todo react-router Done
@@ -57,37 +46,30 @@ class App extends Component {
     if (this.state.login) {
       return (
         <Router>
-          <div>
-            {`Hello ${this.state.name}. email: ${this.state.email}`}
-          </div>
+          <Header login={this.state.login} logoutFn={this.Logout} getUser={this.getUser}/>
           <Switch>
             <Route exact path='/departments' component={Departments}/>
             <Route exact path='/departments/:departmentId' component={Employee}/>
-            <Route path='*'
-                   render={() => {
-
-                     return <Redirect to='/departments'/>
-                   }}/>
+            <Redirect exact from='/guest' to='/departments'/>
+            <Route path='*' render={() => <Link to="/departments" replace>Page not found!</Link>}/>
           </Switch>
-          <Route render={() => {
-            return (<Logout Logout={this.Logout}/>)
-          }}/>
 
         </Router>
       );
     } else {
       return (
         <Router>
-          <div>{`Hello ${this.state.name}.`}   </div>
+          <Header login={this.state.login} getUser={this.getUser}/>
           <Switch>
             <Route exact path='/guest'
-                   render={() => {
-                     return (<Login Login={this.Login}/>)
-                   }}/>
-            <Route path='*'
-                   render={() => {
-                     return (<Redirect to='/guest'/>);
-                   }}/>
+                   render={() =>
+                     <Login Login={this.Login}/>
+                   }/>
+
+            <Redirect exact from='/departments' to='/guest'/>
+            <Redirect exact from='/departments/:departmentId' to='/guest'/>
+            <Redirect exact from='/' to='/guest'/>
+            <Route path='*' render={() => <Link to="/guest" replace>Page not found!</Link>}/>
           </Switch>
         </Router>
       );
@@ -96,6 +78,12 @@ class App extends Component {
 
 }
 
-ReactDOM.render(<App/>, document.getElementById("root")
-)
+ReactDOM
+  .render(
+    <App/>,
+    document
+      .getElementById(
+        "root"
+      )
+  )
 ;
