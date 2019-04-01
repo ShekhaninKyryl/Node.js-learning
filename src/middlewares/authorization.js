@@ -15,8 +15,14 @@ async function authorization(req, res, next) {
     res.clearCookie('token');
     res.locals.needRedirect = true;
     let err = new MyError(`You have to authorize: ${e.message}`, '401');
+
     err = errorHandler.errorParse(err, null, 'authorization');
-    res.status(401).json(err);
+    if(req.originalUrl.match(/^\/api\//)){
+      res.status(401).json(err);
+    } else {
+      res.status(401).sendFile('index.html', {root: path.join(__dirname, '../../dist')});
+    }
+
     next(err);
   }
 }

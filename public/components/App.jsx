@@ -16,9 +16,7 @@ class App extends Component {
     super(props);
     this.state = {
       login: false,
-      id: '',
-      name: 'Guest',
-      email: ''
+      causes: ''
     };
     this.Login = this.Login.bind(this);
     this.Logout = this.Logout.bind(this);
@@ -29,9 +27,8 @@ class App extends Component {
     this.setState({login: (res === 'ok')});
   }
 
-  Logout(res) {
-    console.log('App Logout');
-    this.setState({login: !(res === 'ok')});
+  Logout(res, causes) {
+    this.setState({login: !(res === 'ok'), causes: causes});
   }
 
   //toto additional data object
@@ -39,6 +36,7 @@ class App extends Component {
   getUser(result) {
     this.setState({login: result});
   }
+
 
 //todo react-router Done
   render() {
@@ -48,27 +46,41 @@ class App extends Component {
         <Router>
           <Header login={this.state.login} logoutFn={this.Logout} getUser={this.getUser}/>
           <Switch>
-            <Route exact path='/departments' component={Departments}/>
-            <Route exact path='/departments/:departmentId' component={Employee}/>
+            <Route exact path='/departments' render={() => <Departments Logout={this.Logout}/>}/>
+            <Route exact path='/departments/:departmentId' render={({match}) => {
+              //todo redirect to dep/empl or 404 DONE
+              let {departmentId} = match.params;
+              if (isFinite(departmentId)) {
+                return <Employee departmentId={departmentId} Logout={this.Logout}/>
+              } else {
+                return <Link to="/departments" replace>Page not found!</Link>
+              }
+            }
+            }/>
             <Redirect exact from='/guest' to='/departments'/>
             <Route path='*' render={() => <Link to="/departments" replace>Page not found!</Link>}/>
           </Switch>
 
         </Router>
-      );
+      )
+        ;
     } else {
       return (
         <Router>
           <Header login={this.state.login} getUser={this.getUser}/>
           <Switch>
-            <Route exact path='/guest'
-                   render={() =>
-                     <Login Login={this.Login}/>
-                   }/>
-
-            <Redirect exact from='/departments' to='/guest'/>
-            <Redirect exact from='/departments/:departmentId' to='/guest'/>
-            <Redirect exact from='/' to='/guest'/>
+            <Route exact path='/guest' render={() => <Login causes={this.state.causes} Login={this.Login}/>}/>
+            <Route exact path='/departments' render={() => {
+              this.setState({causes: 'You have to authorize!'});
+              console.log('Dont auth!Dep', this.state);
+              return <Redirect to='/guest'/>
+            }}/>
+            <Route exact path='/departments/:departmentId' render={() => {
+              console.log('Dont auth!Empl', this.state);
+              this.setState({causes: 'You have to authorize!'});
+              return <Redirect to='/guest'/>
+            }}/>
+            <Redirect from='/' to='/guest'/>
             <Route path='*' render={() => <Link to="/guest" replace>Page not found!</Link>}/>
           </Switch>
         </Router>

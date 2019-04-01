@@ -55,6 +55,11 @@ class Login extends Component {
       });
   }
 
+  componentDidMount() {
+    let {causes} = this.props;
+    this.setState({err: {email: causes}});
+  }
+
   render() {
     let className = "login-form";
     return (

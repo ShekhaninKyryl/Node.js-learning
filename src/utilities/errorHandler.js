@@ -7,7 +7,7 @@ function errorParse(err, include, instance) {
       returnedError.type = err.type;
       switch (returnedError.type) {
         case '401': {
-          returnedError.message.email = err.message;
+          returnedError.message.name = err.message;
           returnedError.instance = 'guest';
           break;
         }

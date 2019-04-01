@@ -191,6 +191,10 @@ const logger = winston.createLogger({
   ]
 });
 const expired = config.JWT.EXPIRES;
+
+// const expired = 10000;
+
+
 let {guestregistration, guestlogin, getuser, guest, ...other} = handlers;
 
 router.use(bodyParser.urlencoded({extended: false}));

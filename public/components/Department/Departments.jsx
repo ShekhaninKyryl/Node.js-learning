@@ -1,7 +1,8 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import TableDepartment from './TableDepartment.jsx';
 import ActionsDepartment from './ActionsDepartment.jsx';
+
+import is401 from '../utilities/authorizationService.js';
 
 
 class Departments extends Component {
@@ -18,6 +19,7 @@ class Departments extends Component {
 
   //todo react use state (hooks) DONE
   saveDepartment(department) {
+    let {Logout} = this.props;
     let {id, name} = department;
     return ActionsDepartment.saveDepartment(department)
       .then(response => {
@@ -26,10 +28,12 @@ class Departments extends Component {
         let index = departments.findIndex(element => element.id === id);
         departments[index].name = name;
         this.setState({departments});
-      });
+      })
+      .catch(error => is401(error) ? Logout('ok', 'Have to authorize!') : Promise.reject(error));
   }
 
   removeDepartment(department) {
+    let {Logout} = this.props;
     let {id} = department;
     ActionsDepartment.removeDepartment(department)
       .then(response => {
@@ -39,10 +43,12 @@ class Departments extends Component {
         let index = departments.findIndex(element => element.id === id);
         departments.splice(index, 1);
         this.setState({departments});
-      });
+      })
+      .catch(error => is401(error) ? Logout('ok', 'Have to authorize!') : Promise.reject(error));
   }
 
   putDepartment(department) {
+    let {Logout} = this.props;
     return ActionsDepartment.putDepartment(department)
       .then(response => {
         console.log('Put department:', response);
@@ -50,12 +56,15 @@ class Departments extends Component {
         let {departments} = this.state;
         departments.push(response);
         this.setState({departments});
-      });
+      })
+      .catch(error => is401(error) ? Logout('ok', 'Have to authorize!') : Promise.reject(error));
   }
 
   componentDidMount() {
+    let {Logout} = this.props;
     ActionsDepartment.getDepartments()
       .then(res => this.setState({departments: res}))
+      .catch(error => is401(error) ? Logout('ok', 'Have to authorize!') : Promise.reject(error))
       .catch(error => console.log('Get Departments err', error.response));
   }
 
