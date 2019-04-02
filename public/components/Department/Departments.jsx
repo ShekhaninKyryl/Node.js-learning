@@ -1,6 +1,8 @@
 import React, {Component} from "react";
+import {connect} from 'react-redux';
 import TableDepartment from './TableDepartment.jsx';
 import ActionsDepartment from './ActionsDepartment.jsx';
+
 
 import is401 from '../utilities/authorizationService.js';
 
@@ -61,18 +63,14 @@ class Departments extends Component {
   }
 
   componentDidMount() {
-    let {Logout} = this.props;
-    ActionsDepartment.getDepartments()
-      .then(res => this.setState({departments: res}))
-      .catch(error => is401(error) ? Logout('ok', 'Have to authorize!') : Promise.reject(error))
-      .catch(error => console.log('Get Departments err', error.response));
+    this.props.getDepartments();
   }
 
 
   render() {
     return (
       <div>
-        <TableDepartment departments={this.state.departments}
+        <TableDepartment departments={this.props.departments}
                          saveDepartment={this.saveDepartment}
                          removeDepartment={this.removeDepartment}
                          putDepartment={this.putDepartment}/>
@@ -81,5 +79,30 @@ class Departments extends Component {
   };
 }
 
-export default Departments;
+export default connect(
+  state => ({
+    departments: state.departments
+  }),
+  dispatch => ({
+    getDepartments: () => {
+      ActionsDepartment.getDepartments()
+        .then(response => dispatch({type: 'GET_DEPARTMENT', response}))
+        .catch(error => {
+          if (is401(error)) {
+            dispatch({type: 'SET_LOGOUT'})
+          } else {
+            console.log('GET_DEPARTMENT err:', error.response);
+          }
+        });
+    },
+    saveDepartment: (department) => {
+      return ActionsDepartment.saveDepartment(department)
+        .then(response => dispatch({typ: 'POST_DEPARTMENT'})   )
+        .catch(error => is401(error) ? Logout('ok', 'Have to authorize!') : Promise.reject(error));
+    }
+
+
+  })
+)
+(Departments);
 

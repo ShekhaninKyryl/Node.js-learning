@@ -46,7 +46,7 @@ class Employee extends Component {
       .catch(error => is401(error) ? Logout('ok', 'Have to authorize!') : Promise.reject(error));
   }
 
-  //todo remove reGet request
+  //todo remove reGet request DONE
   putEmployee(employee) {
     let {Logout} = this.props;
     return ActionsEmployee.putEmployee(employee)
@@ -60,7 +60,6 @@ class Employee extends Component {
   }
 
   componentDidMount() {
-    console.log('Employee', this.props);
     let {Logout} = this.props;
     let department = this.props.departmentId;
     ActionsEmployee.getEmployees(department)

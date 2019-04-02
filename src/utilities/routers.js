@@ -18,7 +18,8 @@ const {logEmitter} = require('../models/logger/LoggerService');
 const {
   authorizationGetLoginToken,
   authorizationSetPassword,
-  getAuthorizedUser
+  getAuthorizedUser,
+  isAuthorizedUser
 } = require('../models/authorization/authorizationService');
 
 /*
@@ -52,7 +53,7 @@ const handlers = {
     render: 'guest'
   },
   'guest': {
-    fn: _ => _,
+    fn: isAuthorizedUser,
     needRedirect: false,
     method: 'get',
     regExp: '/api/guest',
@@ -155,8 +156,8 @@ const handlers = {
 const ejsFilePath = {
   'employee': './views/Employee.ejs',
   'departments': './views/Department.ejs',
-  'guest': './views/Login.ejs',
-  '401': './views/Login.ejs',
+  'guest': './views/login.ejs',
+  '401': './views/login.ejs',
   '404': './views/Error404.ejs'
 
 };
@@ -206,7 +207,7 @@ router.use(cookieParser());
 * */
 registrationMiddleWare(guestregistration);
 registrationMiddleWare(guestlogin);
-registrationMiddleWare(guest);
+
 router.get('/api/logout', function (req, res) {
   res.clearCookie('token');
   res.json('ok');
@@ -221,6 +222,7 @@ router.use(authorization);
 /*
 * After Auth
 * */
+registrationMiddleWare(guest);
 registrationMiddleWare(getuser);
 for (let middleWare in other) {
   registrationMiddleWare(other[middleWare])

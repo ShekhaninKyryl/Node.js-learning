@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Input from "./Input.jsx";
+import {connect} from "react-redux";
 
 
 class Logout extends Component {
@@ -11,15 +12,9 @@ class Logout extends Component {
     this.Logout = this.Logout.bind(this);
   }
 
-  //todo axios
+
   Logout() {
-
-    let {logoutFn} = this.props;
-
-    axios.get('/api/logout')
-      .then(response => logoutFn(response.data))
-      .catch(error => console.log('Logout error:', error.response));
-
+    this.props.logout();
   }
 
 
@@ -31,4 +26,15 @@ class Logout extends Component {
 }
 
 
-export default Logout;
+export default connect(
+  state => ({
+    api: state.api
+  }),
+  dispatch => ({
+    logout: () => {
+      axios.get('/api/logout')
+        .then(() => dispatch({type: 'SET_LOGOUT'}))
+        .catch(error => console.log('Logout error:', error.response));
+    }
+  })
+)(Logout);

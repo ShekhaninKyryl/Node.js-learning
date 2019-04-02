@@ -3,6 +3,8 @@ import axios from 'axios';
 import ReactDOM from "react-dom";
 import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Input from "./Input.jsx";
+import {connect} from "react-redux";
+import is401 from "./utilities/authorizationService";
 
 
 class Login extends Component {
@@ -27,37 +29,20 @@ class Login extends Component {
     this.setState({[event.target.id]: event.target.value, err: err});
   }
 
-  //todo axios Login DONE
+  //todo axios login DONE
   Logging() {
-    let {Login} = this.props;
     let {email, password} = this.state;
-
-    axios.post('/api/guest/login', {email, password})
-      .then(response => Login(response.data))
-      .catch(error => {
-        console.log('Login error', error.response);
-        let err = error.response.data.message;
-        this.setState({err});
-      });
+    this.props.login({email, password});
   }
 
   //todo axios Registration DONE
   Registration() {
-    let {Login} = this.props;
     let {email, password} = this.state;
-
-    axios.put('/api/guest/registration', {email, password})
-      .then(response => Login(response.data))
-      .catch(error => {
-        console.log('Registration error', error.response);
-        let err = error.response.data.message;
-        this.setState({err});
-      });
+    this.props.registration({email, password})
   }
 
   componentDidMount() {
-    let {causes} = this.props;
-    this.setState({err: {email: causes}});
+    this.props.isLogin();
   }
 
   render() {
@@ -82,4 +67,33 @@ class Login extends Component {
 }
 
 
-export default Login;
+export default connect(
+  state => ({
+    api: state.api
+  }),
+  dispatch => ({
+    login: (data) => {
+      axios.post('/api/guest/login', data)
+        .then(() => dispatch({type: 'SET_LOGIN'}))
+        .catch(error => {
+          console.log('login error', error.response);
+          let err = error.response.data.message;
+          this.setState({err});
+        });
+    },
+    registration: (data) => {
+      axios.put('/api/guest/registration', data)
+        .then(() => dispatch({type: 'SET_LOGIN'}))
+        .catch(error => {
+          console.log('Registration error', error.response);
+        });
+    },
+    isLogin: ()=>{
+      axios.get('/api/guest')
+        .then(() => dispatch({type: 'SET_LOGIN'}))
+        .catch(error => {
+          dispatch({type: 'SET_LOGOUT'});
+        });
+    }
+  })
+)(Login);

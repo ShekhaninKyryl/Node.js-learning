@@ -87,6 +87,23 @@ async function getAuthorizedUser(verifyingData, user) {
         }
       ]
   }
+}
+
+async  function isAuthorizedUser(verifyingData, user){
+  console.log('User: ', user);
+  if(user){
+    return true
+  } else throw {
+    errors:
+      [
+        {
+          path: 'email',
+          message: 'Not authorized!'
+        }
+      ]
+  }
+
+
 
 }
 
@@ -94,5 +111,6 @@ async function getAuthorizedUser(verifyingData, user) {
 module.exports = {
   authorizationGetLoginToken,
   authorizationSetPassword,
-  getAuthorizedUser
+  getAuthorizedUser,
+  isAuthorizedUser
 };
