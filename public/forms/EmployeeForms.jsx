@@ -31,11 +31,11 @@ const renderField = ({
                        type,
                        meta: {touched, error}
                      }) => (
-  <div>
+  <>
     <input {...input} placeholder={label} type={type} disabled={disabled}/>
     {touched &&
     (error && <div>{error}</div>)}
-  </div>
+  </>
 );
 
 
@@ -73,7 +73,7 @@ function DeleteEmployeeForm(props) {
   } = props;
   return (
     <tr onSubmit={handleSubmit}>
-        <td>
+        <td colSpan='4'>
           <button type='submit' disabled={invalid}>Delete</button>
         </td>
     </tr>
@@ -92,22 +92,22 @@ function PutEmployeeForm(props) {
   }
 
   return (
-    <div onSubmit={handleSubmit}>
-        <div>
+    <tr onSubmit={handleSubmit}>
+        <td>
           <Field name="name" component={renderField} type="text"/>
-        </div>
-        <div>
+        </td>
+        <td>
            <Field name="pay" component={renderField} type="text"/>
-        </div>
-        <div>
+        </td>
+        <td>
            <Field name="email" component={renderField} type="text"/>
-        </div>
-        <div>
+        </td>
+        <td>
           <button type='submit' disabled={invalid}>
             Create
           </button>
-        </div>
-    </div>
+        </td>
+    </tr>
   )
 }
 

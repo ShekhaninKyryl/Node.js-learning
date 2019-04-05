@@ -25,14 +25,10 @@ class RowEmployee extends Component {
     const EmployeeForm = this.EmployeeForm;
     const DeleteEmployeeForm = this.DeleteEmployeeForm;
     return (
-      <tr>
-        <td colSpan='4'>
+      <>
           <EmployeeForm initialValues={this.props.employee} onSubmit={this.props.saveEmployee}/>
-        </td>
-        <td>
           <DeleteEmployeeForm initialValues={this.props.employee} onSubmit={this.props.removeEmployee}/>
-        </td>
-      </tr>
+      </>
     )
   }
 }

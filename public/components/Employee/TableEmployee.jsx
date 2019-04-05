@@ -24,27 +24,30 @@ class TableEmployee extends Component {
           <td>Employee name</td>
           <td>Payment</td>
           <td>Email</td>
-
           <td/>
           <td/>
         </tr>
         </thead>
         <tbody>
+        {rows}
+        </tbody>
+        <tfoot>
+        <tr>
+          <td colSpan='5'>
+            <form action={toDepartmentURL}>
+              <button type="submit">Departments</button>
+            </form>
+          </td>
+        </tr>
         <tr>
           <td colSpan='5'>
             <hr/>
           </td>
         </tr>
-        {rows}
-        <hr/>
-        </tbody>
-        <div>
-          <form action={toDepartmentURL}>
-            <button type="submit">Departments</button>
-          </form>
-        </div>
-        <hr/>
-        <FormEmployee/>
+        <tr>
+          <FormEmployee/>
+        </tr>
+        </tfoot>
       </table>
     )
 
