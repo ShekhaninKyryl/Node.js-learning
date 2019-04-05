@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import Input from "../Input.jsx";
+import {connect} from "react-redux";
+import {putEmployee} from "../../reducers/tracks/employeeTracks";
 
 
 class FormEmployee extends Component {
@@ -10,34 +11,22 @@ class FormEmployee extends Component {
       name: '',
       pay: '',
       email: '',
-      department: '',
-      err: {}
     };
     this.handleChange = this.handleChange.bind(this);
     this.putEmployee = this.putEmployee.bind(this);
   }
 
   handleChange(event) {
-    let err = this.state.err;
-    err[event.target.id] = '';
-    this.setState({[event.target.id]: event.target.value, err: err});
-  }
 
-  componentDidMount() {
-    let {department} = this.props;
-    this.setState({department: department})
+    this.setState({[event.target.id]: event.target.value});
   }
 
   putEmployee() {
-    let {name, pay, email, department} = this.state;
-    let putEmployee = this.props.putEmployee;
-    putEmployee({name, pay, email, department})
-      .then(() => this.setState({name: '', pay: '', email: ''}))
-      .catch(error => {
-        console.log('Put employee error:', error.response);
-        let err = error.response.data.message;
-        this.setState({err});
-      });
+    let {name, pay, email} = this.state;
+    let {department} = this.props;
+    if (this.props.putEmployee({name, pay, email, department})) {
+      this.setState({name: '', pay: '', email: ''});
+    }
   }
 
   render() {
@@ -48,18 +37,18 @@ class FormEmployee extends Component {
         <td>
           <Input className={className} value={name} type={'text'} id={'name'}
                  handleChange={this.handleChange}/>
-          <div>{this.state.err.name}</div>
+          <div>{this.props.err.id === 0 ? this.props.err.name : ''}</div>
         </td>
         <td>
           <Input className={className} value={pay} type={'text'} id={'pay'}
                  handleChange={this.handleChange}/>
-          <div>{this.state.err.pay}</div>
+          <div>{this.props.err.id === 0 ? this.props.err.pay : ''}</div>
         </td>
 
         <td>
           <Input className={className} value={email} type={'text'} id={'email'}
                  handleChange={this.handleChange}/>
-          <div>{this.state.err.email}</div>
+          <div>{this.props.err.id === 0 ? this.props.err.email : ''}</div>
         </td>
         <td colSpan='2'>
           <input type="button" value="Create" onClick={this.putEmployee}/>
@@ -68,6 +57,15 @@ class FormEmployee extends Component {
     )
   }
 }
+//todo some strange
+export default connect(
+  state => ({
+    employees: state.employees,
+    department: state.api.departmentId,
+    err: state.error
+  }),
+  dispatch => ({
+    putEmployee: (employee) => dispatch(putEmployee(employee)),
 
-
-export default FormEmployee;
+  })
+)(FormEmployee);

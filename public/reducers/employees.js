@@ -7,27 +7,30 @@ const DELETE_EMPLOYEES = 'DELETE_EMPLOYEES';
 
 
 export default function apiDepartments(state = initialState, action) {
-  let {type, ...result} = action;
+  let {type, response} = action;
 
   switch (type) {
     case GET_EMPLOYEES: {
-      return result;
+      return response;
     }
     case PUT_EMPLOYEES: {
       return [
         ...state,
-        result
+        response
       ];
     }
     case POST_EMPLOYEES: {
       let employees = [...state];
-      let index = employees.findIndex(element => element.id === action.id);
-      employees[index] = result;
+      let index = employees.findIndex(element => element.id === response.id);
+      let {name, pay, email} = response;
+      employees[index].name = name;
+      employees[index].pay = pay;
+      employees[index].email = email;
       return employees
     }
     case DELETE_EMPLOYEES: {
       let employees = [...state];
-      let index = employees.findIndex(element => element.id === action.id);
+      let index = employees.findIndex(element => element.id === response.id);
       employees.splice(index, 1);
       return employees;
     }

@@ -1,27 +1,33 @@
+
 const initialState = {
-  isLogin: false,
-  isFetching: false
+  isLogin: true,
+  isFetching: false,
+  departmentId: 0
 };
 
 const SET_LOGIN = 'SET_LOGIN';
 const SET_LOGOUT = 'SET_LOGOUT';
 const SET_FETCHING = 'SET_FETCHING';
 const SET_UNFETCHING = 'SET_UNFETCHING';
+const SET_DEPARTMENTID = 'SET_DEPARTMENTID';
 
 export default function apiActions(state = initialState, action) {
-  let {isLogin, isFetching} = state;
+  let {isLogin, isFetching, departmentId} = state;
   switch (action.type) {
     case SET_LOGIN: {
-      return {isLogin: true, isFetching};
+      return {...state, isLogin: true};
     }
     case SET_LOGOUT: {
-      return {isLogin: false, isFetching};
+      return {...state, isLogin: false};
     }
     case SET_FETCHING: {
-      return {isLogin, isFetching: true};
+      return {...state, isFetching: true};
     }
     case SET_UNFETCHING: {
-      return {isLogin, isFetching: false};
+      return {...state, isFetching: false};
+    }
+    case SET_DEPARTMENTID: {
+      return {...state, departmentId: action.departmentId};
     }
   }
   return state;

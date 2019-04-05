@@ -1,4 +1,7 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
+import {deleteEmployee, postEmployee} from "../../reducers/tracks/employeeTracks";
+
 
 class RowEmployee extends Component {
   constructor(props) {
@@ -8,7 +11,6 @@ class RowEmployee extends Component {
       name: '',
       pay: '',
       email: '',
-      err:{},
       department: ''
     };
     this.onChange = this.onChange.bind(this);
@@ -18,9 +20,8 @@ class RowEmployee extends Component {
   }
 
   onChange(event) {
-    let err = this.state.err;
-    err[event.target.id] = '';
-    this.setState({[event.target.id]: event.target.value, err: err});
+
+    this.setState({[event.target.id]: event.target.value});
   }
 
   componentDidMount() {
@@ -30,22 +31,12 @@ class RowEmployee extends Component {
 
   saveEmployee() {
     let {id, name, pay, email, department} = this.state;
-    this.props.saveEmployee({id, name, pay, email, department})
-      .catch(error => {
-        console.log('Save employee error:', error.response);
-        let err = error.response.data.message;
-        this.setState({err});
-      });
+    this.props.saveEmployee({id, name, pay, email, department});
   }
 
   removeEmployee() {
     let {id, name, pay, email, department} = this.state;
-    this.props.removeEmployee({id, name, pay, email, department})
-      .catch(error => {
-        console.log('Remove employee error:', error.response);
-        // let err = error.response.data.message;
-        // this.setState({err});
-      });
+    this.props.removeEmployee({id, name, pay, email, department});
   }
 
   render() {
@@ -54,15 +45,15 @@ class RowEmployee extends Component {
       <tr>
         <td>
           <input type='text' id='name' value={name} onChange={this.onChange}/>
-          <div>{this.state.err.name}</div>
+          <div>{this.props.err.id === id ? this.props.err.name : ''}</div>
         </td>
         <td>
           <input type='text' id='pay' value={pay} onChange={this.onChange}/>
-          <div>{this.state.err.pay}</div>
+          <div>{this.props.err.id === id ? this.props.err.pay : ''}</div>
         </td>
         <td>
           <input type='text' id='email' value={email} onChange={this.onChange}/>
-          <div>{this.state.err.email}</div>
+          <div>{this.props.err.id === id ? this.props.err.email : ''}</div>
         </td>
         <td>
           <button id={id} onClick={this.saveEmployee}>Save</button>
@@ -75,5 +66,14 @@ class RowEmployee extends Component {
   }
 }
 
+export default connect(
+  state => ({
+    employees: state.employees,
+    err: state.error
+  }),
+  dispatch => ({
+    saveEmployee: (employee) => dispatch(postEmployee(employee)),
+    removeEmployee: (employee) => dispatch(deleteEmployee(employee)),
 
-export default RowEmployee
+  })
+)(RowEmployee)

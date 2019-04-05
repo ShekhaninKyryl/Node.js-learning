@@ -5,107 +5,75 @@ import {Redirect} from 'react-router';
 import {connect} from 'react-redux';
 
 
-import Login from './Login.jsx';
+import Login from './LoginLogout/Login.jsx';
 import Departments from './Department/Departments.jsx';
 import Employee from './Employee/Employee.jsx';
-
-import Header from './Header.jsx';
-import axios from "axios";
-import is401 from "./utilities/authorizationService";
+import Header from './Header/Header.jsx';
+import {getIsLogin} from "../reducers/tracks/loginTracks";
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      login: axios.get('/api/guest')
-        .then(response => {
-          return response.data
-        })
-        .catch(error => is401(error) ? this.Logout('ok', 'Have to authorize!') : Promise.reject(error))
-        .catch(err => console.log('Init:', err.response)),
-      causes: ''
-    };
-    this.Logout = this.Logout.bind(this);
-    this.getUser = this.getUser.bind(this);
   }
 
-  // login(res) {
-  //   this.setState({login: (res === 'ok')});
-  // }
-
-  Logout(res, causes) {
-    this.setState({login: !(res === 'ok'), causes: causes});
+  componentDidMount() {
+    this.props.isLogin();
   }
 
-  //toto additional data object
-  //todo axios getUser DONE
-  getUser(result) {
-    this.setState({login: result});
-  }
-
-//todo react-router Done
   render() {
-    let{isLogin} = this.props.api;
-
-    if (isLogin) {
-      return (
-        <Router>
-          <Header login={isLogin} logoutFn={this.Logout} getUser={this.getUser}/>
-          <Switch>
-
-            <Route exact path='/departments' render={() => <Departments Logout={this.Logout}/>}/>
-            <Route exact path='/departments/:departmentId' render={({match}) => {
-              //todo redirect to dep/empl or 404 DONE
-              let {departmentId} = match.params;
-              if (isFinite(departmentId)) {
-                return <Employee departmentId={departmentId} Logout={this.Logout}/>
-              } else {
-                return <Link to="/departments" replace>Page not found!</Link>
-              }
-            }}/>
-
-            <Redirect exact from='/guest' to='/departments'/>
-            <Redirect exact from='/' to='/departments'/>
-            <Route path='*' render={() => <Link to="/departments" replace>Page not found!</Link>}/>
-
-          </Switch>
-
-        </Router>
-      );
-    } else {
-      return (
-        <Router>
-          <Header login={isLogin} getUser={this.getUser}/>
-          <Switch>
-
-            <Route exact path='/guest' render={() => <Login/>}/>
-
-            <Route exact path='/departments' render={() => {
-              //this.setState({causes: 'You have to authorize!'});
-              return <Redirect to='/guest'/>
-            }}/>
-            <Route exact path='/departments/:departmentId' render={() => {
-              //this.setState({causes: 'You have to authorize!'});
-              return <Redirect to='/guest'/>
-            }}/>
-            <Redirect exact from='/' to='/guest'/>
-
-            <Route exact path='*' render={() => <Link to="/guest" replace>Page not found!</Link>}/>
-
-          </Switch>
-        </Router>
-      );
-    }
+    let {isLogin} = this.props.api;
+    return (
+      <Router>
+        <Header/>
+        <Route render={() => {
+          if (isLogin) {
+            return (
+              <Switch>
+                <Route exact path='/departments' render={() => <Departments/>}/>
+                <Route exact path='/departments/:departmentId' render={({match}) => {
+                  let {departmentId} = match.params;
+                  if (isFinite(departmentId)) {
+                    return <Employee departmentId={departmentId}/>
+                  } else {
+                    return <Link to="/departments" replace>Page not found!</Link>
+                  }
+                }}/>
+                <Redirect exact from='/guest' to='/departments'/>
+                <Redirect exact from='/' to='/departments'/>
+                <Route path='*' render={() => <Link to="/departments" replace>Page not found!</Link>}/>
+              </Switch>
+            )
+          } else {
+            return (
+              <Switch>
+                <Route exact path='/guest' render={() => <Login/>}/>
+                <Route exact path='/departments' render={() => {
+                  //this.setState({causes: 'You have to authorize!'});
+                  return <Redirect to='/guest'/>
+                }}/>
+                <Route exact path='/departments/:departmentId' render={() => {
+                  //this.setState({causes: 'You have to authorize!'});
+                  return <Redirect to='/guest'/>
+                }}/>
+                <Redirect exact from='/' to='/guest'/>
+                <Route exact path='*' render={() => <Link to="/guest" replace>Page not found!</Link>}/>
+              </Switch>
+            )
+          }
+        }}/>
+      </Router>
+    )
   }
-
 }
-
 
 export default connect(
   state => ({
     api: state.api
   }),
-  dispatch=>({})
+  dispatch => ({
+    isLogin: () => dispatch(getIsLogin()),
+
+  })
 )(App)
 
 

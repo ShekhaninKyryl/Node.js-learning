@@ -33,7 +33,6 @@ const crypto = require('./crypto');
 require('./associations');
 
 
-//todo check not found department when get employees DONE
 const router = express();
 const handlers = {
   'guestlogin': {

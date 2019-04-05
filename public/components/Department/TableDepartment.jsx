@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import RowDepartment from './RowDepartment.jsx'
 import FormDepartment from './FormDepartment.jsx';
+import {connect} from "react-redux";
 
 class TableDepartment extends Component {
   constructor(props) {
@@ -10,39 +10,25 @@ class TableDepartment extends Component {
 
   render() {
     let {departments} = this.props;
-    let {
-      saveDepartment,
-      removeDepartment,
-      putDepartment
-    } = this.props;
     let rows = departments.map(dep => {
-      return <RowDepartment key={dep.id}
-                            department={dep}
-                            saveDepartment={saveDepartment}
-                            removeDepartment={removeDepartment}/>
+      return <RowDepartment key={dep.id} department={dep}/>
     });
     return (
-      <table>
-        <thead>
-        <tr>
-          <td>
-            Department name
-          </td>
-          <td>
-            Employees number
-          </td>
-          <td>
-            Average payment
-          </td>
-        </tr>
-        </thead>
-        <tbody>
+      <div>
+        <div>
+          <span>Department name</span>
+          <span>Employees number</span>
+          <span>Average payment</span>
+        </div>
         {rows}
-        <FormDepartment putDepartment={putDepartment}/>
-        </tbody>
-      </table>
+        <FormDepartment/>
+      </div>
     )
   }
 }
 
-export default TableDepartment
+export default connect(
+  state => ({
+    departments: state.departments
+  })
+)(TableDepartment)

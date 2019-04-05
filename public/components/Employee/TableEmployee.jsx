@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import ReactDOM from "react-dom";
 import RowEmployee from './RowEmployee.jsx'
 import FormEmployee from './FormEmployee.jsx';
 import {Redirect} from "react-router";
+import {connect} from "react-redux";
 
 
 class TableEmployee extends Component {
@@ -14,19 +14,11 @@ class TableEmployee extends Component {
   }
 
   render() {
-    let {employees, department} = this.props;
+    let {employees} = this.props;
     let {redirect} = this.state;
-    let {
-      saveEmployee,
-      removeEmployee,
-      putEmployee
-    } = this.props;
 
     let rows = employees.map(emp => {
-      return <RowEmployee key={emp.id}
-                          employee={emp}
-                          saveEmployee={saveEmployee}
-                          removeEmployee={removeEmployee}/>
+      return <RowEmployee key={emp.id} employee={emp}/>
     });
 
     if (redirect) {
@@ -52,7 +44,7 @@ class TableEmployee extends Component {
           </thead>
           <tbody>
           {rows}
-          <FormEmployee department={department} putEmployee={putEmployee}/>
+          <FormEmployee/>
           <tr>
             <td/>
             <td/>
@@ -71,4 +63,8 @@ class TableEmployee extends Component {
   }
 }
 
-export default TableEmployee
+export default connect(
+  state => ({
+    employees: state.employees
+  })
+)(TableEmployee)

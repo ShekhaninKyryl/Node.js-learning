@@ -2,10 +2,11 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
+require("babel-polyfill");
 module.exports = {
+
   mode: 'development',
-  entry: './public/print.js',
+  entry: ["babel-polyfill",'./public/print.js'],
   output: {
     //filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
