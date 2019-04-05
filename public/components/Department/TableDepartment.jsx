@@ -20,8 +20,11 @@ class TableDepartment extends Component {
           <span>Employees number</span>
           <span>Average payment</span>
         </div>
+        <hr/>
         {rows}
+        <hr/>
         <FormDepartment/>
+
       </div>
     )
   }

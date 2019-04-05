@@ -4598,3 +4598,56 @@
 2019-04-05 15:01:44: GUEST: You have to authorize: jwt must be provided;
 2019-04-05 15:01:45: GUEST: You have to authorize: jwt must be provided;
 2019-04-05 15:05:39: DEPARTMENTS: Department not found ;
+2019-04-05 16:18:46: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 16:18:46: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 16:18:46: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 16:18:46: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 16:19:23: EMPLOYEE: 3@3.com - Email must be unique! ;
+2019-04-05 16:19:33: EMPLOYEE: 
+2019-04-05 16:19:38: EMPLOYEE: 
+2019-04-05 16:19:39: EMPLOYEE: 
+2019-04-05 16:19:39: EMPLOYEE: 
+2019-04-05 16:19:39: EMPLOYEE: 
+2019-04-05 16:20:33: EMPLOYEE: 
+2019-04-05 16:52:21: EMPLOYEE: 1@1.com - Email must be unique! ;
+2019-04-05 17:17:39: EMPLOYEE: 1@1.com - Email must be unique! ;
+2019-04-05 17:20:05: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 17:20:05: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 17:20:05: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 17:20:05: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 17:56:00: EMPLOYEE: 108 - Department not found! ;
+2019-04-05 17:56:15: EMPLOYEE: 1080 - Department not found! ;
+2019-04-05 17:58:02: EMPLOYEE: 1080 - Department not found! ;
+2019-04-05 17:58:51: EMPLOYEE: 1080 - Department not found! ;
+2019-04-05 17:59:19: EMPLOYEE: 1080 - Department not found! ;
+2019-04-05 17:59:29: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:00:20: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:01:14: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:01:31: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:03:01: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:05:43: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:11:07: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:11:19: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:12:12: EMPLOYEE: 590 - Department not found! ;
+2019-04-05 18:13:31: DEPARTMENTS: CPP - Department name must be unique! ;
+2019-04-05 18:14:06: EMPLOYEE: 5@5.com - Email must be unique! ;
+2019-04-05 18:15:17: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:15:47: GUEST: 2 - Authorization is wrong! ;
+2019-04-05 18:15:52: GUEST: 2 - Authorization is wrong! ;
+2019-04-05 18:15:56: GUEST: 2 - Authorization is wrong! ;
+2019-04-05 18:16:09: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:09: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:09: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:09: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:10: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:24: GUEST: 1 - Registration is wrong! ;
+2019-04-05 18:16:43: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:43: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:43: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 18:16:44: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 19:17:35: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 19:17:35: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 19:17:35: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 19:17:35: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 19:17:36: GUEST: You have to authorize: jwt must be provided;
+2019-04-05 19:49:35: EMPLOYEE: 590 - Department not found! ;

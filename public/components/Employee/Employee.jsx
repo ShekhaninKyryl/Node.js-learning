@@ -1,24 +1,33 @@
 import React, {Component} from "react";
 import TableEmployee from './TableEmployee.jsx'
-import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {getEmployees} from "../../reducers/tracks/employeeTracks";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
 class Employee extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      err: null
+    }
+
   }
 
 
   componentDidMount() {
     let department = this.props.departmentId;
     this.props.setDepartmentId(department);
-    this.props.getEmployees(department);
+    this.props.getEmployees(department)
+      .catch(err => this.setState({err}));
   }
 
   render() {
-    if (this.props.err.department) {
-      return <Link to="/departments" replace>{this.props.err.department}</Link>
+    if (this.state.err) {
+      return (
+        <div>
+          <Link onClick={() => this.setState({})} to='/departments'>Department not found!</Link>
+        </div>
+      )
     } else {
       return (
         <div>
@@ -27,13 +36,11 @@ class Employee extends Component {
       )
     }
   }
-  ;
 }
 
 export default connect(
   state => ({
     api: state.api,
-    err: state.error
   }),
   dispatch => ({
     getEmployees: (departmentId) => dispatch(getEmployees(departmentId)),

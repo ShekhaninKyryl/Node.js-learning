@@ -24,7 +24,7 @@ const renderField = ({
 );
 
 
-function RowDepartmentForm(props) {
+function DepartmentForms(props) {
   const {
     handleSubmit,
     invalid,
@@ -101,7 +101,7 @@ function PutDepartmentsForm(props) {
 }
 
 export {
-  RowDepartmentForm,
+  DepartmentForms,
   DeleteRowDepartmentForm,
   PutDepartmentsForm,
   validate

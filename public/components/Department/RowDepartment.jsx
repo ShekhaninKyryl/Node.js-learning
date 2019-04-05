@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import {Redirect} from 'react-router';
 import {connect} from "react-redux";
 import {postDepartment, deleteDepartment} from "../../reducers/tracks/departmentTracks";
-import {RowDepartmentForm, DeleteRowDepartmentForm, validate} from "../../forms/RowDepartmentForm.jsx";
+import {DepartmentForms, DeleteRowDepartmentForm, validate} from "../../forms/DepartmentForms.jsx";
 import {reduxForm} from "redux-form";
 
 class RowDepartment extends Component {
@@ -12,7 +11,7 @@ class RowDepartment extends Component {
     this.RowDepartmentForm = reduxForm({
       form: `dep${this.props.department.id}`,
       validate
-    })(RowDepartmentForm);
+    })(DepartmentForms);
     this.DeleteRowDepartmentForm = reduxForm({
       form: `depDelete${this.props.department.id}`,
     })(DeleteRowDepartmentForm);
@@ -23,12 +22,12 @@ class RowDepartment extends Component {
     const RowDepForm = this.RowDepartmentForm;
     const DelRowDepForm = this.DeleteRowDepartmentForm;
 
-    let url = `/departments/${id}`;
+    let toEmployeeURL = `/departments/${id}`;
     return (
       <div>
         <RowDepForm initialValues={this.props.department} onSubmit={this.props.saveDepartment}/>
         <DelRowDepForm initialValues={this.props.department} onSubmit={this.props.removeDepartment}/>
-        <form action={url}>
+        <form action={toEmployeeURL}>
           <button type="submit">Employee</button>
         </form>
       </div>

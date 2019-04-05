@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {putDepartment} from "../../reducers/tracks/departmentTracks";
-import {PutDepartmentsForm, validate} from "../../forms/RowDepartmentForm.jsx";
+import {PutDepartmentsForm, validate} from "../../forms/DepartmentForms.jsx";
 import {reduxForm} from "redux-form";
 
 class FormDepartment extends Component {
