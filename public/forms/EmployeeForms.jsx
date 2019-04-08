@@ -47,20 +47,20 @@ function EmployeeForm(props) {
     initialValues
   } = props;
   return (
-    <tr onSubmit={handleSubmit}>
-      <td>
+    <form onSubmit={handleSubmit}>
+      <div>
         <Field name="name" label={initialValues.name} component={renderField} type="text"/>
-      </td>
-      <td>
+      </div>
+      <div>
         <Field name="pay" label={initialValues.pay} component={renderField} type="text"/>
-      </td>
-      <td>
-        <Field name="email" label={initialValues.pay} component={renderField} type="text"/>
-      </td>
-      <td>
+      </div>
+      <div>
+        <Field name="email" label={initialValues.email} component={renderField} type="text"/>
+      </div>
+      <div>
         <button type='submit' disabled={invalid}>Save</button>
-      </td>
-    </tr>
+      </div>
+    </form>
   )
 }
 
@@ -72,11 +72,11 @@ function DeleteEmployeeForm(props) {
     initialValues
   } = props;
   return (
-    <tr onSubmit={handleSubmit}>
-        <td colSpan='4'>
+    <form onSubmit={handleSubmit}>
+        <div>
           <button type='submit' disabled={invalid}>Delete</button>
-        </td>
-    </tr>
+        </div>
+    </form>
   )
 }
 
@@ -92,22 +92,22 @@ function PutEmployeeForm(props) {
   }
 
   return (
-    <tr onSubmit={handleSubmit}>
-        <td>
+    <form onSubmit={handleSubmit}>
+        <div>
           <Field name="name" component={renderField} type="text"/>
-        </td>
-        <td>
+        </div>
+        <div>
            <Field name="pay" component={renderField} type="text"/>
-        </td>
-        <td>
+        </div>
+        <div>
            <Field name="email" component={renderField} type="text"/>
-        </td>
-        <td>
+        </div>
+        <div>
           <button type='submit' disabled={invalid}>
             Create
           </button>
-        </td>
-    </tr>
+        </div>
+    </form>
   )
 }
 

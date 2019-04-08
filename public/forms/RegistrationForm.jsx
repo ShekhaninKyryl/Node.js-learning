@@ -6,14 +6,14 @@ function validate(values) {
   if (!values.email) {
     errors.email = 'Must be not empty!';
   }
-  if (!values.password1) {
+  if (!values.password) {
     errors.password1 = 'Must be not empty!';
   }
   if (!values.password2) {
     errors.password2 = 'Must be not empty!';
   }
 
-  if(values.password1 !== values.password2){
+  if(values.password !== values.password2){
     errors.password2 = 'Passwords not equal!'
   }
   return errors;
@@ -49,7 +49,7 @@ function RegistrationForm(props) {
         <Field name="email" label='Email' component={renderField} type="text"/>
       </div>
       <div>
-        <Field name="password1" label='Password' component={renderField} type="password"/>
+        <Field name="password" label='Password' component={renderField} type="password"/>
       </div>
       <div>
         <Field name="password2" label='Repeat Password' component={renderField} type="password"/>

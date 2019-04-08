@@ -1,0 +1,22 @@
+.header-container {
+    overflow: hidden;
+    background-color: #f1f1f1;
+    padding: 10px;
+}
+.span-user-name,
+.span-user-email{
+    font-size: x-large;
+    padding: 10px;
+    float: inline-start;
+    width: 30%;
+}
+
+
+
+.logout-button {
+    color: #f1f1f1;
+    float: inline-end;
+}
+.logout-button:hover {
+    background-color: #2357a5;
+}

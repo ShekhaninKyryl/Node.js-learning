@@ -6,44 +6,43 @@ import {getUserInfo} from "../../reducers/tracks/headerTracks";
 
 
 function Header(props) {
-  let {isLogin} = props.api;
-  let {name, email, id} = props.user;
+    let {isLogin} = props.api;
+    let {name, email, id} = props.user;
 
 
-  const IsLogout = () => {
-    if (isLogin) {
-      return <Logout/>;
-    } else {
-      return null;
-    }
-  };
-  useEffect(() => {
-    props.getUser();
-  }, [isLogin]);
+    const IsLogout = () => {
+        if (isLogin) {
+            return <Logout/>;
+        } else {
+            return null;
+        }
+    };
+    useEffect(() => {
+        props.getUser();
+    }, [isLogin]);
 
 
-
-  return (
-    <div>
-      <span>
-      {`Hello ${name}. ${email ? 'email: ' + email : ''}`}
+    return (
+        <div className='header-container'>
+      <span className='header-span span-user-name'>
+      {`Hello ${name}`}
       </span>
-      <span>
+            <span className='header-span span-user-email'>
+                {email ? `Email: ${email}` : ''}
+        </span>
         <IsLogout/>
-      </span>
-    <hr/>
-    </div>
+        </div>
 
-  )
+    )
 
 }
 
 export default connect(
-  state => ({
-    api: state.api,
-    user: state.user
-  }),
-  dispatch => ({
-    getUser: () => dispatch(getUserInfo()),
-  })
+    state => ({
+        api: state.api,
+        user: state.user
+    }),
+    dispatch => ({
+        getUser: () => dispatch(getUserInfo()),
+    })
 )(Header);

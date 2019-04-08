@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    background: #679dc6;
+}
+.my-button {
+    border: none;
+    padding: 10px;
+    font-size: x-large;
+    background: black;
+    border-radius: 5px;
+}

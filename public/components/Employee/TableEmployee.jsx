@@ -18,37 +18,37 @@ class TableEmployee extends Component {
     let toDepartmentURL = `/departments`;
 
     return (
-      <table>
-        <thead>
-        <tr>
-          <td>Employee name</td>
-          <td>Payment</td>
-          <td>Email</td>
-          <td/>
-          <td/>
-        </tr>
-        </thead>
-        <tbody>
+      <div>
+        <div>
+        <div>
+          <div>Employee name</div>
+          <div>Payment</div>
+          <div>Email</div>
+          <div/>
+          <div/>
+        </div>
+        </div>
+        <div>
         {rows}
-        </tbody>
-        <tfoot>
-        <tr>
-          <td colSpan='5'>
+        </div>
+        <div>
+        <div>
+          <div>
             <form action={toDepartmentURL}>
               <button type="submit">Departments</button>
             </form>
-          </td>
-        </tr>
-        <tr>
-          <td colSpan='5'>
+          </div>
+        </div>
+        <div>
+          <div>
             <hr/>
-          </td>
-        </tr>
-        <tr>
+          </div>
+        </div>
+        <div>
           <FormEmployee/>
-        </tr>
-        </tfoot>
-      </table>
+        </div>
+        </div>
+      </div>
     )
 
   }
