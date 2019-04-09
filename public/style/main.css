@@ -1,6 +1,8 @@
 body {
     margin: 0;
-    background: #679dc6;
+}
+form{
+    display: contents;
 }
 .my-button {
     border: none;

@@ -1,0 +1,36 @@
+.table-main {
+    width: 70%;
+    background: #2357a5;
+}
+
+.table-head {
+    background-color: gray;
+}
+
+.table-head > span {
+    font-size: x-large;
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+    padding: 5px;
+}
+.table-head > hr {
+    background: linear-gradient(gray, #2357a5);
+    height: 20px;
+    border: none;
+    margin: 0;
+}
+
+.table-footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 70%;
+    background-color: gray;
+}
+.table-footer > hr {
+    background: linear-gradient(#2357a5,gray);
+    height: 20px;
+    border: none;
+    margin: 0;
+}

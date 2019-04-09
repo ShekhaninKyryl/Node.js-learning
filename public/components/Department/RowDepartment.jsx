@@ -43,7 +43,6 @@ class RowDepartment extends Component {
         <button>
           <Link to={toEmployeeURL}>Employee</Link>
         </button>
-
       </div>
     );
   }
