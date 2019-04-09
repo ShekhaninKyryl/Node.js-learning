@@ -7,7 +7,7 @@
 .span-user-email{
     font-size: x-large;
     padding: 10px;
-    float: inline-start;
+    float: left;
     width: 30%;
 }
 
@@ -15,7 +15,7 @@
 
 .logout-button {
     color: #f1f1f1;
-    float: inline-end;
+    float: right;
 }
 .logout-button:hover {
     background-color: #2357a5;

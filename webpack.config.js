@@ -15,7 +15,7 @@ module.exports = {
         //path: __dirname + '/dist',
         //filename: 'index_bundle.js'
     },
-    // devtool: 'inline-source-map',
+    devtool: 'inline-source-map',
     // devServer: {
     //   contentBase: './dist'
     // },

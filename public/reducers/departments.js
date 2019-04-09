@@ -1,17 +1,22 @@
+import {
+  GET_DEPARTMENTS,
+  PUT_DEPARTMENT,
+  POST_DEPARTMENT,
+  DELETE_DEPARTMENT,
+
+} from './actionsList';
+
+
 const initialState = [];
 
-const GET_DEPARTMENT = 'GET_DEPARTMENT';
-const PUT_DEPARTMENT = 'PUT_DEPARTMENT';
-const POST_DEPARTMENT = 'POST_DEPARTMENT';
-const DELETE_DEPARTMENT = 'DELETE_DEPARTMENT';
-
-
+//todo to Once command file DONE
 export default function apiDepartments(state = initialState, action) {
   let {type, response} = action;
-
   switch (type) {
-    case GET_DEPARTMENT: {
-      return response;
+    case GET_DEPARTMENTS: {//todo plural DONE
+      return [
+        ...response
+      ];
     }
     case PUT_DEPARTMENT: {
       return [
@@ -19,18 +24,25 @@ export default function apiDepartments(state = initialState, action) {
         response
       ];
     }
+
+    //todo spread DONE
     case POST_DEPARTMENT: {
-      let departments = [...state];
-      let index = departments.findIndex(element => element.id === response.id);
-      departments[index].name = response.name;
-      return departments
+
+      return state.map(dep => {
+        if (dep.id === response.id) {
+          let newDep = Object.assign({}, dep);
+          newDep.name = response.name;
+          return newDep;
+        } else {
+          return dep;
+        }
+      });
     }
     case DELETE_DEPARTMENT: {
-      let departments = [...state];
-      let index = departments.findIndex(element => element.id === response.id);
-      departments.splice(index, 1);
-      return departments;
+      return state.filter(dep => dep.id !== response.id);
+    }
+    default: {
+      return state;
     }
   }
-  return state;
 }

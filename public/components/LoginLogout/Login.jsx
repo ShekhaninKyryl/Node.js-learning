@@ -1,12 +1,12 @@
-import React, {Component} from "react";
+import React, {PureComponent, Component} from "react";
 import {connect} from "react-redux";
 
-import {postLogin, putRegistration} from "../../reducers/tracks/loginTracks";
+import {postLogin, putRegistration} from "../../reducers/Actions/loginTracks";
 import LoginForm from "../../forms/LoginForm.jsx";
 import RegistrationForm from '../../forms/RegistrationForm.jsx';
 
 
-class Login extends Component {
+class Login extends PureComponent {
   constructor(props) {
     super(props);
   }

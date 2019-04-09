@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {putDepartment} from "../../reducers/tracks/departmentTracks";
+import {putDepartment} from "../../reducers/Actions/departmentTracks";
 import {PutDepartmentsForm, validate} from "../../forms/DepartmentForms.jsx";
 import {reduxForm} from "redux-form";
 
@@ -13,7 +13,6 @@ class FormDepartment extends Component {
       validate
     })(PutDepartmentsForm);
   }
-
 
   render() {
     const PutDepartmentsForm = this.PutDepartmentsForm;

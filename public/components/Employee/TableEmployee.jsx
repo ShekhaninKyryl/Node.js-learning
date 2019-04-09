@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import RowEmployee from './RowEmployee.jsx'
 import FormEmployee from './FormEmployee.jsx';
 import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 
 
 class TableEmployee extends Component {
@@ -20,33 +21,33 @@ class TableEmployee extends Component {
     return (
       <div>
         <div>
-        <div>
-          <div>Employee name</div>
-          <div>Payment</div>
-          <div>Email</div>
-          <div/>
-          <div/>
-        </div>
-        </div>
-        <div>
-        {rows}
-        </div>
-        <div>
-        <div>
           <div>
-            <form action={toDepartmentURL}>
-              <button type="submit">Departments</button>
-            </form>
+            <div>Employee name</div>
+            <div>Payment</div>
+            <div>Email</div>
+            <div/>
+            <div/>
           </div>
         </div>
         <div>
-          <div>
-            <hr/>
-          </div>
+          {rows}
         </div>
         <div>
-          <FormEmployee/>
-        </div>
+          <div>
+            <div>
+              <button>
+                <Link to={toDepartmentURL}>Departments</Link>
+              </button>
+            </div>
+          </div>
+          <div>
+            <div>
+              <hr/>
+            </div>
+          </div>
+          <div>
+            <FormEmployee departmentId={this.props.departmentId}/>
+          </div>
         </div>
       </div>
     )

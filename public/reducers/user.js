@@ -1,10 +1,14 @@
+import {
+  SET_USER
+} from './actionsList';
+
+
 const initialState = {
   id: 0,
   name: 'Guest',
   email: ''
 };
 
-const SET_USER = 'SET_USER';
 
 export default function apiUser(state = initialState, action) {
   let {id, name, email} = action;
@@ -12,6 +16,8 @@ export default function apiUser(state = initialState, action) {
     case SET_USER: {
       return {id, name, email};
     }
+    default : {
+      return state
+    }
   }
-  return state;
 }

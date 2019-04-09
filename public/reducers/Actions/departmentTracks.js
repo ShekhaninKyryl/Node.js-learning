@@ -1,6 +1,19 @@
 import is401 from "../../components/utilities/authorizationService";
 import {SubmissionError} from "redux-form";
 import axios from "axios";
+import {
+  GET_DEPARTMENTS,
+  PUT_DEPARTMENT,
+  POST_DEPARTMENT,
+  DELETE_DEPARTMENT,
+
+  SET_LOGOUT,
+
+  REFRESH_ERROR,
+  SET_ERROR,
+
+} from '../actionsList';
+
 
 const getDepartments = () => {
   return dispatch => {
@@ -8,17 +21,17 @@ const getDepartments = () => {
       .then(response => response.data)
       .then(response => {
         console.log('Get departments:', response);
-        dispatch({type: 'GET_DEPARTMENT', response});
-        dispatch({type: 'REFRESH_ERROR'});
+        dispatch({type: GET_DEPARTMENTS, response});
+        dispatch({type: REFRESH_ERROR});
       })
       .catch(error => {
         if (is401(error)) {
-          dispatch({type: 'SET_LOGOUT'});
+          dispatch({type: SET_LOGOUT});
         }
-        console.log('GET_DEPARTMENT err:', error);
+        console.log('Get departments err:', error);
         let err = error.response.data.message;
         let {id} = error.response.data;
-        dispatch({type: 'SET_ERROR', ...err, id});
+        dispatch({type: SET_ERROR, ...err, id});
       });
   }
 };
@@ -28,11 +41,11 @@ const putDepartment = (department) => {
     return axios.put('/api/departments', {name})
       .then(response => response.data)
       .then(response => {
-        dispatch({type: 'PUT_DEPARTMENT', response});
+        dispatch({type: PUT_DEPARTMENT, response});
       })
       .catch(error => {
         if (is401(error)) {
-          dispatch({type: 'SET_LOGOUT'})
+          dispatch({type: SET_LOGOUT})
         }
         let err = error.response.data.message;
         throw new SubmissionError(err);
@@ -45,12 +58,14 @@ const postDepartment = (department) => {
     return axios.post(`/api/departments/${id}`, {id, name})
       .then(response => response.data)
       .then((response) => {
-        dispatch({type: 'POST_DEPARTMENT', response})
+        dispatch({type: POST_DEPARTMENT, response})
       })
       .catch(error => {
+        console.log(error);
         if (is401(error)) {
-          dispatch({type: 'SET_LOGOUT'})
+          dispatch({type: SET_LOGOUT})
         }
+
         let err = error.response.data.message;
         throw new SubmissionError(err);
       });
@@ -62,11 +77,11 @@ const deleteDepartment = (department) => {
     return axios.delete(`/api/departments/${id}`, {data: {id, name}})
       .then(response => response.data)
       .then(response => {
-        dispatch({type: 'DELETE_DEPARTMENT', response})
+        dispatch({type: DELETE_DEPARTMENT, response})
       })
       .catch(error => {
         if (is401(error)) {
-          dispatch({type: 'SET_LOGOUT'})
+          dispatch({type: SET_LOGOUT})
         }
         let err = error.response.data.message;
         throw new SubmissionError(err);

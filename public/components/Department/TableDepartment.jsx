@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, PureComponent} from "react";
 import RowDepartment from './RowDepartment.jsx'
 import FormDepartment from './FormDepartment.jsx';
 import {connect} from "react-redux";

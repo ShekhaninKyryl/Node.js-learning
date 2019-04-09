@@ -1,0 +1,19 @@
+export const SET_LOGIN = 'SET_LOGIN';
+export const SET_LOGOUT = 'SET_LOGOUT';
+
+export const GET_DEPARTMENTS = 'GET_DEPARTMENTS';
+export const PUT_DEPARTMENT = 'PUT_DEPARTMENT';
+export const POST_DEPARTMENT = 'POST_DEPARTMENT';
+export const DELETE_DEPARTMENT = 'DELETE_DEPARTMENT';
+
+export const GET_EMPLOYEES = 'GET_EMPLOYEES';
+export const PUT_EMPLOYEE = 'PUT_EMPLOYEES';
+export const POST_EMPLOYEE = 'POST_EMPLOYEES';
+export const DELETE_EMPLOYEE = 'DELETE_EMPLOYEES';
+
+export const SET_ERROR = 'SET_ERROR';
+export const REFRESH_ERROR = 'REFRESH_ERROR';
+
+export const SET_USER = 'SET_USER';
+
+

@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, {Component, PureComponent} from "react";
 import {connect} from 'react-redux';
 import TableDepartment from './TableDepartment.jsx';
-import {getDepartments} from "../../reducers/tracks/departmentTracks";
+import {getDepartments} from "../../reducers/Actions/departmentTracks";
 
 
 class Departments extends Component {

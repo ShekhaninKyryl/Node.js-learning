@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {deleteEmployee, postEmployee} from "../../reducers/tracks/employeeTracks";
+import {deleteEmployee, postEmployee} from "../../reducers/Actions/employeeTracks";
 import {DeleteEmployeeForm, EmployeeForm, validate} from "../../forms/EmployeeForms.jsx";
 import {reduxForm} from "redux-form";
 
@@ -11,17 +11,27 @@ class RowEmployee extends Component {
 
     this.EmployeeForm = reduxForm({
       form: `emp${this.props.employee.id}`,
-      validate
+      validate,
+      enableReinitialize: true
     })(EmployeeForm);
 
     this.DeleteEmployeeForm = reduxForm({
       form: `empDelete${this.props.employee.id}`
     })(DeleteEmployeeForm);
-
   }
 
-  render() {
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    for(let key in this.props.employee){
+      if(this.props.employee[key] === nextProps.employee[key]){
+        continue;
+      }
+      return true;
+    }
+    return false;
+  }
 
+
+  render() {
     const EmployeeForm = this.EmployeeForm;
     const DeleteEmployeeForm = this.DeleteEmployeeForm;
     return (

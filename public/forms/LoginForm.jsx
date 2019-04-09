@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component, PureComponent} from 'react'
 import {Field, reduxForm} from "redux-form";
 
 function validate(values) {
@@ -14,24 +14,28 @@ function validate(values) {
   return errors;
 }
 
-const renderField = ({
-                       input,
-                       label,
-                       type,
-                       meta: {touched, error}
-                     }) => (
-  <div>
-    <label>{label}</label>
+function renderField(props) {
+  let {
+    input,
+    label,
+    type,
+    meta: {touched, error}
+  } = props;
+  return (
     <div>
-      <input {...input} placeholder={label} type={type}/>
-      {touched &&
-      (error && <span>{error}</span>)}
+      <label>{label}</label>
+      <div>
+        <input {...input} placeholder={label} type={type}/>
+        {touched &&
+        (error && <span>{error}</span>)}
+      </div>
     </div>
-  </div>
-);
+  );
+}
 
 
 function LoginForm(props) {
+
   const {
     handleSubmit,
     pristine,

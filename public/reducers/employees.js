@@ -1,9 +1,12 @@
-const initialState = [];
+import {
+  GET_EMPLOYEES,
+  PUT_EMPLOYEE,
+  POST_EMPLOYEE,
+  DELETE_EMPLOYEE
+} from './actionsList';
 
-const GET_EMPLOYEES = 'GET_EMPLOYEES';
-const PUT_EMPLOYEES = 'PUT_EMPLOYEES';
-const POST_EMPLOYEES = 'POST_EMPLOYEES';
-const DELETE_EMPLOYEES = 'DELETE_EMPLOYEES';
+
+const initialState = [];
 
 
 export default function apiDepartments(state = initialState, action) {
@@ -11,29 +14,32 @@ export default function apiDepartments(state = initialState, action) {
 
   switch (type) {
     case GET_EMPLOYEES: {
-      return response;
+      return [...response];
     }
-    case PUT_EMPLOYEES: {
+    case PUT_EMPLOYEE: {
       return [
         ...state,
         response
       ];
     }
-    case POST_EMPLOYEES: {
-      let employees = [...state];
-      let index = employees.findIndex(element => element.id === response.id);
-      let {name, pay, email} = response;
-      employees[index].name = name;
-      employees[index].pay = pay;
-      employees[index].email = email;
-      return employees
+    case POST_EMPLOYEE: {
+      return state.map(emp => {
+        if (emp.id === response.id) {
+          let newEmp = Object.assign({}, emp);
+          newEmp.name = response.name;
+          newEmp.pay = response.pay;
+          newEmp.email = response.email;
+          return newEmp;
+        } else {
+          return emp;
+        }
+      });
     }
-    case DELETE_EMPLOYEES: {
-      let employees = [...state];
-      let index = employees.findIndex(element => element.id === response.id);
-      employees.splice(index, 1);
-      return employees;
+    case DELETE_EMPLOYEE: {
+      return state.filter(emp => emp.id !== response.id);
+    }
+    default: {
+      return state
     }
   }
-  return state;
 }

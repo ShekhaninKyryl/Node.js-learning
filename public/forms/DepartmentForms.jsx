@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component, PureComponent} from 'react'
 import {Field, reduxForm} from "redux-form";
 
 function validate(values) {
@@ -9,19 +9,24 @@ function validate(values) {
   return errors;
 }
 
-const renderField = ({
-                       input,
-                       label,
-                       disabled,
-                       type,
-                       meta: {touched, error}
-                     }) => (
-  <div>
-    <input {...input} placeholder={label} type={type} disabled={disabled}/>
-    {touched &&
-    (error && <span>{error}</span>)}
-  </div>
-);
+function renderField (props){
+
+    let {
+      input,
+      label,
+      disabled,
+      type,
+      meta: {touched, error}
+    } = props;
+    return (
+      <div>
+        <input {...input} placeholder={label} type={type} disabled={disabled}/>
+        {touched &&
+        (error && <span>{error}</span>)}
+      </div>
+    )
+}
+
 
 
 function DepartmentForms(props) {
@@ -32,6 +37,7 @@ function DepartmentForms(props) {
     initialValues
   } = props;
   return (
+
     <form onSubmit={handleSubmit}>
       <div>
         <span>
@@ -99,7 +105,6 @@ function PutDepartmentsForm(props) {
     </form>
   )
 }
-
 export {
   DepartmentForms,
   DeleteRowDepartmentForm,

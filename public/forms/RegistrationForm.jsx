@@ -7,7 +7,7 @@ function validate(values) {
     errors.email = 'Must be not empty!';
   }
   if (!values.password) {
-    errors.password1 = 'Must be not empty!';
+    errors.password = 'Must be not empty!';
   }
   if (!values.password2) {
     errors.password2 = 'Must be not empty!';

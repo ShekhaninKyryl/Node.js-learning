@@ -1,13 +1,12 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
-import {getLogout} from "../../reducers/tracks/loginTracks";
+import {getLogout} from "../../reducers/Actions/loginTracks";
 
 
-class Logout extends Component {
+class Logout extends PureComponent {
     constructor(props) {
         super(props);
     }
-
     render() {
         return (
             <input className='my-button logout-button' type="button" value="Logout" id="login" onClick={this.props.logout}/>

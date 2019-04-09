@@ -73,9 +73,9 @@ function DeleteEmployeeForm(props) {
   } = props;
   return (
     <form onSubmit={handleSubmit}>
-        <div>
-          <button type='submit' disabled={invalid}>Delete</button>
-        </div>
+      <div>
+        <button type='submit' disabled={invalid}>Delete</button>
+      </div>
     </form>
   )
 }
@@ -90,27 +90,28 @@ function PutEmployeeForm(props) {
   {
     submitSucceeded && reset()
   }
-
   return (
     <form onSubmit={handleSubmit}>
-        <div>
-          <Field name="name" component={renderField} type="text"/>
-        </div>
-        <div>
-           <Field name="pay" component={renderField} type="text"/>
-        </div>
-        <div>
-           <Field name="email" component={renderField} type="text"/>
-        </div>
-        <div>
-          <button type='submit' disabled={invalid}>
-            Create
-          </button>
-        </div>
+      <div>
+        <Field name="department" component={renderField} type="hidden"/>
+      </div>
+      <div>
+        <Field name="name" component={renderField} type="text"/>
+      </div>
+      <div>
+        <Field name="pay" component={renderField} type="text"/>
+      </div>
+      <div>
+        <Field name="email" component={renderField} type="text"/>
+      </div>
+      <div>
+        <button type='submit' disabled={invalid}>
+          Create
+        </button>
+      </div>
     </form>
   )
 }
-
 export {
   EmployeeForm,
   DeleteEmployeeForm,
