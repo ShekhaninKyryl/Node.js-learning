@@ -1,36 +1,115 @@
 .table-main {
     width: 70%;
-    background: #2357a5;
+    min-height: 100%;
+    background: #f1f1f1;
+    border-right: solid;
 }
 
+
 .table-head {
-    background-color: gray;
+    background-color: #5b7ca5;
 }
 
 .table-head > span {
-    font-size: x-large;
     display: inline-block;
     width: 20%;
     text-align: center;
-    padding: 5px;
+    margin: 4px 0;
+    font-weight: 600;
+    font-variant: all-petite-caps;
 }
+
 .table-head > hr {
-    background: linear-gradient(gray, #2357a5);
+    background: linear-gradient(#5b7ca5, #f1f1f1);
     height: 20px;
     border: none;
     margin: 0;
 }
+
 
 .table-footer {
     position: fixed;
     left: 0;
     bottom: 0;
     width: 70%;
-    background-color: gray;
+    background-color: #5b7ca5;
 }
+
 .table-footer > hr {
-    background: linear-gradient(#2357a5,gray);
+    background: linear-gradient(#f1f1f1, #5b7ca5);
     height: 20px;
     border: none;
     margin: 0;
+}
+
+.table-footer > span {
+    position: relative;
+    display: inline-block;
+    width: 20%;
+    margin: 10px 0;
+    text-align: center;
+}
+
+.table-footer > span > * {
+    width: 90%;
+}
+
+.table-row {
+    margin: 3px 0;
+}
+
+.table-row > span {
+    position: relative;
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+}
+
+.table-row > * > span {
+    position: relative;
+    display: inline-block;
+    width: 20%;
+    text-align: center;
+}
+
+
+
+.short-span {
+    position: relative;
+    width: 10% !important;
+}
+
+.long-span {
+    position: relative;
+    width: 20% !important;
+}
+
+.short-span > *,
+.long-span > * {
+    width: 100%;
+}
+
+.table-button {
+    display: inline-block;
+    border: none;
+    padding: 4px 0;
+    text-decoration: none;
+    background: black;
+    color: #f1f1f1;
+    cursor: pointer;
+    width: 90%;
+    border-radius: 5px;
+}
+
+.button-save:hover {
+    background-color: rgba(0, 128, 0, 0.6);
+}
+
+.button-delete:hover {
+    background-color: rgba(128, 0, 0, 0.6);
+}
+
+.button-link:hover {
+    /*background-color: rgba(0, 0, 255, 0.7);*/
+    background-color: #2357a5;
 }

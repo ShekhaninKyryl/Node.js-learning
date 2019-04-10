@@ -1,0 +1,19 @@
+.log-reg-form {
+    width: 50%;
+    margin: 1% 2%;
+    border: 1px solid;
+    border-radius: 10px;
+    background: #5b7ca5;
+    text-align: center;
+}
+
+.log-reg-form > form > span {
+    position: relative;
+    display: block;
+    margin: 30px;
+    height: 30px;
+}
+
+.log-reg-form > form > span > input {
+    font-size: large;
+}

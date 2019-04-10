@@ -19,17 +19,19 @@ function renderField(props) {
     input,
     label,
     type,
-    meta: {touched, error}
+    meta: {touched, active, error}
   } = props;
+  let style = '';
+  if (error) {
+    style = 'error-input'
+  }
   return (
-    <div>
-      <label>{label}</label>
-      <div>
-        <input {...input} placeholder={label} type={type}/>
-        {touched &&
-        (error && <span>{error}</span>)}
-      </div>
-    </div>
+
+    <span>
+      {touched &&
+      (error && <span className='error'>{error}</span>)}
+      <input className={style} {...input} placeholder={label} type={type}/>
+    </span>
   );
 }
 
@@ -44,20 +46,19 @@ function LoginForm(props) {
   } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <Field name="email" label='Email' component={renderField} type="text"/>
-      </div>
-      <div>
-        <Field name="password" label='Password' component={renderField} type="password"/>
-      </div>
-      <div>
-        <button type='submit' disabled={pristine || invalid}>
+
+      <Field name="email" label='Email' component={renderField} type="text"/>
+      <Field name="password" label='Password' component={renderField} type="password"/>
+      <span/>
+      <span>
+               {error &&
+               <span className='error'>{error}</span>}
+        <button className='table-button button-link' type='submit' disabled={pristine || invalid}>
           Login
         </button>
-      </div>
-      {error &&
-      <div>{error}</div>}
-      <hr/>
+
+      </span>
+
     </form>
   )
 }

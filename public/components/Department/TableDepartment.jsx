@@ -14,7 +14,7 @@ class TableDepartment extends Component {
       return <RowDepartment key={dep.id} department={dep}/>
     });
     return (
-      <div className='table-main'>
+      <div>
         <div className='table-head'>
           <span>Department name</span>
           <span>Employees number</span>
@@ -22,9 +22,8 @@ class TableDepartment extends Component {
           <hr/>
         </div>
         {rows}
-        <hr/>
+        <div className='edge'/>
         <FormDepartment/>
-
       </div>
     )
   }

@@ -9,24 +9,27 @@ function validate(values) {
   return errors;
 }
 
-function renderField (props){
+function renderField(props) {
 
-    let {
-      input,
-      label,
-      disabled,
-      type,
-      meta: {touched, error}
-    } = props;
-    return (
-      <div>
-        <input {...input} placeholder={label} type={type} disabled={disabled}/>
-        {touched &&
-        (error && <span>{error}</span>)}
-      </div>
-    )
+  let {
+    input,
+    label,
+    disabled,
+    type,
+    meta: {touched, error}
+  } = props;
+  let style = '';
+  if (error) {
+    style = 'error-input'
+  }
+  return (
+    <span>
+            {touched &&
+            (error && <span className='error'>{error}</span>)}
+      <input className={style} {...input} placeholder={label} type={type} disabled={disabled}/>
+    </span>
+  )
 }
-
 
 
 function DepartmentForms(props) {
@@ -39,20 +42,13 @@ function DepartmentForms(props) {
   return (
 
     <form onSubmit={handleSubmit}>
-      <div>
-        <span>
-          <Field name="name" label={initialValues.name} component={renderField} type="text"/>
+      <Field name="name" label={initialValues.name} component={renderField} type="text"/>
+      <Field name="employeeCount" disabled={true} component={renderField} type="text"/>
+      <Field name="averagePayment" disabled={true} component={renderField} type="text"/>
+      <span className='short-span'>
+          <button className='table-button button-save' type='submit' disabled={invalid}>Save</button>
         </span>
-        <span>
-          <Field name="averagePayment" disabled={true} component={renderField} type="text"/>
-        </span>
-        <span>
-          <Field name="employeeCount" disabled={true} component={renderField} type="text"/>
-        </span>
-        <span>
-          <button type='submit' disabled={invalid}>Save</button>
-        </span>
-      </div>
+
     </form>
   )
 }
@@ -66,8 +62,8 @@ function DeleteRowDepartmentForm(props) {
   } = props;
   return (
     <form onSubmit={handleSubmit}>
-        <span>
-          <button type='submit' disabled={invalid}>Delete</button>
+        <span className='short-span'>
+          <button className='table-button button-delete' type='submit' disabled={invalid}>Delete</button>
         </span>
     </form>
   )
@@ -89,18 +85,17 @@ function PutDepartmentsForm(props) {
     <form onSubmit={handleSubmit}>
       <div className='table-footer'>
         <hr/>
-        <span>
-          <Field name="name" component={renderField} type="text"/>
-        </span>
-        <span>
-          <button type='submit' disabled={invalid}>
-            Create
-          </button>
-        </span>
+        <Field name="name" label='Department name' component={renderField} type="text"/>
+        <span/>
+        <span/>
+        <span style={{width: '40%'}}>
+          <button className='table-button button-save' type='submit' disabled={invalid}> Create</button>
+            </span>
       </div>
     </form>
   )
 }
+
 export {
   DepartmentForms,
   DeleteRowDepartmentForm,

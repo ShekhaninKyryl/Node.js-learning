@@ -10,15 +10,18 @@ import Departments from './Department/Departments.jsx';
 import Employee from './Employee/Employee.jsx';
 import Header from './Header/Header.jsx';
 import {getIsLogin} from "../reducers/Actions/loginTracks";
+import {getUserInfo} from "../reducers/Actions/headerTracks";
 
 
-function RenderEmployee(props){
+function RenderEmployee(props) {
   let {match} = props;
   let {departmentId} = match.params;
   if (isFinite(departmentId)) {
     return <Employee departmentId={departmentId}/>
   } else {
-    return <Link to="/departments" replace>Page not found!</Link>
+    return <div className='department-not-found'>
+      <Link to="/departments" replace>Page not found!</Link>
+    </div>
   }
 }
 
@@ -31,7 +34,7 @@ class App extends Component {
     this.props.isLogin();
   }
 
-  // todo use PURE Component
+  // todo use PURE Component DONE
 
   render() {
     let {isLogin} = this.props.api;
@@ -39,13 +42,17 @@ class App extends Component {
       <Router>
         <Header/>
         {isLogin ? (
-          <Switch>
-            <Route exact path='/departments' component={Departments}/>
-            <Route exact path='/departments/:departmentId' component={RenderEmployee}/>
-            <Redirect exact from='/guest' to='/departments'/>
-            <Redirect exact from='/' to='/departments'/>
-            <Route path='*' render={() => <Link to="/departments" replace>Page not found!</Link>}/>
-          </Switch>
+          <Router>
+            <Switch>
+              <Route exact path='/departments' component={Departments}/>
+              <Route exact path='/departments/:departmentId' component={RenderEmployee}/>
+              <Redirect exact from='/guest' to='/departments'/>
+              <Redirect exact from='/' to='/departments'/>
+              <Route path='*' render={() => <div className='department-not-found'>
+                <Link to="/departments" replace>Page not found!</Link>
+              </div>}/>
+            </Switch>
+          </Router>
         ) : (
           <Switch>
             <Route exact path='/guest' component={Login}/>
@@ -58,7 +65,10 @@ class App extends Component {
               return <Redirect to='/guest'/>
             }}/>
             <Redirect exact from='/' to='/guest'/>
-            <Route exact path='*' render={() => <Link to="/guest" replace>Page not found!</Link>}/>
+            <Route exact path='*'
+                   render={() => <div className='department-not-found'>
+                     <Link to="/departments" replace>Page not found!</Link>
+                   </div>}/>
           </Switch>
         )}
       </Router>

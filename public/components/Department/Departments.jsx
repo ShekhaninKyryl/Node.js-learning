@@ -15,8 +15,12 @@ class Departments extends Component {
 
   render() {
     return (
-      <div>
-        <TableDepartment/>
+      <div style={{height: '100%', display: 'flex'}}>
+        <div className='table-main'>
+          <TableDepartment/>
+        </div>
+        <div className='chat-main'>
+        </div>
       </div>
     )
   };

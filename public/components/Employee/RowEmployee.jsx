@@ -35,7 +35,7 @@ class RowEmployee extends Component {
     const EmployeeForm = this.EmployeeForm;
     const DeleteEmployeeForm = this.DeleteEmployeeForm;
     return (
-      <div>
+      <div className='table-row'>
           <EmployeeForm initialValues={this.props.employee} onSubmit={this.props.saveEmployee}/>
           <DeleteEmployeeForm initialValues={this.props.employee} onSubmit={this.props.removeEmployee}/>
       </div>

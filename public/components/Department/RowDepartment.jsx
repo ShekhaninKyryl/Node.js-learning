@@ -20,13 +20,13 @@ class RowDepartment extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    for(let key in this.props.department){
-      if(this.props.department[key] === nextProps.department[key]){
+    for (let key in this.props.department) {
+      if (this.props.department[key] === nextProps.department[key]) {
         continue;
       }
       return true;
     }
-      return false;
+    return false;
   }
 
   render() {
@@ -37,12 +37,14 @@ class RowDepartment extends Component {
     let toEmployeeURL = `/departments/${id}`;
     //todo LINK DONE
     return (
-      <div>
+      <div className='table-row'>
         <RowDepForm initialValues={this.props.department} onSubmit={this.props.saveDepartment}/>
         <DelRowDepForm initialValues={this.props.department} onSubmit={this.props.removeDepartment}/>
-        <button>
+        <span className='long-span'>
+        <button className='table-button button-link'>
           <Link to={toEmployeeURL}>Employee</Link>
         </button>
+          </span>
       </div>
     );
   }

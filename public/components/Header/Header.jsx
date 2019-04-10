@@ -1,14 +1,15 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import Logout from '../LoginLogout/Logout.jsx';
 
 import {connect} from "react-redux";
 import {getUserInfo} from "../../reducers/Actions/headerTracks";
 
 
-class Header extends PureComponent {
+class Header extends Component {
   constructor(props) {
     super(props);
   }
+
   IsLogout() {
     let {isLogin} = this.props.api;
     if (isLogin) {
@@ -17,9 +18,18 @@ class Header extends PureComponent {
       return null;
     }
   };
+
   componentDidMount() {
     this.props.getUser();
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.api.isLogin !== prevProps.api.isLogin) {
+      console.log('here', this.props.api.isLogin, prevProps.api.isLogin);
+      this.props.getUser();
+    }
+  }
+
 
   render() {
     let {name, email, id} = this.props.user;

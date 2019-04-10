@@ -20,36 +20,18 @@ class TableEmployee extends Component {
 
     return (
       <div>
-        <div>
-          <div>
-            <div>Employee name</div>
-            <div>Payment</div>
-            <div>Email</div>
-            <div/>
-            <div/>
-          </div>
+        <div className='table-head'>
+          <span>Employee name</span>
+          <span>Payment</span>
+          <span>Email</span>
+          <hr/>
         </div>
-        <div>
-          {rows}
-        </div>
-        <div>
-          <div>
-            <div>
-              <button>
-                <Link to={toDepartmentURL}>Departments</Link>
-              </button>
-            </div>
-          </div>
-          <div>
-            <div>
-              <hr/>
-            </div>
-          </div>
-          <div>
-            <FormEmployee departmentId={this.props.departmentId}/>
-          </div>
-        </div>
+        {rows}
+        <div className='edge'/>
+        <FormEmployee departmentId={this.props.departmentId}/>
       </div>
+
+
     )
 
   }

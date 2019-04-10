@@ -1,0 +1,9 @@
+.chat-main {
+    background-image: url(../../public/images/2.png);
+    width: 30%;
+    min-height: 100%;
+    right: 0;
+    position: absolute;
+    background-size: contain;
+
+}

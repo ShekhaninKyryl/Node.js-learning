@@ -1,6 +1,7 @@
 import React from 'react'
 import {Field, reduxForm} from "redux-form";
 import emailValidator from 'email-validator';
+import {Link} from "react-router-dom";
 
 
 function validate(values) {
@@ -24,19 +25,27 @@ function validate(values) {
   return errors;
 }
 
-const renderField = ({
-                       input,
-                       label,
-                       disabled,
-                       type,
-                       meta: {touched, error}
-                     }) => (
-  <>
-    <input {...input} placeholder={label} type={type} disabled={disabled}/>
-    {touched &&
-    (error && <div>{error}</div>)}
-  </>
-);
+function renderField(props) {
+  let {
+    input,
+    label,
+    disabled,
+    type,
+    meta: {touched, error}
+  } = props;
+  let style = '';
+  if (error) {
+    style = 'error-input'
+  }
+  return (
+    <span>
+  {touched &&
+  (error && <span className='error'>{error}</span>)
+  }
+      <input className={style} {...input} placeholder={label} type={type} disabled={disabled}/>
+  </span>
+  )
+}
 
 
 function EmployeeForm(props) {
@@ -48,18 +57,12 @@ function EmployeeForm(props) {
   } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <Field name="name" label={initialValues.name} component={renderField} type="text"/>
-      </div>
-      <div>
-        <Field name="pay" label={initialValues.pay} component={renderField} type="text"/>
-      </div>
-      <div>
-        <Field name="email" label={initialValues.email} component={renderField} type="text"/>
-      </div>
-      <div>
-        <button type='submit' disabled={invalid}>Save</button>
-      </div>
+      <Field name="name" label={initialValues.name} component={renderField} type="text"/>
+      <Field name="pay" label={initialValues.pay} component={renderField} type="text"/>
+      <Field name="email" label={initialValues.email} component={renderField} type="text"/>
+      <span className='long-span'>
+      <button className='table-button button-save' type='submit' disabled={invalid}>Save</button>
+      </span>
     </form>
   )
 }
@@ -73,9 +76,9 @@ function DeleteEmployeeForm(props) {
   } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <button type='submit' disabled={invalid}>Delete</button>
-      </div>
+      <span className='long-span'>
+      <button className='table-button button-delete' type='submit' disabled={invalid}>Delete</button>
+      </span>
     </form>
   )
 }
@@ -90,28 +93,32 @@ function PutEmployeeForm(props) {
   {
     submitSucceeded && reset()
   }
+  let toDepartmentURL = `/departments`;
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <Field name="department" component={renderField} type="hidden"/>
-      </div>
-      <div>
-        <Field name="name" component={renderField} type="text"/>
-      </div>
-      <div>
-        <Field name="pay" component={renderField} type="text"/>
-      </div>
-      <div>
-        <Field name="email" component={renderField} type="text"/>
-      </div>
-      <div>
-        <button type='submit' disabled={invalid}>
-          Create
-        </button>
+      <div className='table-footer'>
+        <hr/>
+        <Field name="name" label='Employee name' component={renderField} type="text"/>
+        <Field name="pay" label='Payment' component={renderField} type="text"/>
+        <Field name="email" label='Email' component={renderField} type="text"/>
+        <span>
+      <button className='table-button button-save' type='submit' disabled={invalid}>
+      Create
+      </button>
+      </span>
+        <span>
+      <button className='table-button button-link'>
+      <Link to={toDepartmentURL}>Departments</Link>
+      </button>
+      </span>
+        <span style={{display: 'none'}}>
+      <Field name="department" component={renderField} type="hidden"/>
+      </span>
       </div>
     </form>
   )
 }
+
 export {
   EmployeeForm,
   DeleteEmployeeForm,

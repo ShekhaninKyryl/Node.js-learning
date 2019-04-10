@@ -13,27 +13,32 @@ function validate(values) {
     errors.password2 = 'Must be not empty!';
   }
 
-  if(values.password !== values.password2){
+  if (values.password !== values.password2) {
     errors.password2 = 'Passwords not equal!'
   }
   return errors;
 }
 
-const renderField = ({
-                       input,
-                       label,
-                       type,
-                       meta: {touched, error}
-                     }) => (
-  <div>
-    <label>{label}</label>
-    <div>
-      <input {...input} placeholder={label} type={type}/>
-      {touched &&
-      (error && <span>{error}</span>)}
-    </div>
-  </div>
-);
+function renderField(props) {
+  let {
+    input,
+    label,
+    type,
+    meta: {touched, error}
+  } = props;
+  let style = '';
+  if (error) {
+    style = 'error-input'
+  }
+  return (
+    <span>
+            {touched &&
+            (error && <span className='error'>{error}</span>)}
+      <input className={style} {...input} placeholder={label} type={type}/>
+
+    </span>
+  );
+}
 
 
 function RegistrationForm(props) {
@@ -45,23 +50,18 @@ function RegistrationForm(props) {
   } = props;
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <Field name="email" label='Email' component={renderField} type="text"/>
-      </div>
-      <div>
-        <Field name="password" label='Password' component={renderField} type="password"/>
-      </div>
-      <div>
-        <Field name="password2" label='Repeat Password' component={renderField} type="password"/>
-      </div>
-      <div>
-        <button type='submit' disabled={pristine || invalid}>
+      <Field name="email" label='Email' component={renderField} type="text"/>
+
+      <Field name="password" label='Password' component={renderField} type="password"/>
+
+      <Field name="password2" label='Repeat Password' component={renderField} type="password"/>
+      <span>
+         {error &&
+         <span className='error'>{error}</span>}
+        <button className='table-button button-link' type='submit' disabled={pristine || invalid}>
           Registration
         </button>
-      </div>
-      {error &&
-      <div>{error}</div>}
-      <hr/>
+      </span>
     </form>
   )
 }

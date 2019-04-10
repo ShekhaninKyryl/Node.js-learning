@@ -2,6 +2,7 @@
     overflow: hidden;
     background-color: #f1f1f1;
     padding: 10px;
+    border-bottom: solid;
 }
 .span-user-name,
 .span-user-email{
