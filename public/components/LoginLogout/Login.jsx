@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {postLogin, putRegistration} from "../../reducers/Actions/loginTracks";
 import LoginForm from "../../forms/LoginForm.jsx";
 import RegistrationForm from '../../forms/RegistrationForm.jsx';
-import {getUserInfo} from "../../reducers/Actions/headerTracks";
 
 
 class Login extends PureComponent {
@@ -36,7 +35,6 @@ export default connect(
   dispatch => ({
     login: (data) => dispatch(postLogin(data)),
     registration: (data) => dispatch(putRegistration(data)),
-    getUser: () => dispatch(getUserInfo()),
 
   })
 )(Login);

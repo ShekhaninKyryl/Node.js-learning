@@ -30,7 +30,7 @@ span > * {
     width: 90%;
 }
 
-button:disabled{
+button:disabled {
     background-color: rgba(234, 78, 78, 1) !important;
     cursor: not-allowed;
 
@@ -43,12 +43,15 @@ button:disabled{
 .edge {
     min-height: 90px;
 }
+
 .my-button {
     border: none;
     padding: 10px;
     font-size: x-large;
     background: black;
     border-radius: 5px;
+    transition: 0.5s;
+    cursor: pointer;
 }
 
 .error {
@@ -59,4 +62,9 @@ button:disabled{
     padding: 10px 3px;
     border: 2px solid #2357a5;
     border-radius: 10px;
+}
+
+.submit-ok {
+    background-color: rgba(0, 128, 0, 0.9);
+    width: min-content !important;
 }

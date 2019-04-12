@@ -7,6 +7,7 @@ var sequelize = new Sequelize(
   {
     host: SEQUELIZE.HOST,
     dialect: SEQUELIZE.DIALECT,
+    logging: SEQUELIZE.LOGGING
   }
 );
 

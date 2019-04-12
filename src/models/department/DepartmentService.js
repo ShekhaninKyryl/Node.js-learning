@@ -4,7 +4,7 @@ const {Department} = require('./Department');
 async function addDepartment(department) {
   let newDepartment = await Department.create(department);
   let {id, name} = {...newDepartment.dataValues};
-  return {id, name, averagePayment: 0, employeeCount: 0};
+  return {id, name, averagePayment: '0.0000', employeeCount: 0};
 }
 
 async function removeDepartment(department) {
@@ -21,7 +21,7 @@ async function removeDepartment(department) {
             {
               value: department.name,
               path: 'name',
-              message: 'Department not found'
+              message: 'Department not found!'
             },
           ]
       }

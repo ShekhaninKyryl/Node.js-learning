@@ -12,7 +12,7 @@ class Departments extends Component {
   componentDidMount() {
     this.props.getDepartments();
   }
-
+//todo not inline
   render() {
     return (
       <div style={{height: '100%', display: 'flex'}}>

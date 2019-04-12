@@ -19,9 +19,11 @@ function RenderEmployee(props) {
   if (isFinite(departmentId)) {
     return <Employee departmentId={departmentId}/>
   } else {
-    return <div className='department-not-found'>
-      <Link to="/departments" replace>Page not found!</Link>
-    </div>
+    return (
+      <div className='not-found'>
+        <Link to="/departments" replace>Page not found!</Link>
+      </div>
+    )
   }
 }
 
@@ -32,6 +34,10 @@ class App extends Component {
 
   componentDidMount() {
     this.props.isLogin();
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return this.props.api.isLogin !== nextProps.api.isLogin;
   }
 
   // todo use PURE Component DONE
@@ -48,27 +54,23 @@ class App extends Component {
               <Route exact path='/departments/:departmentId' component={RenderEmployee}/>
               <Redirect exact from='/guest' to='/departments'/>
               <Redirect exact from='/' to='/departments'/>
-              <Route path='*' render={() => <div className='department-not-found'>
-                <Link to="/departments" replace>Page not found!</Link>
-              </div>}/>
+              <Route path='*' render={() =>
+                <div className='not-found'>
+                  <Link to="/departments" replace>Page not found!</Link>
+                </div>}/>
             </Switch>
           </Router>
         ) : (
           <Switch>
             <Route exact path='/guest' component={Login}/>
-            <Route exact path='/departments' render={() => {
-              //this.setState({causes: 'You have to authorize!'});
-              return <Redirect to='/guest'/>
-            }}/>
-            <Route exact path='/departments/:departmentId' render={() => {
-              //this.setState({causes: 'You have to authorize!'});
-              return <Redirect to='/guest'/>
-            }}/>
+            <Redirect exact from='/departments' to='/guest'/>
+            <Redirect exact from='/departments/:departmentId' to='/guest'/>
             <Redirect exact from='/' to='/guest'/>
             <Route exact path='*'
-                   render={() => <div className='department-not-found'>
-                     <Link to="/departments" replace>Page not found!</Link>
-                   </div>}/>
+                   render={() =>
+                     <div className='not-found'>
+                       <Link to="/guest" replace>Page not found!</Link>
+                     </div>}/>
           </Switch>
         )}
       </Router>

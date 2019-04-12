@@ -1,32 +1,21 @@
-.page-not-found {
-    text-align: center;
-}
 
-.page-not-found > a {
-    background-image: url("../../public/images/404.png");
-    height: 500px;
-    width: 900px;
-    display: inline-block;
-    margin: 50px;
-}
-
-
-.department-not-found {
+.not-found {
     text-align: center;
     font-size: 70px;
     margin: 5% 7%;
     background-image: url("../../public/images/fire.jpg");
     background-size: contain;
     border-radius: 70px;
+    transition: 2s;
 }
 
-.department-not-found:hover {
+.not-found:hover {
     background-image: url("../../public/images/rain.jpg");
 }
 
 
 
-.department-not-found > a {
+.not-found > a {
     padding: 50px 0;
 }
 

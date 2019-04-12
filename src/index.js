@@ -1,7 +1,5 @@
 const express = require('express');
 const webpack = require('webpack');
-const path = require('path');
-const fs = require('fs');
 
 
 const routers = require('./utilities/routers');

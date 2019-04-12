@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
 import {getLogout} from "../../reducers/Actions/loginTracks";
+import {Link} from "react-router-dom";
 
 
 class Logout extends PureComponent {
@@ -10,7 +11,9 @@ class Logout extends PureComponent {
 
   render() {
     return (
-      <input className='my-button logout-button' type="button" value="Logout" id="login" onClick={this.props.logout}/>
+      <button className='my-button logout-button' onClick={this.props.logout}>
+        <Link to='/guest'>Logout</Link>
+      </button>
     )
   }
 }

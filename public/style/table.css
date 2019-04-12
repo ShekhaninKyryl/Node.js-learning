@@ -99,6 +99,7 @@
     cursor: pointer;
     width: 90%;
     border-radius: 5px;
+    transition: 0.5s;
 }
 
 .button-save:hover {

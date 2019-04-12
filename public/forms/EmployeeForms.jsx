@@ -53,7 +53,8 @@ function EmployeeForm(props) {
     handleSubmit,
     invalid,
     error,
-    initialValues
+    initialValues,
+    submitSucceeded
   } = props;
   return (
     <form onSubmit={handleSubmit}>
@@ -61,6 +62,8 @@ function EmployeeForm(props) {
       <Field name="pay" label={initialValues.pay} component={renderField} type="text"/>
       <Field name="email" label={initialValues.email} component={renderField} type="text"/>
       <span className='long-span'>
+         {/*{submitSucceeded &&*/}
+         {/*<span className='error submit-ok'>Done!</span>}*/}
       <button className='table-button button-save' type='submit' disabled={invalid}>Save</button>
       </span>
     </form>

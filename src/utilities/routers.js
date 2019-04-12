@@ -127,20 +127,7 @@ const handlers = {
     render: 'employee'
   },
   'employee': {
-    fn: async (employee) => {
-      let dep = await DepartmentService.getDepartments();
-      if (dep.find((element) => element.id.toString() === employee.department)) {
-        return await EmployeeService.getEmployees(employee);
-      } else {
-        throw {
-          errors: [{
-            value: employee.department,
-            message: 'Department not found!',
-            path: 'department',
-          }],
-        };
-      }
-    },
+    fn: EmployeeService.wrappedGetEmployees,
     needRedirect: false,
     method: 'get',
     regExp: '/api/departments/:department',

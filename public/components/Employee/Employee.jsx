@@ -25,16 +25,17 @@ class Employee extends Component {
     if (this.state.err) {
       console.log("err:", this.state.err);
       return (
-        <div className='department-not-found'>
-          <Link onClick={()=>this.setState({err: ''})} to='/departments'>{`Department ${this.props.departmentId} not found!`}</Link>
+        <div className='not-found'>
+          <Link onClick={() => this.setState({err: ''})}
+                to='/departments'>{`Department ${this.props.departmentId} not found!`}</Link>
         </div>
       )
     } else {
       return (
         <div style={{height: '100%', display: 'flex'}}>
-        <div className='table-main'>
-          <TableEmployee departmentId={this.props.departmentId}/>
-        </div>
+          <div className='table-main'>
+            <TableEmployee departmentId={this.props.departmentId}/>
+          </div>
           <div className='chat-main'>
 
           </div>
