@@ -20,7 +20,6 @@ class Employee extends Component {
       });
   }
 
-//todo departmentID DONE
   render() {
     if (this.state.err) {
       console.log("err:", this.state.err);

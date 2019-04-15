@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "test": "jest --coverage"
+    "test": "jest --runInBand --coverage"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "axios": "^0.18.0",
+    "babel-jest": "^24.7.1",
     "babel-loader": "^8.0.2",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",

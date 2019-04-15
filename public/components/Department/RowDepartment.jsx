@@ -35,7 +35,6 @@ class RowDepartment extends Component {
     const DelRowDepForm = this.DeleteRowDepartmentForm;
 
     let toEmployeeURL = `/departments/${id}`;
-    //todo LINK DONE
     return (
       <div className='table-row'>
         <RowDepForm initialValues={this.props.department} onSubmit={this.props.saveDepartment}/>

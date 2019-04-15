@@ -9,11 +9,10 @@ import {
 
 const initialState = [];
 
-//todo to Once command file DONE
 export default function apiDepartments(state = initialState, action) {
   let {type, response} = action;
   switch (type) {
-    case GET_DEPARTMENTS: {//todo plural DONE
+    case GET_DEPARTMENTS: {
       return [
         ...response
       ];
@@ -25,7 +24,6 @@ export default function apiDepartments(state = initialState, action) {
       ];
     }
 
-    //todo spread DONE
     case POST_DEPARTMENT: {
 
       return state.map(dep => {

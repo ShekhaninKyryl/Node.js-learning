@@ -40,7 +40,6 @@ class App extends Component {
     return this.props.api.isLogin !== nextProps.api.isLogin;
   }
 
-  // todo use PURE Component DONE
 
   render() {
     let {isLogin} = this.props.api;

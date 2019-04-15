@@ -10910,3 +10910,31 @@
 2019-04-11 19:47:09: EMPLOYEE: 10000000000 - Payment must be decimal value lower one billion! ;
 2019-04-11 19:48:33: GUEST: You have to authorize: jwt must be provided;
 2019-04-11 19:48:38: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:01:51: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:01:51: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:01:51: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:01:52: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:01:55: GUEST: 
+2019-04-15 17:01:57: GUEST: 
+2019-04-15 17:02:13: GUEST: 
+2019-04-15 17:02:14: GUEST: 
+2019-04-15 17:02:14: GUEST: 
+2019-04-15 17:02:32: GUEST: 
+2019-04-15 17:03:20: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:03:20: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:03:20: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:03:20: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:27:42: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:27:42: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:27:42: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:27:55: GUEST: 
+2019-04-15 17:34:55: GUEST: 
+2019-04-15 17:34:59: GUEST: 
+2019-04-15 17:35:08: GUEST: 
+2019-04-15 17:37:10: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:37:39: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 17:37:48: GUEST: 1 - Authorization is wrong! ;
+2019-04-15 17:38:00: GUEST: 1 - Registration is wrong! ;
+2019-04-15 17:38:09: GUEST: 1@1.com - Authorization is wrong! ;
+2019-04-15 18:49:30: GUEST: You have to authorize: jwt must be provided;
+2019-04-15 18:49:44: DEPARTMENTS: 2 - Department name must be unique! ;

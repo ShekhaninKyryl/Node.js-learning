@@ -24,10 +24,20 @@ async function removeEmployee(employee) {
 }
 
 async function updateEmployee(employee) {
-  await Employee.update(employee, {where: {id: employee.id}});
-  let emp = await Employee.find({where: {id: employee.id}});
-  let {id, name, pay, email, department} = emp.dataValues;
-  return {id, name, pay, email, department};
+  try {
+    await Employee.update(employee, {where: {id: employee.id}});
+    let emp = await Employee.find({where: {id: employee.id}});
+    let {id, name, pay, email, department} = emp.dataValues;
+    return {id, name, pay, email, department};
+  } catch (e) {
+    throw {
+      errors: [{
+        value: employee.id,
+        message: 'Cannot update employee',
+        path: 'id',
+      }],
+    };
+  }
 }
 
 async function wrappedGetEmployees(employee) {
@@ -47,14 +57,19 @@ async function wrappedGetEmployees(employee) {
 
 
 async function getEmployees(employee) {
-  let employees;
-  employees = await Employee.findAll({where: {department: employee.department}});
+  let employees = await Employee.findAll({where: {department: employee.department}});
 
   employees = employees.map(value => {
     let {id, name, pay, email, department} = value.dataValues;
     return {id, name, pay, email, department}
   });
   return employees;
+}
+
+async function getEmployeesAttribValue(attribute, value) {
+  let where = {};
+  where[attribute]=value;
+  return await Employee.find({where: where});
 }
 
 
@@ -64,4 +79,5 @@ module.exports = {
   updateEmployee,
   wrappedGetEmployees,
   getEmployees,
+  getEmployeesAttribValue
 };

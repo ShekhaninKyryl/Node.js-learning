@@ -31,8 +31,6 @@ async function validationLoginVerifyingData(verifyingData) {
       ]
   }
 }
-
-
 /**
  * Return sequelize class
  * */
@@ -74,7 +72,6 @@ async function authorizationSetPassword(verifyingData) {
   let token = await jwt.sign(employeeInfo, secret, {expiresIn: expired});
   return {type: 'token', token};
 }
-
 async function getAuthorizedUser(verifyingData, user) {
   if (user) {
     return user
@@ -88,9 +85,7 @@ async function getAuthorizedUser(verifyingData, user) {
       ]
   }
 }
-
-async  function isAuthorizedUser(verifyingData, user){
-  console.log('User: ', user);
+async function isAuthorizedUser(verifyingData, user){
   if(user){
     return true
   } else throw {
