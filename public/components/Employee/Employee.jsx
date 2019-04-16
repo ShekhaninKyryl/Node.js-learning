@@ -31,7 +31,7 @@ class Employee extends Component {
       )
     } else {
       return (
-        <div style={{height: '100%', display: 'flex'}}>
+        <div className='root'>
           <div className='table-main'>
             <TableEmployee departmentId={this.props.departmentId}/>
           </div>

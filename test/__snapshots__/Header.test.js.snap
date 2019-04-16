@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`isLogin - false 1`] = `
+<div
+  class="header-container"
+>
+  <span
+    class="header-span span-user-name"
+  >
+    Hello Guest
+  </span>
+  <span
+    class="header-span span-user-email"
+  />
+</div>
+`;
+
+exports[`isLogin - true 1`] = `
+<div
+  class="header-container"
+>
+  <span
+    class="header-span span-user-name"
+  >
+    Hello 1
+  </span>
+  <span
+    class="header-span span-user-email"
+  >
+    Email: 1@1.com
+  </span>
+  <button
+    class="my-button logout-button"
+  >
+    <a
+      href="/guest"
+    >
+      Logout
+    </a>
+  </button>
+</div>
+`;

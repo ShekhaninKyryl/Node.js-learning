@@ -9,4 +9,6 @@ process.env.SEQ_FORCE = 'true';
 
 module.exports = {
   verbose: false,
+  snapshotSerializers: ["enzyme-to-json/serializer"],
+  setupFiles: ["./test/setupTests.js"],
 };

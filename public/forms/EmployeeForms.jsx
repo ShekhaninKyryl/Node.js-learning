@@ -97,6 +97,7 @@ function PutEmployeeForm(props) {
     submitSucceeded && reset()
   }
   let toDepartmentURL = `/departments`;
+  let styleNone = {display: 'none'};
   return (
     <form onSubmit={handleSubmit}>
       <div className='table-footer'>
@@ -114,7 +115,7 @@ function PutEmployeeForm(props) {
       <Link to={toDepartmentURL}>Departments</Link>
       </button>
       </span>
-        <span style={{display: 'none'}}>
+        <span style={styleNone}>
       <Field name="department" component={renderField} type="hidden"/>
       </span>
       </div>

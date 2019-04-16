@@ -16,8 +16,6 @@ class TableEmployee extends Component {
       return <RowEmployee key={emp.id} employee={emp}/>
     });
 
-    let toDepartmentURL = `/departments`;
-
     return (
       <div>
         <div className='table-head'>

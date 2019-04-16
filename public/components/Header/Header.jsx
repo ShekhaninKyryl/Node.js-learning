@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import {getUserInfo} from "../../reducers/Actions/headerTracks";
 
 
-class Header extends Component {
+export class Header extends Component {
   constructor(props) {
     super(props);
   }

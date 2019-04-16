@@ -1,20 +1,15 @@
-
 .not-found {
     text-align: center;
     font-size: 70px;
     margin: 5% 7%;
-    background-image: url("../../public/images/fire.jpg");
+    background: url("../../public/images/fire.jpg");
     background-size: contain;
     border-radius: 70px;
-    transition: 2s;
+    transition: background 2s ease;
 }
-
 .not-found:hover {
-    background-image: url("../../public/images/rain.jpg");
+    background: url("../../public/images/rain.jpg");
 }
-
-
-
 .not-found > a {
     padding: 50px 0;
 }

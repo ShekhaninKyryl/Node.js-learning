@@ -6,7 +6,6 @@ import {
 const initialState = {
   isLogin: true,
 };
-//todo immutability helper
 export default function apiActions(state = initialState, action) {
   switch (action.type) {
     case SET_LOGIN: {

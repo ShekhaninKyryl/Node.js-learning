@@ -81,6 +81,7 @@ function PutDepartmentsForm(props) {
     submitSucceeded && reset()
   }
 
+  let style = {width: '40%'};
   return (
     <form onSubmit={handleSubmit}>
       <div className='table-footer'>
@@ -88,7 +89,7 @@ function PutDepartmentsForm(props) {
         <Field name="name" label='Department name' component={renderField} type="text"/>
         <span/>
         <span/>
-        <span style={{width: '40%'}}>
+        <span style={style}>
           <button className='table-button button-save' type='submit' disabled={invalid}> Create</button>
             </span>
       </div>

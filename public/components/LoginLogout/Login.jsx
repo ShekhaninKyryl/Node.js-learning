@@ -9,11 +9,12 @@ import RegistrationForm from '../../forms/RegistrationForm.jsx';
 class Login extends PureComponent {
   constructor(props) {
     super(props);
+    this.styleRoot={display: 'flex'}
   }
 
   render() {
     return (
-      <div style={{display: 'flex'}}>
+      <div style={this.styleRoot}>
         <div className='log-reg-form'>
           <LoginForm onSubmit={this.props.login}/>
         </div>

@@ -12,10 +12,10 @@ class Departments extends Component {
   componentDidMount() {
     this.props.getDepartments();
   }
-//todo not inline
+//todo not inline DONE
   render() {
     return (
-      <div style={{height: '100%', display: 'flex'}}>
+      <div className='root'>
         <div className='table-main'>
           <TableDepartment/>
         </div>

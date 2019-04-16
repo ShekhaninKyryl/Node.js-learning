@@ -15,7 +15,9 @@ let department = {
   name: '1',
   id: ''
 };
-
+afterAll(async ()=>{
+  await sync();
+});
 beforeEach(async () => {
   await sync();
   department = await addDepartment(department);

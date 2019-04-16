@@ -36,6 +36,11 @@ button:disabled {
 
 }
 
+.root {
+    height: 100%;
+    display: flex;
+}
+
 .error-input {
     border-bottom-color: rgba(234, 78, 78, 0.9);
 }

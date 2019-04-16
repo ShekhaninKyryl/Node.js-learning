@@ -4,7 +4,7 @@ import {getLogout} from "../../reducers/Actions/loginTracks";
 import {Link} from "react-router-dom";
 
 
-class Logout extends PureComponent {
+export class Logout extends PureComponent {
   constructor(props) {
     super(props);
   }
