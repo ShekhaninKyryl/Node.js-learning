@@ -16,8 +16,6 @@ class Chat extends Component {
     };
 
 
-
-
     this.handleChange = this.handleChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
   }
@@ -27,13 +25,13 @@ class Chat extends Component {
     this.socket.on('GET_USERS', users => {
       console.log('INSIDE MESSAGE:', users);
       this.setState({users});
-      this.socket.on('RECEIVE_MESSAGE', message => {
-        console.log('RECIVE:');
-        let {messages} = this.state;
-        messages.push(message);
-        this.setState({messages});
-      })
     });
+    this.socket.on('RECEIVE_MESSAGE', message => {
+      console.log('RECIVE:');
+      let {messages} = this.state;
+      messages.push(message);
+      this.setState({messages});
+    })
   }
 
   handleChange(event) {
@@ -72,12 +70,13 @@ class Chat extends Component {
       <div className='chat-main'>
         <div className='chat-head'>Active users: {Object.keys(this.state.users).map(val => <div
           key={val}>{this.state.users[val].email}</div>)}</div>
-        <div>{this.state.messages.map((message, index) => <div key={index}>{`${message.user}: ${message.text}`}</div>)}</div>
+        <div>{this.state.messages.map((message, index) => <div
+          key={index}>{`${message.user}: ${message.text}`}</div>)}</div>
         <div className="edge"/>
         <div className='chat-footer'>
           <form onSubmit={this.sendMessage}>
-              <input type="text" value={this.state.text} onChange={this.handleChange} />
-            <input type="submit" value="Submit" />
+            <input type="text" value={this.state.text} onChange={this.handleChange}/>
+            <input type="submit" value="Submit"/>
           </form>
         </div>
       </div>

@@ -33,10 +33,10 @@ io.on('connection', socket => {
     io.sockets.emit('GET_USERS', activeUser);
   });
   socket.on('SEND_MESSAGE', message => {
-    Object.keys(activeUser).map(userId=>{
-      io.to(activeUser[userId].socketId).emit('RECEIVE_MESSAGE', message);
-    });
-    //socket.broadcast.emit('RECEIVE_MESSAGE', message);
+    // Object.keys(activeUser).map(userId=>{
+    //   io.to(activeUser[userId].socketId).emit('RECEIVE_MESSAGE', message);
+    // });
+    io.sockets.emit('RECEIVE_MESSAGE', message);
   });
   socket.on("disconnect", () => {
     let userId = Object.keys(activeUser).find(userId => activeUser[userId].socketId === socket.id);
