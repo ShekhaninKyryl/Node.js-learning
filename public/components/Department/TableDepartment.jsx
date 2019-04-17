@@ -19,7 +19,6 @@ class TableDepartment extends Component {
           <span>Department name</span>
           <span>Employees number</span>
           <span>Average payment</span>
-          <hr/>
         </div>
         {rows}
         <div className='edge'/>

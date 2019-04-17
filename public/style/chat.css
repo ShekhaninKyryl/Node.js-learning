@@ -1,9 +1,26 @@
 .chat-main {
-    background-image: url(../../public/images/2.png);
+    /*background-image: url(../../public/images/2.png);*/
+    /*width: 30%;*/
+    /*min-height: 100%;*/
+    /*right: 0;*/
+    /*position: absolute;*/
+    /*background-size: contain;*/
+
     width: 30%;
     min-height: 100%;
-    right: 0;
-    position: absolute;
-    background-size: contain;
+    background: #f1f1f1;
+}
 
+.chat-head {
+    background-color: #5b7ca5;
+    height: 50px;
+}
+
+.chat-footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    background-color: #5b7ca5;
+    height: 50px;
 }

@@ -2,6 +2,7 @@ import React, {Component, PureComponent} from "react";
 import {connect} from 'react-redux';
 import TableDepartment from './TableDepartment.jsx';
 import {getDepartments} from "../../reducers/Actions/departmentTracks";
+import Chat from "../Chat/Chat.jsx";
 
 
 class Departments extends Component {
@@ -15,13 +16,9 @@ class Departments extends Component {
 //todo not inline DONE
   render() {
     return (
-      <div className='root'>
         <div className='table-main'>
           <TableDepartment/>
         </div>
-        <div className='chat-main'>
-        </div>
-      </div>
     )
   };
 }

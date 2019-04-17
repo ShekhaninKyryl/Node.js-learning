@@ -7,6 +7,8 @@ process.env.SEQ_FORCE = 'true';
 //   console.log('child process exited with code ' + code);
 // });
 
+//todo .env into configure, runinband
+//todo https://jestjs.io/docs/en/configuration#globalsetup-string
 module.exports = {
   verbose: false,
   snapshotSerializers: ["enzyme-to-json/serializer"],

@@ -23,9 +23,10 @@ export class Header extends Component {
     this.props.getUser();
   }
 
+
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.api.isLogin !== prevProps.api.isLogin) {
-      console.log('here', this.props.api.isLogin, prevProps.api.isLogin);
       this.props.getUser();
     }
   }

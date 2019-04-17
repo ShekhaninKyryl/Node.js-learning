@@ -11,6 +11,7 @@ import Employee from './Employee/Employee.jsx';
 import Header from './Header/Header.jsx';
 import {getIsLogin} from "../reducers/Actions/loginTracks";
 import {getUserInfo} from "../reducers/Actions/headerTracks";
+import Chat from "./Chat/Chat.jsx";
 
 
 function RenderEmployee(props) {
@@ -49,8 +50,22 @@ class App extends Component {
         {isLogin ? (
           <Router>
             <Switch>
-              <Route exact path='/departments' component={Departments}/>
-              <Route exact path='/departments/:departmentId' component={RenderEmployee}/>
+              <Route exact path='/departments' render={() => {
+                return (
+                  <div className='root'>
+                    <Departments/>
+                    <Chat/>
+                  </div>
+                )
+              }}/>
+              <Route exact path='/departments/:departmentId' render={(props) => {
+                return (
+                  <div className='root'>
+                    {RenderEmployee(props)}
+                    <Chat/>
+                  </div>
+                )
+              }}/>
               <Redirect exact from='/guest' to='/departments'/>
               <Redirect exact from='/' to='/departments'/>
               <Route path='*' render={() =>

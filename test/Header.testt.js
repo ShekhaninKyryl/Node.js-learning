@@ -1,11 +1,15 @@
 import React from 'react';
-import {shallow} from 'enzyme';
-
+import {shallow, mount} from 'enzyme';
+import thunk from "redux-thunk";
 import Header from '../public/components/Header/Header.jsx';
 import Logout from '../public/components/LoginLogout/Logout.jsx';
 import configureStore from 'redux-mock-store'
 import {BrowserRouter as Router} from 'react-router-dom';
 import {Provider} from 'react-redux';
+import sinon from 'sinon';
+
+
+
 
 const initialState = {
   api: {
@@ -17,19 +21,24 @@ const initialState = {
     email: ''
   }
 };
-const mockStore = configureStore();
+const mockStore = configureStore([thunk]);
 let store;
+let provider;
 let header;
 let logout;
 
+
 beforeEach(() => {
+
   store = mockStore(initialState);
-  header = shallow(<Provider store={store}><Router><Header/></Router></Provider>);
+  header = mount(<Provider store={store}><Router><Header/></Router></Provider>);
 });
 
+
 it('isLogin - false', () => {
+  // sinon.spy(Header.prototype, 'componentDidMount');
+  // expect(Header.prototype.componentDidMount).to.have.property('callCount', 1);
   expect(header.render()).toMatchSnapshot();
-  //expect(header.render()).toEqual(true);
 });
 
 it('isLogin - true', () => {
@@ -44,7 +53,6 @@ it('isLogin - true', () => {
     }
   };
   store = mockStore(initialState);
-  header = shallow(<Provider store={store}><Router><Header/></Router></Provider>);
-
+  header = mount(<Provider store={store}><Router><Header/></Router></Provider>);
   expect(header.render()).toMatchSnapshot();
 });

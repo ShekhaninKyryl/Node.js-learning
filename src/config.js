@@ -10,7 +10,7 @@ const SEQUELIZE = {
   DATABASE: process.env.SEQ_DATABASE,
   DIALECT: process.env.SEQ_DIALECT,
   FORCE: process.env.SEQ_FORCE,
-  LOGGING: process.env.SEQ_LOGGING ? console.log : null
+  LOGGING: process.env.SEQ_LOGGING === 'true' ? console.log : null
 };
 
 const CRYPTO = {

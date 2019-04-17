@@ -85,7 +85,6 @@ function PutDepartmentsForm(props) {
   return (
     <form onSubmit={handleSubmit}>
       <div className='table-footer'>
-        <hr/>
         <Field name="name" label='Department name' component={renderField} type="text"/>
         <span/>
         <span/>
