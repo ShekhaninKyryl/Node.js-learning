@@ -24,3 +24,8 @@
     background-color: #5b7ca5;
     height: 50px;
 }
+.chat-messages {
+    height: 84%;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+}

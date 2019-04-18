@@ -46,7 +46,7 @@ button:disabled {
 }
 
 .edge {
-    min-height: 90px;
+    min-height: 50px;
 }
 
 .my-button {

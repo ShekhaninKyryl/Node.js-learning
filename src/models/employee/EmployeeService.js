@@ -57,8 +57,13 @@ async function wrappedGetEmployees(employee) {
 
 
 async function getEmployees(employee) {
-  let employees = await Employee.findAll({where: {department: employee.department}});
-
+  let departmentId = employee.department;
+  let employees;
+  if (departmentId === '*') {
+    employees = await Employee.findAll();
+  } else {
+    employees = await Employee.findAll({where: {department: employee.department}});
+  }
   employees = employees.map(value => {
     let {id, name, pay, email, department} = value.dataValues;
     return {id, name, pay, email, department}
@@ -68,7 +73,7 @@ async function getEmployees(employee) {
 
 async function getEmployeesAttribValue(attribute, value) {
   let where = {};
-  where[attribute]=value;
+  where[attribute] = value;
   return await Employee.find({where: where});
 }
 

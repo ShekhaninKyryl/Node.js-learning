@@ -12,12 +12,17 @@ class Chat extends Component {
     this.state = {
       users: {},
       messages: [],
-      text: ''
+      text: '',
+      sendTo: '',
+      activeRoom: 'general'
     };
 
 
     this.handleChange = this.handleChange.bind(this);
+
+    this.moveToChanel = this.moveToChanel.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
+
   }
 
   componentDidMount() {
@@ -29,18 +34,33 @@ class Chat extends Component {
     this.socket.on('RECEIVE_MESSAGE', message => {
       console.log('RECIVE:');
       let {messages} = this.state;
-      messages.push(message);
+      messages.unshift(message);
       this.setState({messages});
-    })
+    });
+    this.socket.on('JOINED', activeRoom => this.setState({activeRoom}));
   }
 
   handleChange(event) {
-    this.setState({text: event.target.value});
+    let {name, value} = event.target;
+    console.log('SendTo', event.target);
+    this.setState({[name]: value});
+  }
+
+  moveToChanel(event) {
+    let id1 = this.props.user.id;
+    let id2 = Object.keys(this.state.users).find(element => this.state.users[element].email === this.state.sendTo ? element : false);
+    console.log('Ids:', id1, id2);
+    this.setState({messages: []});
+    this.socket.emit('JOIN_ROOM', id1, id2);
+    event.preventDefault();
   }
 
   sendMessage() {
     console.log('SEND!!!');
-    this.socket.emit('SEND_MESSAGE', {user: this.props.user.name, text: this.state.text});
+    let {messages} = this.state;
+    messages.unshift({user: this.props.user.name, text: this.state.text});
+    this.setState({messages});
+    this.socket.emit('SEND_MESSAGE', {text: this.state.text});
     event.preventDefault();
 
     //this.setState({text: ''});
@@ -68,15 +88,25 @@ class Chat extends Component {
   render() {
     return (
       <div className='chat-main'>
-        <div className='chat-head'>Active users: {Object.keys(this.state.users).map(val => <div
-          key={val}>{this.state.users[val].email}</div>)}</div>
-        <div>{this.state.messages.map((message, index) => <div
+        <div className='chat-head'>Active room: {this.state.activeRoom}
+          <form onSubmit={this.moveToChanel}>
+            <input list='activeUsers' name='sendTo' onChange={this.handleChange}/>
+            <datalist id='activeUsers'>
+              {Object.keys(this.state.users).map(val =>
+                <option value={this.state.users[val].email} key={val}/>
+              )}
+            </datalist>
+            <input type="submit" value="Move"/>
+          </form>
+        </div>
+
+        <div className='chat-messages'>{this.state.messages.map((message, index) => <div
           key={index}>{`${message.user}: ${message.text}`}</div>)}</div>
         <div className="edge"/>
         <div className='chat-footer'>
           <form onSubmit={this.sendMessage}>
-            <input type="text" value={this.state.text} onChange={this.handleChange}/>
-            <input type="submit" value="Submit"/>
+            <input name='text' type="text" value={this.state.text} onChange={this.handleChange}/>
+            <input type="submit" value="Send"/>
           </form>
         </div>
       </div>
