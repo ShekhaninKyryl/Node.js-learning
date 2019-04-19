@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
-import {getLogout} from "../../reducers/Actions/loginTracks";
+import {getLogout} from "../../Actions/loginTracks";
 import {Link} from "react-router-dom";
 
 

@@ -9,7 +9,7 @@ import {
   SET_ERROR,
   REFRESH_ERROR
 
-} from '../actionsList';
+} from '../reducers/actionsList';
 
 const postLogin = (data) => {
   return dispatch => {

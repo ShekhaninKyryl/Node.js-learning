@@ -1,6 +1,6 @@
 import React, {Component, PureComponent} from "react";
 import {connect} from "react-redux";
-import {postDepartment, deleteDepartment} from "../../reducers/Actions/departmentTracks";
+import {postDepartment, deleteDepartment} from "../../Actions/departmentTracks";
 import {DepartmentForms, DeleteRowDepartmentForm, validate} from "../../forms/DepartmentForms.jsx";
 import {reduxForm} from "redux-form";
 import {Link} from "react-router-dom";

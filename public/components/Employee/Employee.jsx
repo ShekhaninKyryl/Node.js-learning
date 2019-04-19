@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import TableEmployee from './TableEmployee.jsx'
 import {connect} from "react-redux";
-import {getEmployees} from "../../reducers/Actions/employeeTracks";
+import {getEmployees} from "../../Actions/employeeTracks";
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import Chat from "../Chat/Chat.jsx";
 

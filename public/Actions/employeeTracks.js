@@ -1,4 +1,4 @@
-import is401 from "../../components/utilities/authorizationService";
+import is401 from "../components/utilities/authorizationService";
 import {SubmissionError} from "redux-form";
 import axios from "axios";
 
@@ -14,7 +14,7 @@ import {
   REFRESH_ERROR,
   SET_ERROR,
 
-} from '../actionsList';
+} from '../reducers/actionsList';
 
 const getEmployees = (departmentId) => {
   return dispatch => {

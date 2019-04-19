@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {putEmployee} from "../../reducers/Actions/employeeTracks";
+import {putEmployee} from "../../Actions/employeeTracks";
 import {PutEmployeeForm, validate} from "../../forms/EmployeeForms.jsx";
 import {reduxForm} from "redux-form";
 

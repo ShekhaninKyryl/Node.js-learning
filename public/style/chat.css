@@ -16,6 +16,23 @@
     height: 50px;
 }
 
+.chat-head > * > span,
+.chat-footer > * > span {
+    display: inline-block;
+    text-align: center;
+    margin: 5px 0;
+}
+
+.chat-head-left,
+.chat-footer-left {
+    width: 70%;
+}
+
+.chat-head-right,
+.chat-footer-right {
+    width: 30%;
+}
+
 .chat-footer {
     position: fixed;
     right: 0;
@@ -24,8 +41,36 @@
     background-color: #5b7ca5;
     height: 50px;
 }
+
+
 .chat-messages {
     height: 84%;
     overflow-y: scroll;
     overflow-wrap: break-word;
 }
+
+.chat-one-message {
+    width: 70%;
+    left: 0;
+    background-color: white;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 10px;
+}
+.chat-one-message-my {
+    left: 25%;
+    position: relative;
+    text-align: right;
+    align-self: end;
+    background-color: #8ac2ff;
+}
+.chat-message-user {
+    font-size: small;
+    color: blue;
+    padding: 0 5px;
+}
+.chat-message-text {
+    padding: 5px 5px;
+}
+
+

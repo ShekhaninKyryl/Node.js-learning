@@ -4,7 +4,7 @@ import {
   SET_USER,
   SET_ERROR,
 
-} from '../actionsList';
+} from '../reducers/actionsList';
 
 
 const getUserInfo = () => {

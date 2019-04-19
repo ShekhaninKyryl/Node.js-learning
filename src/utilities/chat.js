@@ -5,62 +5,62 @@ const socketIO = require('socket.io');
 
 
 function initServer(server) {
-  const rooms = [];
 
   const io = socketIO(server);
   io.online = {};
   io.on('connection', async socket => {
     io.employees = await getEmployees({department: '*'});
 
-
     socket.info = {
-      room: 'general',
+      room: '#general',
     };
     socket.join(socket.info.room);
     socket.emit('setEmployees', io.employees);
     let messages = await getMessages(socket.info.room);
     messages.map(message => {
-      socket.emit('RECEIVE_MESSAGE', {text: message.dataValues.message, user: message.dataValues.sender});
+      socket.emit('mesToEmployee', {text: message.dataValues.message, user: message.dataValues.sender});
     });
 
-    socket.on('JOIN_ROOM', async (id1, id2) => {
-      if (id2) {
-        let Id = (id1 - id2) < 0 ? id1 + '-' + id2 : id2 + '-' + id1;
-        socket.leave(socket.info.room);
-        socket.info.room = Id;
-        socket.join(socket.info.room);
-        socket.emit('JOINED', socket.info.room);
+    socket.on('joinToRoom', async (userId, room) => {
+      let targetRoom;
+      if (room.match(/^#/)) {
+        targetRoom = room;
+      } else if (room) {
+        let emp = io.employees.find(emp => room === emp.email ? emp : false);
+        room = emp.id;
+        targetRoom = (userId - room) < 0 ? userId + '-' + room : room + '-' + userId;
       } else {
-        let Id = 'general';
-        socket.info.room = Id;
-        socket.join(socket.info.room);
-        socket.emit('JOINED', socket.info.room);
+        targetRoom = '#general';
       }
+        socket.leave(socket.info.room);
+        socket.info.room = targetRoom;
+        socket.join(socket.info.room);
+        socket.emit('joinedRoom', socket.info.room);
       let messages = await getMessages(socket.info.room);
-      messages.map(message => {
-        socket.emit('RECEIVE_MESSAGE', {text: message.dataValues.message, user: message.dataValues.sender});
+      await messages.map(message => {
+        socket.emit('mesToEmployee', {text: message.dataValues.message, user: message.dataValues.sender});
       });
     });
 
-
-    socket.on('SET_USER', (user) => {
+    socket.on('setEmployeeInfo', (user) => {
       let {id, name, email} = user;
       socket.info = {...socket.info, id, name, email};
       io.online[socket.info.id] = socket.info;
-      io.emit('GET_USERS', io.online);
+      io.emit('setOnlineEmployees', io.online);
     });
-    socket.on('SEND_MESSAGE', async message => {
+
+    socket.on('mesToServer', async message => {
       await writeMessage({
         room: socket.info.room,
         sender: socket.info.id,
         message: message.text
       });
-      socket.to(socket.info.room).emit('RECEIVE_MESSAGE', {...message, user: socket.info.name});
+      socket.to(socket.info.room).emit('mesToEmployee', {...message, user: socket.info.id});
     });
+
     socket.on("disconnect", () => {
       delete io.online[socket.info.id];
-      io.emit('GET_USERS', io.online);
-      console.log("Client disconnected", socket.id)
+      io.emit('setOnlineEmployees', io.online);
     });
   });
 }

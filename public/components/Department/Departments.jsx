@@ -1,7 +1,7 @@
 import React, {Component, PureComponent} from "react";
 import {connect} from 'react-redux';
 import TableDepartment from './TableDepartment.jsx';
-import {getDepartments} from "../../reducers/Actions/departmentTracks";
+import {getDepartments} from "../../Actions/departmentTracks";
 import Chat from "../Chat/Chat.jsx";
 
 

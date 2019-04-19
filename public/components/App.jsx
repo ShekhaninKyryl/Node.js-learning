@@ -9,8 +9,8 @@ import Login from './LoginLogout/Login.jsx';
 import Departments from './Department/Departments.jsx';
 import Employee from './Employee/Employee.jsx';
 import Header from './Header/Header.jsx';
-import {getIsLogin} from "../reducers/Actions/loginTracks";
-import {getUserInfo} from "../reducers/Actions/headerTracks";
+import {getIsLogin} from "../Actions/loginTracks";
+import {getUserInfo} from "../Actions/headerTracks";
 import Chat from "./Chat/Chat.jsx";
 
 

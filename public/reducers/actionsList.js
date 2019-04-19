@@ -16,4 +16,15 @@ export const REFRESH_ERROR = 'REFRESH_ERROR';
 
 export const SET_USER = 'SET_USER';
 
+export const CHAT_SET_USER = 'CHAT_SET_USER';
+export const CHAT_GET_USERS = 'CHAT_GET_USERS';
+export const CHAT_GET_ONLINE_USERS = 'CHAT_GET_ONLINE_USERS';
+export const CLEAR_MESSAGES = 'CLEAR_MESSAGES';
+export const CHAT_GET_MESSAGE = 'CHAT_GET_MESSAGES';
+export const CHAT_SEND_MESSAGE = 'CHAT_SEND_MESSAGE';
+export const CHAT_JOIN_TO_ROOM = 'CHAT_JOIN_TO_ROOM';
+export const CHAT_CONNECT = 'CHAT_CONNECT';
+export const CHAT_DISCONNECT = 'CHAT_DISCONNECT';
+
+
 

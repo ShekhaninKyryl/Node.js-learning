@@ -1,7 +1,7 @@
 import React, {PureComponent, Component} from "react";
 import {connect} from "react-redux";
 
-import {postLogin, putRegistration} from "../../reducers/Actions/loginTracks";
+import {postLogin, putRegistration} from "../../Actions/loginTracks";
 import LoginForm from "../../forms/LoginForm.jsx";
 import RegistrationForm from '../../forms/RegistrationForm.jsx';
 

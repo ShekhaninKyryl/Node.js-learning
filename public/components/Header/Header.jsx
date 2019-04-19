@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Logout from '../LoginLogout/Logout.jsx';
 
 import {connect} from "react-redux";
-import {getUserInfo} from "../../reducers/Actions/headerTracks";
+import {getUserInfo} from "../../Actions/headerTracks";
 
 
 export class Header extends Component {
