@@ -1,11 +1,4 @@
 .chat-main {
-    /*background-image: url(../../public/images/2.png);*/
-    /*width: 30%;*/
-    /*min-height: 100%;*/
-    /*right: 0;*/
-    /*position: absolute;*/
-    /*background-size: contain;*/
-
     width: 30%;
     min-height: 100%;
     background: #f1f1f1;
@@ -13,7 +6,7 @@
 
 .chat-head {
     background-color: #5b7ca5;
-    height: 50px;
+    height: 6%;
 }
 
 .chat-head > * > span,
@@ -25,6 +18,7 @@
 
 .chat-head-left,
 .chat-footer-left {
+    position: relative;
     width: 70%;
 }
 
@@ -34,17 +28,13 @@
 }
 
 .chat-footer {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    width: 30%;
+    width: 100%;
     background-color: #5b7ca5;
-    height: 50px;
+    height: 6%;
 }
 
-
 .chat-messages {
-    height: 84%;
+    height: 88%;
     overflow-y: scroll;
     overflow-wrap: break-word;
 }
@@ -57,6 +47,7 @@
     margin: 5px;
     border-radius: 10px;
 }
+
 .chat-one-message-my {
     left: 25%;
     position: relative;
@@ -64,13 +55,16 @@
     align-self: end;
     background-color: #8ac2ff;
 }
+
 .chat-message-user {
     font-size: small;
     color: blue;
     padding: 0 5px;
 }
+
 .chat-message-text {
     padding: 5px 5px;
 }
+
 
 

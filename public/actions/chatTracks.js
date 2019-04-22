@@ -1,5 +1,4 @@
 import io from 'socket.io-client'
-import {SubmissionError} from "redux-form";
 
 import {
   CHAT_GET_USERS,
@@ -17,28 +16,38 @@ import {
 const socket = io({
   autoConnect: false
 });
+
 const chatConnect = () => {
   return dispatch => {
-    socket.open();
-
+    socket.connect();
+    dispatch({type: CLEAR_MESSAGES});
+    dispatch({type: CHAT_CONNECT});
     socket.on('setEmployees', users => {
       dispatch({type: CHAT_GET_USERS, users})
     });
     socket.on('mesToEmployee', message => {
       dispatch({type: CHAT_GET_MESSAGE, message})
     });
-    socket.on('joinedRoom',room => {
-      dispatch({type: CLEAR_MESSAGES});
+    socket.on('joinedRoom', room => {
       dispatch({type: CHAT_JOIN_TO_ROOM, room})
     });
-
-
-    dispatch({type: CHAT_CONNECT});
+    socket.on('clearMessages', () => {
+      dispatch({type: CLEAR_MESSAGES});
+    });
+    socket.on('setOnlineEmployees', onlineusers => {
+      dispatch({type: CHAT_GET_ONLINE_USERS, onlineusers});
+    })
   }
 };
 const chatClose = () => {
   return dispatch => {
     socket.close();
+    socket.off('setEmployees');
+    socket.off('mesToEmployee');
+    socket.off('joinedRoom');
+    socket.off('clearMessages');
+    socket.off('setOnlineEmployees');
+    dispatch({type: CLEAR_MESSAGES});
     dispatch({type: CHAT_DISCONNECT});
   }
 };
@@ -51,7 +60,6 @@ const sendUserInfo = (user) => {
 
 const sendMessage = (wrappedMessage) => {
   return dispatch => {
-
     let {user, text} = wrappedMessage;
     socket.emit('mesToServer', {user, text});
     dispatch({type: CHAT_SEND_MESSAGE, message: {user, text}})
@@ -64,7 +72,6 @@ const joinToRoom = (wrappedRoom) => {
     socket.emit('joinToRoom', user, room);
   }
 };
-
 
 export {
   chatConnect,

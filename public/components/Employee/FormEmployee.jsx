@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {putEmployee} from "../../Actions/employeeTracks";
+import {putEmployee} from "../../actions/employeeTracks";
 import {PutEmployeeForm, validate} from "../../forms/EmployeeForms.jsx";
 import {reduxForm} from "redux-form";
 
@@ -8,7 +8,6 @@ import {reduxForm} from "redux-form";
 class FormEmployee extends Component {
   constructor(props) {
     super(props);
-
     this.PutEmployeeForm = reduxForm({
       form: 'empPut',
       validate

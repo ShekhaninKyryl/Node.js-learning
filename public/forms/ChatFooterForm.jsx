@@ -1,13 +1,6 @@
 import React from 'react'
 import {Field, reduxForm} from "redux-form";
 
-function validate(values) {
-  let errors = {};
-  return errors
-}
-
-
-
 function ChatFooter(props) {
   let {
     handleSubmit,
@@ -39,6 +32,5 @@ function ChatFooter(props) {
 
 export default reduxForm({
   form: 'chatFooter',
-  validate,
-  enableReinitialize: true
+    enableReinitialize: true
 })(ChatFooter)

@@ -1,6 +1,6 @@
-import React, {Component, PureComponent} from "react";
+import React, {Component} from "react";
 import {connect} from "react-redux";
-import {postDepartment, deleteDepartment} from "../../Actions/departmentTracks";
+import {postDepartment, deleteDepartment} from "../../actions/departmentTracks";
 import {DepartmentForms, DeleteRowDepartmentForm, validate} from "../../forms/DepartmentForms.jsx";
 import {reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
@@ -8,7 +8,6 @@ import {Link} from "react-router-dom";
 class RowDepartment extends Component {
   constructor(props) {
     super(props);
-
     this.RowDepartmentForm = reduxForm({
       form: `dep${this.props.department.id}`,
       validate,
@@ -33,7 +32,6 @@ class RowDepartment extends Component {
     let {id} = this.props.department;
     const RowDepForm = this.RowDepartmentForm;
     const DelRowDepForm = this.DeleteRowDepartmentForm;
-
     let toEmployeeURL = `/departments/${id}`;
     return (
       <div className='table-row'>

@@ -9,7 +9,7 @@ import {
 
 const initialState = [];
 
-export default function apiDepartments(state = initialState, action) {
+export default function Departments(state = initialState, action) {
   let {type, response} = action;
   switch (type) {
     case GET_DEPARTMENTS: {

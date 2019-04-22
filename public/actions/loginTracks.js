@@ -1,14 +1,12 @@
 import axios from "axios";
 import {SubmissionError} from "redux-form";
 
-
 import {
   SET_LOGIN,
   SET_LOGOUT,
 
   SET_ERROR,
   REFRESH_ERROR
-
 } from '../reducers/actionsList';
 
 const postLogin = (data) => {
@@ -28,6 +26,7 @@ const postLogin = (data) => {
       });
   }
 };
+
 const putRegistration = (data) => {
   return dispatch => {
     return axios.put('/api/guest/registration', data)
@@ -45,6 +44,7 @@ const putRegistration = (data) => {
       });
   }
 };
+
 const getIsLogin = () => {
   return dispatch => {
     axios.get('api/guest')
@@ -52,6 +52,7 @@ const getIsLogin = () => {
       .catch(() => dispatch({type: SET_LOGOUT}));
   }
 };
+
 const getLogout = () => {
   return dispatch => {
     axios.get('/api/logout')
@@ -66,12 +67,9 @@ const getLogout = () => {
   }
 };
 
-
 export {
   postLogin,
   putRegistration,
   getIsLogin,
   getLogout,
 }
-
-

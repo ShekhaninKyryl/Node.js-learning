@@ -10,7 +10,7 @@ const initialState = {
 };
 
 
-export default function apiUser(state = initialState, action) {
+export default function User(state = initialState, action) {
   let {id, name, email} = action;
   switch (action.type) {
     case SET_USER: {

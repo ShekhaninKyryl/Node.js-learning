@@ -1,83 +1,43 @@
 import is401 from "../components/utilities/authorizationService";
 import {SubmissionError} from "redux-form";
 import axios from "axios";
+
 import {
-  GET_DEPARTMENTS,
-  PUT_DEPARTMENT,
-  POST_DEPARTMENT,
-  DELETE_DEPARTMENT,
+  GET_EMPLOYEES,
+  PUT_EMPLOYEE,
+  POST_EMPLOYEE,
+  DELETE_EMPLOYEE,
 
   SET_LOGOUT,
 
   REFRESH_ERROR,
-  SET_ERROR,
-
 } from '../reducers/actionsList';
-
-
-const getDepartments = () => {
+//todo async await
+const getEmployees = (departmentId) => {
   return dispatch => {
-    axios.get('/api/departments')
+    return axios.get(`/api/departments/${departmentId}`)
       .then(response => response.data)
       .then(response => {
-        console.log('Get departments:', response);
-        dispatch({type: GET_DEPARTMENTS, response});
+        dispatch({type: GET_EMPLOYEES, response});
         dispatch({type: REFRESH_ERROR});
       })
       .catch(error => {
         if (is401(error)) {
-          dispatch({type: SET_LOGOUT});
+          console.log('401 err:', error);
+          dispatch({type: SET_LOGOUT})
         }
-        console.log('Get departments err:', error);
-        let err = error.response.data.message;
-        let {id} = error.response.data;
-        dispatch({type: SET_ERROR, ...err, id});
+        throw error.response.data.message;
       });
   }
 };
-const putDepartment = (department) => {
-  return dispatch => {
-    let {name} = department;
-    return axios.put('/api/departments', {name})
-      .then(response => response.data)
-      .then(response => {
-        dispatch({type: PUT_DEPARTMENT, response});
-      })
-      .catch(error => {
-        if (is401(error)) {
-          dispatch({type: SET_LOGOUT})
-        }
-        let err = error.response.data.message;
-        throw new SubmissionError(err);
-      });
-  }
-};
-const postDepartment = (department) => {
-  return dispatch => {
-    let {id, name} = department;
-    return axios.post(`/api/departments/${id}`, {id, name})
-      .then(response => response.data)
-      .then((response) => {
-        dispatch({type: POST_DEPARTMENT, response})
-      })
-      .catch(error => {
-        console.log(error);
-        if (is401(error)) {
-          dispatch({type: SET_LOGOUT})
-        }
 
-        let err = error.response.data.message;
-        throw new SubmissionError(err);
-      });
-  }
-};
-const deleteDepartment = (department) => {
+const putEmployee = (employee) => {
   return dispatch => {
-    let {id, name} = department;
-    return axios.delete(`/api/departments/${id}`, {data: {id, name}})
+    let {department} = employee;
+    return axios.put(`/api/departments/${department}/employee`, employee)
       .then(response => response.data)
       .then(response => {
-        dispatch({type: DELETE_DEPARTMENT, response})
+        dispatch({type: PUT_EMPLOYEE, response});
       })
       .catch(error => {
         if (is401(error)) {
@@ -89,10 +49,46 @@ const deleteDepartment = (department) => {
   }
 };
 
+const postEmployee = (employee) => {
+  return dispatch => {
+    let {id, department} = employee;
+    return axios.post(`/api/departments/${department}/employee/${id}`, employee)
+      .then(response => response.data)
+      .then(response => {
+        dispatch({type: POST_EMPLOYEE, response});
+      })
+      .catch(error => {
+        console.log(error.response.data.message);
+        if (is401(error)) {
+          dispatch({type: SET_LOGOUT})
+        }
+        let err = error.response.data.message;
+        throw new SubmissionError(err);
+      });
+  }
+};
+
+const deleteEmployee = (employee) => {
+  return dispatch => {
+    let {id, department} = employee;
+    return axios.delete(`/api/departments/${department}/employee/${id}`, {data: employee})
+      .then(response => response.data)
+      .then(response => {
+        dispatch({type: DELETE_EMPLOYEE, response})
+      })
+      .catch(error => {
+        if (is401(error)) {
+          dispatch({type: SET_LOGOUT})
+        }
+        let err = error.response.data.message;
+        throw new SubmissionError(err);
+      });
+  }
+};
 
 export {
-  getDepartments,
-  putDepartment,
-  postDepartment,
-  deleteDepartment
+  getEmployees,
+  putEmployee,
+  postEmployee,
+  deleteEmployee
 }

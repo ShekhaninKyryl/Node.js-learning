@@ -2,8 +2,6 @@ import React, {Component} from "react";
 import RowEmployee from './RowEmployee.jsx'
 import FormEmployee from './FormEmployee.jsx';
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
-
 
 class TableEmployee extends Component {
   constructor(props) {
@@ -15,23 +13,21 @@ class TableEmployee extends Component {
     let rows = employees.map(emp => {
       return <RowEmployee key={emp.id} employee={emp}/>
     });
-
     return (
-      <div>
+      <div className='table-main'>
         <div className='table-head'>
           <span>Employee name</span>
           <span>Payment</span>
           <span>Email</span>
-          <hr/>
         </div>
-        {rows}
-        <div className='edge'/>
-        <FormEmployee departmentId={this.props.departmentId}/>
+        <div className='chat-messages'>
+          {rows}
+        </div>
+        <div className='table-footer'>
+          <FormEmployee departmentId={this.props.departmentId}/>
+        </div>
       </div>
-
-
     )
-
   }
 }
 

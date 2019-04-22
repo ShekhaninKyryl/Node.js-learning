@@ -1,10 +1,28 @@
 import React from 'react'
 import {Field, reduxForm} from "redux-form";
+import emailValidator from 'email-validator';
 
 function validate(values, props) {
   let errors = {};
-  errors.room = 'asd';
-  return errors
+  if (values.room === undefined) {
+    values.room = '';
+  }
+
+  if (values.room.match(/^#/)) {
+    if (!values.room.match(/^#[a-z\S]+$/)) {
+      errors.room = 'Must be without whitespaces';
+    }
+  } else {
+    if (!values.room) {
+      errors.room = 'Must be not empty!';
+    } else if (!emailValidator.validate(values.room)) {
+      errors.room = 'Must be email format!';
+    } else if (!props.employees.find(emp => values.room === emp.email ? emp : false)) {
+      errors.room = 'Employee not found';
+    }
+  }
+  return errors;
+
 }
 
 function renderField(props) {
@@ -20,7 +38,6 @@ function renderField(props) {
   if (error) {
     style = 'error-input'
   }
-  console.log('ERROR SPAN:', error);
   return (
     <span>
             {touched &&
@@ -32,37 +49,38 @@ function renderField(props) {
 
 function ChatHeader(props) {
   let {
-    handleSubmit,
-    pristine,
     invalid,
     error,
+    submitSucceeded,
+    pristine,
+
     employees,
+    room,
+
+    handleSubmit,
+    reset
   } = props;
+
+  if (submitSucceeded) {
+    setTimeout(() => reset(), 3000);
+  }
+  let style = submitSucceeded ? 'table-button button-save button-submit-succeeded' : 'table-button button-save';
+
   return (
     <form onSubmit={handleSubmit}>
       <span className='chat-head-left'>
         <Field name="user" component='input' type="hidden"/>
-        {/*<Field name='room' component='input' autoComplete='off' autoCorrect="off" list='datalist'/>*/}
-
-
-        {/*<Field name='id' component='select'>*/}
-        {/*<optgroup label="Employees">*/}
-        {/*{employees.map(emp => <option className='test' key={emp.id} value={emp.id}>{emp.email}</option>)}*/}
-        {/*</optgroup>*/}
-        {/*</Field>*/}
-
-
-        <Field name='room' component={renderField} autoComplete='off' autoCorrect="off" list='datalist'/>
+        <Field name='room' component={renderField} label={room} autoComplete='off'
+               autoCorrect="off" list='datalist'/>
         <datalist id='datalist'>
             {employees.map(emp => <option key={emp.id} value={emp.email}>{emp.email}</option>)}
         </datalist>
-
       </span>
       <span className='chat-head-right'>
          {error &&
          <span className='error'>{error}</span>}
-        <button className='table-button button-save' type='submit' disabled={pristine || invalid}>
-          Join
+        <button className={style} type='submit' disabled={invalid}>
+          {submitSucceeded ? 'Done' : 'Join'}
         </button>
       </span>
     </form>

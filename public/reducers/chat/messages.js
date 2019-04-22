@@ -9,13 +9,9 @@ const initialState = [];
 export default function apiMessages(state = initialState, action) {
   let {type, messages, message} = action;
   switch (type) {
-    case CHAT_GET_MESSAGE: {
-      return [
-        ...state,
-        message
-      ]
-    }
-    case CHAT_SEND_MESSAGE: {
+    //todo case DONE
+    case CHAT_GET_MESSAGE:
+    case CHAT_SEND_MESSAGE:{
       return [
         ...state,
         message

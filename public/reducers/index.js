@@ -2,7 +2,7 @@ import  {combineReducers} from "redux";
 import {reducer as formReducer} from 'redux-form';
 
 
-import api from './api';
+import login from './login';
 import user from './user';
 import error from './error';
 import departments from './departments';
@@ -14,7 +14,7 @@ import users from './chat/users';
 import onlineusers from './chat/onlineusers';
 
 export default combineReducers({
-  api,
+  login,
   user,
   departments,
   employees,

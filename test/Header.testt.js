@@ -12,7 +12,7 @@ import sinon from 'sinon';
 
 
 const initialState = {
-  api: {
+  login: {
     isLogin: false
   },
   user: {
@@ -43,7 +43,7 @@ it('isLogin - false', () => {
 
 it('isLogin - true', () => {
   const initialState = {
-    api: {
+    login: {
       isLogin: true
     },
     user: {

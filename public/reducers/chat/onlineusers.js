@@ -5,11 +5,11 @@ import {
 const initialState = [];
 
 export default function apiChatOnlineUsers(state = initialState, action) {
-  let {type, users} = action;
+  let {type, onlineusers} = action;
   switch (type) {
     case CHAT_GET_ONLINE_USERS: {
       return [
-        ...users
+        ...onlineusers
       ]
     }
     default: {

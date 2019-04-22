@@ -1,18 +1,15 @@
 import React, {Component} from "react";
-
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import {Redirect} from 'react-router';
 import {connect} from 'react-redux';
-
 
 import Login from './LoginLogout/Login.jsx';
 import Departments from './Department/Departments.jsx';
 import Employee from './Employee/Employee.jsx';
 import Header from './Header/Header.jsx';
-import {getIsLogin} from "../Actions/loginTracks";
-import {getUserInfo} from "../Actions/headerTracks";
 import Chat from "./Chat/Chat.jsx";
 
+import {getIsLogin} from "../actions/loginTracks";
 
 function RenderEmployee(props) {
   let {match} = props;
@@ -38,12 +35,11 @@ class App extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.props.api.isLogin !== nextProps.api.isLogin;
+    return this.props.login.isLogin !== nextProps.login.isLogin;
   }
 
-
   render() {
-    let {isLogin} = this.props.api;
+    let {isLogin} = this.props.login;
     return (
       <Router>
         <Header/>
@@ -94,7 +90,7 @@ class App extends Component {
 
 export default connect(
   state => ({
-    api: state.api
+    login: state.login
   }),
   dispatch => ({
     isLogin: () => dispatch(getIsLogin()),

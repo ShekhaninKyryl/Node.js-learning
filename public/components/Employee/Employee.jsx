@@ -1,9 +1,8 @@
 import React, {Component} from "react";
 import TableEmployee from './TableEmployee.jsx'
 import {connect} from "react-redux";
-import {getEmployees} from "../../Actions/employeeTracks";
-import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
-import Chat from "../Chat/Chat.jsx";
+import {getEmployees} from "../../actions/employeeTracks";
+import {Link} from "react-router-dom";
 
 class Employee extends Component {
   constructor(props) {
@@ -31,10 +30,7 @@ class Employee extends Component {
         </div>
       )
     } else {
-      return (
-          <div className='table-main'>
-            <TableEmployee departmentId={this.props.departmentId}/>
-          </div>
+      return (<TableEmployee departmentId={this.props.departmentId}/>
       )
     }
   }

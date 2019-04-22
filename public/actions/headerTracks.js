@@ -6,7 +6,6 @@ import {
 
 } from '../reducers/actionsList';
 
-
 const getUserInfo = () => {
   return dispatch => {
     axios.get('/api/user')
@@ -22,7 +21,6 @@ const getUserInfo = () => {
       });
   }
 };
-
 
 export {
   getUserInfo

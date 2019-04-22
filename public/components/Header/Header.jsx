@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import Logout from '../LoginLogout/Logout.jsx';
-
 import {connect} from "react-redux";
-import {getUserInfo} from "../../Actions/headerTracks";
-
+import {getUserInfo} from "../../actions/headerTracks";
 
 export class Header extends Component {
   constructor(props) {
@@ -11,7 +9,7 @@ export class Header extends Component {
   }
 
   IsLogout() {
-    let {isLogin} = this.props.api;
+    let {isLogin} = this.props.login;
     if (isLogin) {
       return <Logout/>;
     } else {
@@ -23,17 +21,14 @@ export class Header extends Component {
     this.props.getUser();
   }
 
-
-
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.api.isLogin !== prevProps.api.isLogin) {
+    if (this.props.login.isLogin !== prevProps.login.isLogin) {
       this.props.getUser();
     }
   }
 
-
   render() {
-    let {name, email, id} = this.props.user;
+    let {name, email} = this.props.user;
     return (
       <div className='header-container'>
       <span className='header-span span-user-name'>
@@ -49,10 +44,9 @@ export class Header extends Component {
   }
 }
 
-
 export default connect(
   state => ({
-    api: state.api,
+    login: state.login,
     user: state.user
   }),
   dispatch => ({

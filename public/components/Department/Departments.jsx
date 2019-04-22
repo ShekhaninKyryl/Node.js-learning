@@ -1,9 +1,7 @@
-import React, {Component, PureComponent} from "react";
+import React, {Component} from "react";
 import {connect} from 'react-redux';
 import TableDepartment from './TableDepartment.jsx';
-import {getDepartments} from "../../Actions/departmentTracks";
-import Chat from "../Chat/Chat.jsx";
-
+import {getDepartments} from "../../actions/departmentTracks";
 
 class Departments extends Component {
   constructor(props) {
@@ -13,13 +11,9 @@ class Departments extends Component {
   componentDidMount() {
     this.props.getDepartments();
   }
-//todo not inline DONE
+
   render() {
-    return (
-        <div className='table-main'>
-          <TableDepartment/>
-        </div>
-    )
+    return (<TableDepartment/>)
   };
 }
 

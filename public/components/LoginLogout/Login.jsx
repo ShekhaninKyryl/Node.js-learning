@@ -1,10 +1,8 @@
-import React, {PureComponent, Component} from "react";
+import React, {PureComponent} from "react";
 import {connect} from "react-redux";
-
-import {postLogin, putRegistration} from "../../Actions/loginTracks";
+import {postLogin, putRegistration} from "../../actions/loginTracks";
 import LoginForm from "../../forms/LoginForm.jsx";
 import RegistrationForm from '../../forms/RegistrationForm.jsx';
-
 
 class Login extends PureComponent {
   constructor(props) {
@@ -22,15 +20,13 @@ class Login extends PureComponent {
           <RegistrationForm onSubmit={this.props.registration}/>
         </div>
       </div>
-
     )
   }
 }
 
-
 export default connect(
   state => ({
-    api: state.api,
+    login: state.login,
     err: state.error
   }),
   dispatch => ({

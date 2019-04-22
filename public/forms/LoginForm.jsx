@@ -1,4 +1,4 @@
-import React, {Component, PureComponent} from 'react'
+import React from 'react'
 import {Field, reduxForm} from "redux-form";
 
 function validate(values) {
@@ -6,11 +6,9 @@ function validate(values) {
   if (!values.email) {
     errors.email = 'Must be not empty!';
   }
-
   if (!values.password) {
     errors.password = 'Must be not empty!';
   }
-
   return errors;
 }
 
@@ -19,14 +17,13 @@ function renderField(props) {
     input,
     label,
     type,
-    meta: {touched, active, error}
+    meta: {touched, error}
   } = props;
   let style = '';
   if (error) {
     style = 'error-input'
   }
   return (
-
     <span>
       {touched &&
       (error && <span className='error'>{error}</span>)}
@@ -35,9 +32,7 @@ function renderField(props) {
   );
 }
 
-
 function LoginForm(props) {
-
   const {
     handleSubmit,
     pristine,
@@ -46,19 +41,15 @@ function LoginForm(props) {
   } = props;
   return (
     <form onSubmit={handleSubmit}>
-
       <Field name="email" label='Email' component={renderField} type="text"/>
       <Field name="password" label='Password' component={renderField} type="password"/>
       <span/>
       <span>
-               {error &&
-               <span className='error'>{error}</span>}
+        {error && <span className='error'>{error}</span>}
         <button className='table-button button-link' type='submit' disabled={pristine || invalid}>
           Login
         </button>
-
       </span>
-
     </form>
   )
 }

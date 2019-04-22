@@ -6,7 +6,8 @@ import {
 const initialState = {
   isLogin: true,
 };
-export default function apiActions(state = initialState, action) {
+//todo name DONE
+export default function Login(state = initialState, action) {
   switch (action.type) {
     case SET_LOGIN: {
       return {...state, isLogin: true};

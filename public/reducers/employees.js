@@ -5,13 +5,10 @@ import {
   DELETE_EMPLOYEE
 } from './actionsList';
 
-
 const initialState = [];
-
-
-export default function apiDepartments(state = initialState, action) {
+// todo name DONE
+export default function Employees(state = initialState, action) {
   let {type, response} = action;
-
   switch (type) {
     case GET_EMPLOYEES: {
       return [...response];

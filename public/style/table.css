@@ -7,7 +7,7 @@
 
 .table-head {
     background-color: #5b7ca5;
-    height: 50px;
+    height: 6%;
 }
 
 .table-head > span {
@@ -28,12 +28,9 @@
 
 
 .table-footer {
-    height: 50px;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 70%;
+    width: 100%;
     background-color: #5b7ca5;
+    height: 6%;
 }
 
 .table-footer > hr {
@@ -43,7 +40,7 @@
     margin: 0;
 }
 
-.table-footer > span {
+.table-footer > * > span {
     position: relative;
     display: inline-block;
     width: 20%;
@@ -72,7 +69,6 @@
     width: 20%;
     text-align: center;
 }
-
 
 
 .short-span {
@@ -114,4 +110,8 @@
 .button-link:hover {
     /*background-color: rgba(0, 0, 255, 0.7);*/
     background-color: #2357a5;
+}
+
+.button-submit-succeeded {
+    background-color: rgba(0, 128, 0, 0.6);
 }

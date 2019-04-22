@@ -1,13 +1,12 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {putDepartment} from "../../Actions/departmentTracks";
+import {putDepartment} from "../../actions/departmentTracks";
 import {PutDepartmentsForm, validate} from "../../forms/DepartmentForms.jsx";
 import {reduxForm} from "redux-form";
 
 class FormDepartment extends Component {
   constructor(props) {
     super(props);
-
     this.PutDepartmentsForm = reduxForm({
       form: `depPUT`,
       validate

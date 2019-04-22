@@ -7,36 +7,44 @@ const socketIO = require('socket.io');
 function initServer(server) {
 
   const io = socketIO(server);
-  io.online = {};
+  io.online = [];
   io.on('connection', async socket => {
     io.employees = await getEmployees({department: '*'});
 
     socket.info = {
       room: '#general',
     };
-    socket.join(socket.info.room);
-    socket.emit('setEmployees', io.employees);
+    await socket.join(socket.info.room);
+    await socket.emit('setEmployees', io.employees);
     let messages = await getMessages(socket.info.room);
-    messages.map(message => {
+    await socket.emit('clearMessages');
+    await messages.map(message => {
       socket.emit('mesToEmployee', {text: message.dataValues.message, user: message.dataValues.sender});
     });
 
     socket.on('joinToRoom', async (userId, room) => {
       let targetRoom;
+      let roomForClient;
       if (room.match(/^#/)) {
         targetRoom = room;
+        roomForClient = targetRoom;
       } else if (room) {
         let emp = io.employees.find(emp => room === emp.email ? emp : false);
         room = emp.id;
-        targetRoom = (userId - room) < 0 ? userId + '-' + room : room + '-' + userId;
+        targetRoom = (userId - room) < 0 ? `${userId}-${room}` : `${room}-${userId}`;//todo string DONE
+        roomForClient = emp.email;
       } else {
         targetRoom = '#general';
+        roomForClient = targetRoom;
       }
-        socket.leave(socket.info.room);
-        socket.info.room = targetRoom;
-        socket.join(socket.info.room);
-        socket.emit('joinedRoom', socket.info.room);
+
+      socket.leave(socket.info.room);
+      socket.info.room = targetRoom;
+      socket.join(socket.info.room);
+      socket.emit('joinedRoom', roomForClient);
+
       let messages = await getMessages(socket.info.room);
+      await socket.emit('clearMessages');
       await messages.map(message => {
         socket.emit('mesToEmployee', {text: message.dataValues.message, user: message.dataValues.sender});
       });
@@ -45,7 +53,7 @@ function initServer(server) {
     socket.on('setEmployeeInfo', (user) => {
       let {id, name, email} = user;
       socket.info = {...socket.info, id, name, email};
-      io.online[socket.info.id] = socket.info;
+      io.online.push(socket.info);
       io.emit('setOnlineEmployees', io.online);
     });
 
@@ -57,11 +65,14 @@ function initServer(server) {
       });
       socket.to(socket.info.room).emit('mesToEmployee', {...message, user: socket.info.id});
     });
-
+//todo not use # for email DONE
     socket.on("disconnect", () => {
-      delete io.online[socket.info.id];
+      io.online = io.online.filter(user => {
+        return user.id !== socket.info.id
+      });
       io.emit('setOnlineEmployees', io.online);
     });
+
   });
 }
 

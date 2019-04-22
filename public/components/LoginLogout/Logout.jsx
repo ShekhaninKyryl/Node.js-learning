@@ -1,8 +1,7 @@
 import React, {PureComponent} from 'react';
 import {connect} from "react-redux";
-import {getLogout} from "../../Actions/loginTracks";
+import {getLogout} from "../../actions/loginTracks";
 import {Link} from "react-router-dom";
-
 
 export class Logout extends PureComponent {
   constructor(props) {
@@ -18,10 +17,9 @@ export class Logout extends PureComponent {
   }
 }
 
-
 export default connect(
   state => ({
-    api: state.api
+    login: state.login
   }),
   dispatch => ({
     logout: () => dispatch(getLogout()),
