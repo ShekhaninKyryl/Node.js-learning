@@ -6,6 +6,9 @@ function validate(values) {
   if (!values.email) {
     errors.email = 'Must be not empty!';
   }
+  if (!values.department) {
+    errors.department = 'Must be not empty!';
+  }
   if (!values.password) {
     errors.password = 'Must be not empty!';
   }
@@ -47,8 +50,10 @@ function RegistrationForm(props) {
   return (
     <form onSubmit={handleSubmit}>
       <Field name="email" label='Email' component={renderField} type="text"/>
+      <Field name="department" label='Department' component={renderField} type="text"/>
       <Field name="password" label='Password' component={renderField} type="password"/>
       <Field name="password2" label='Repeat Password' component={renderField} type="password"/>
+
       <span>
         {error && <span className='error'>{error}</span>}
         <button className='table-button button-link' type='submit' disabled={pristine || invalid}>

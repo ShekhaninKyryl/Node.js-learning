@@ -44,6 +44,7 @@ function LoginForm(props) {
       <Field name="email" label='Email' component={renderField} type="text"/>
       <Field name="password" label='Password' component={renderField} type="password"/>
       <span/>
+      <span/>
       <span>
         {error && <span className='error'>{error}</span>}
         <button className='table-button button-link' type='submit' disabled={pristine || invalid}>

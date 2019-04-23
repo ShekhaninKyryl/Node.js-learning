@@ -12,25 +12,25 @@ const path = require('path');
 /*
 Project modules
  */
-const DepartmentService = require('../models/department/DepartmentService');
-const EmployeeService = require('../models/employee/EmployeeService');
-const {logEmitter} = require('../models/logger/LoggerService');
+const DepartmentService = require('./models/department/DepartmentService');
+const EmployeeService = require('./models/employee/EmployeeService');
+const {logEmitter} = require('./models/logger/LoggerService');
 const {
   authorizationGetLoginToken,
   authorizationSetPassword,
   getAuthorizedUser,
   isAuthorizedUser
-} = require('../models/authorization/authorizationService');
+} = require('./models/authorization/authorizationService');
 
 /*
 Utilities
  */
-const MyError = require('./MyError');
-const errorHandler = require('./errorHandler');
-const {authorization} = require('../middlewares/authorization');
-const config = require('../config');
-const crypto = require('./crypto');
-require('./associations');
+const MyError = require('./utilities/MyError');
+const errorHandler = require('./utilities/errorHandler');
+const {authorization} = require('./middlewares/authorization');
+const config = require('./config');
+const crypto = require('./utilities/crypto');
+require('./utilities/associations');
 
 
 const router = express();
@@ -215,7 +215,7 @@ for (let middleWare in other) {
 }
 router.all('*', function (req, res) {
   console.log(`Request: [${req.method}]`, req.originalUrl);
-  res.sendFile('index.html', {root: path.join(__dirname, '../../dist')});
+  res.sendFile('index.html', {root: path.join(__dirname, '../dist')});
 });
 router.use(loggerFunction);
 

@@ -1,4 +1,4 @@
-import {sync} from "../src/syncDb";
+import {sync} from "../src/utilities/syncDb";
 import {addEmployee} from '../src/models/employee/EmployeeService';
 import {addDepartment} from '../src/models/department/DepartmentService';
 import {

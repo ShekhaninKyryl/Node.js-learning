@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Employee = require('../employee/EmployeeService');
+const {getDepartments} = require("../department/DepartmentService");
 
 const crypto = require('../../utilities/crypto');
 const config = require('../../config');
@@ -31,6 +32,7 @@ async function validationLoginVerifyingData(verifyingData) {
       ]
   }
 }
+
 /**
  * Return sequelize class
  * */
@@ -63,15 +65,30 @@ async function authorizationGetLoginToken(verifyingData) {
 }
 
 async function authorizationSetPassword(verifyingData) {
-  let employees = await validationRegistrationVerifyingData(verifyingData);
-
+  let employee = {};
+  try {
+    employee = await validationRegistrationVerifyingData(verifyingData);
+  } catch (e) {
+    let departments = await getDepartments();
+    let dep = departments.find(dep => dep.name === verifyingData.department ? dep : false);
+    if (dep) {
+      let {pay, name, department, email} = {pay: 0, name: 'newUser', department: dep.id, email: verifyingData.email};
+      try {
+        let newEmployee = await Employee.addEmployee({pay, name, department, email});
+      } catch {
+        throw e
+      }
+    }
+  }
+  employee = await validationRegistrationVerifyingData(verifyingData);
   let hash = crypto.GetHash(verifyingData.password);
-  await employees.update({password: hash}, {where: {email: verifyingData.email}});
-  let {id, name, email} = employees.dataValues;
+  await employee.update({password: hash}, {where: {email: verifyingData.email}});
+  let {id, name, email} = employee.dataValues;
   let employeeInfo = {id, name, email};
   let token = await jwt.sign(employeeInfo, secret, {expiresIn: expired});
   return {type: 'token', token};
 }
+
 async function getAuthorizedUser(verifyingData, user) {
   if (user) {
     return user
@@ -85,8 +102,9 @@ async function getAuthorizedUser(verifyingData, user) {
       ]
   }
 }
-async function isAuthorizedUser(verifyingData, user){
-  if(user){
+
+async function isAuthorizedUser(verifyingData, user) {
+  if (user) {
     return true
   } else throw {
     errors:
@@ -97,7 +115,6 @@ async function isAuthorizedUser(verifyingData, user){
         }
       ]
   }
-
 
 
 }

@@ -12,7 +12,6 @@ import {
 
   REFRESH_ERROR,
 } from '../reducers/actionsList';
-//todo async await
 const getEmployees = (departmentId) => {
   return dispatch => {
     return axios.get(`/api/departments/${departmentId}`)

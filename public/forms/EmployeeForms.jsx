@@ -8,7 +8,7 @@ function validate(values) {
   if (!values.name) {
     errors.name = 'Must be not empty!';
   }
-  if (!values.pay) {
+  if (values.pay==='') {
     errors.pay = 'Must be not empty!';
   } else if (!isFinite(values.pay)) {
     errors.pay = 'Must be number!';
@@ -53,10 +53,10 @@ function EmployeeForm(props) {
     invalid,
     initialValues,
     submitSucceeded,
-    reset
+    reset,
   } = props;
   if (submitSucceeded) {
-    setTimeout(() => reset(), 3000);
+    setTimeout(() => reset(), 1000);
   }
   let style = submitSucceeded ? 'table-button button-save button-submit-succeeded' : 'table-button button-save';
   return (

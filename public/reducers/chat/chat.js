@@ -13,7 +13,9 @@ export default function apiChatOnlineUsers(state = initialState, action) {
   let {type, room} = action;
   switch (type) {
     case CHAT_JOIN_TO_ROOM: {
-      return {...state, room};
+      if (room) {
+        return {...state, room};
+      } else return {...state, room: initialState.room}
     }
     case CHAT_CONNECT: {
       return {...state, isConnected: true}

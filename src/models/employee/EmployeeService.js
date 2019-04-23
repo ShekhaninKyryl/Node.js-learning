@@ -24,20 +24,20 @@ async function removeEmployee(employee) {
 }
 
 async function updateEmployee(employee) {
- // try {
+ try {
     await Employee.update(employee, {where: {id: employee.id}});
     let emp = await Employee.find({where: {id: employee.id}});
     let {id, name, pay, email, department} = emp.dataValues;
     return {id, name, pay, email, department};
-  // } catch (e) {
-  //   throw {
-  //     errors: [{
-  //       value: employee.id,
-  //       message: 'Cannot update employee',
-  //       path: 'id',
-  //     }],
-  //   };
-  // }
+  } catch (e) {
+    throw {
+      errors: [{
+        value: employee.id,
+        message: 'Cannot update employee',
+        path: 'id',
+      }],
+    };
+  }
 }
 
 async function wrappedGetEmployees(employee) {

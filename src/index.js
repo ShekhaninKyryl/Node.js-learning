@@ -1,14 +1,11 @@
-
-
 const app = require('express')();
 const server = require('http').Server(app);
 const webpack = require('webpack');
 
-
-const routers = require('./utilities/routers');
+const routers = require('./routers');
 const config = require('./config');
 const webpackConfig = require('../webpack.config');
-const {initServer} = require('./utilities/chat');
+const {initServer} = require('./chat');
 //const app = express();
 const compiler = webpack((webpackConfig));
 

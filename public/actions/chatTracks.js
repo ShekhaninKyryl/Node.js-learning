@@ -1,6 +1,17 @@
 import io from 'socket.io-client'
 
 import {
+  setEmployees,
+  setOnlineEmployees,
+  setEmployeeInfo,
+  mesToEmployee,
+  mesToServer,
+  clearMessages,
+  joinRoom,
+  joinedRoom
+} from '../../socketIOClientListeners__import__';
+
+import {
   CHAT_GET_USERS,
   CHAT_GET_ONLINE_USERS,
 
@@ -22,19 +33,19 @@ const chatConnect = () => {
     socket.connect();
     dispatch({type: CLEAR_MESSAGES});
     dispatch({type: CHAT_CONNECT});
-    socket.on('setEmployees', users => {
+    socket.on(setEmployees, users => {
       dispatch({type: CHAT_GET_USERS, users})
     });
-    socket.on('mesToEmployee', message => {
+    socket.on(mesToEmployee, message => {
       dispatch({type: CHAT_GET_MESSAGE, message})
     });
-    socket.on('joinedRoom', room => {
+    socket.on(joinedRoom, room => {
       dispatch({type: CHAT_JOIN_TO_ROOM, room})
     });
-    socket.on('clearMessages', () => {
+    socket.on(clearMessages, () => {
       dispatch({type: CLEAR_MESSAGES});
     });
-    socket.on('setOnlineEmployees', onlineusers => {
+    socket.on(setOnlineEmployees, onlineusers => {
       dispatch({type: CHAT_GET_ONLINE_USERS, onlineusers});
     })
   }
@@ -42,26 +53,27 @@ const chatConnect = () => {
 const chatClose = () => {
   return dispatch => {
     socket.close();
-    socket.off('setEmployees');
-    socket.off('mesToEmployee');
-    socket.off('joinedRoom');
-    socket.off('clearMessages');
-    socket.off('setOnlineEmployees');
+    socket.off(setEmployees);
+    socket.off(mesToEmployee);
+    socket.off(joinedRoom);
+    socket.off(clearMessages);
+    socket.off(setOnlineEmployees);
     dispatch({type: CLEAR_MESSAGES});
     dispatch({type: CHAT_DISCONNECT});
+    dispatch({type: CHAT_JOIN_TO_ROOM})
   }
 };
 
 const sendUserInfo = (user) => {
   return dispatch => {
-    socket.emit('setEmployeeInfo', user);
+    socket.emit(setEmployeeInfo, user);
   }
 };
 
 const sendMessage = (wrappedMessage) => {
   return dispatch => {
     let {user, text} = wrappedMessage;
-    socket.emit('mesToServer', {user, text});
+    socket.emit(mesToServer, {user, text});
     dispatch({type: CHAT_SEND_MESSAGE, message: {user, text}})
   }
 };
@@ -69,7 +81,7 @@ const sendMessage = (wrappedMessage) => {
 const joinToRoom = (wrappedRoom) => {
   return dispatch => {
     let {user, room} = wrappedRoom;
-    socket.emit('joinToRoom', user, room);
+    socket.emit(joinRoom, user, room);
   }
 };
 
