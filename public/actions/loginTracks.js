@@ -19,8 +19,8 @@ const postLogin = (data) => {
       .catch(error => {
         let err = error.response.data.message;
         let errMessage = '';
-        for(let key in err){
-            errMessage += err[key];
+        for (let key in err) {
+          errMessage += err[key];
         }
         throw new SubmissionError({_error: errMessage});
       });
@@ -37,7 +37,7 @@ const putRegistration = (data) => {
       .catch(error => {
         let err = error.response.data.message;
         let errMessage = '';
-        for(let key in err){
+        for (let key in err) {
           errMessage += err[key];
         }
         throw new SubmissionError({_error: errMessage});
@@ -47,9 +47,15 @@ const putRegistration = (data) => {
 
 const getIsLogin = () => {
   return dispatch => {
-    axios.get('api/guest')
-      .then(() => dispatch({type: SET_LOGIN}))
-      .catch(() => dispatch({type: SET_LOGOUT}));
+    return axios.get('api/islogin')
+      .then(() => {
+        dispatch({type: SET_LOGIN});
+        return true;
+      })
+      .catch(() => {
+        dispatch({type: SET_LOGOUT});
+        return false
+      });
   }
 };
 

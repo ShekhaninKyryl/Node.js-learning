@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import ChatFooter from "../../forms/ChatFooterForm.jsx";
+import ChatFooter from "../../forms/chatForms/ChatFooterForm.jsx";
 import ChatRoomJoin from "./ChatRoomJoin.jsx";
 import ChatMessages from "./ChatMessages.jsx";
 
@@ -13,12 +13,10 @@ import {
 
 
 class Chat extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     this.props.chatConnect();
+    //this.props.sendUserInfo(this.props.user);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -31,13 +29,13 @@ class Chat extends Component {
     this.props.chatClose();
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (this.props.user !== nextProps.user) {
-      this.props.sendUserInfo(nextProps.user);
-      return true;
-    }
-    return false;
-  }
+  // shouldComponentUpdate(nextProps, nextState, nextContext) {
+  //   if (this.props.user !== nextProps.user) {
+  //     this.props.sendUserInfo(nextProps.user);
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
 
   render() {

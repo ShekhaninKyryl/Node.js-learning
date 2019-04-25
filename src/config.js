@@ -7,12 +7,13 @@ const SEQUELIZE = {
   HOST: process.env.SEQ_HOST,
   USER: process.env.SEQ_USER,
   PASSWORD: process.env.SEQ_PASSWORD,
-  DATABASE: process.env.SEQ_DATABASE,
+  DATABASE: global.SEQ_DATABASE ? global.SEQ_DATABASE : process.env.SEQ_DATABASE,
   DIALECT: process.env.SEQ_DIALECT,
-  FORCE: process.env.SEQ_FORCE,
-  LOGGING: process.env.SEQ_LOGGING === 'true' ? console.log : null
+  FORCE: global.SEQ_FORCE ? global.SEQ_FORCE : process.env.SEQ_FORCE,
+  LOGGING: global.SEQ_LOGGING === false ? global.SEQ_LOGGING : console.log,
 };
 
+console.log(SEQUELIZE);
 const CRYPTO = {
   ALGORITHM: process.env.CRYPTO_ALGORITHM,
   PASSWORD: process.env.CRYPTO_PASSWORD,

@@ -14,6 +14,7 @@ const options = {
   force: SEQUELIZE.FORCE,
 };
 let sync = async (options) => {
+
   let res = await sequelize.sync(options);
 };
 

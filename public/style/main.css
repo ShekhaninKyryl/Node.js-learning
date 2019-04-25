@@ -37,8 +37,9 @@ button:disabled {
 }
 
 .root {
-    height: 93%;
     display: flex;
+    height: calc(100% - 130px);
+    width: 100%;
 }
 .test {
     background-color: #f81100;

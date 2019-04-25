@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Logout from '../LoginLogout/Logout.jsx';
 import {connect} from "react-redux";
 import {getUserInfo} from "../../actions/headerTracks";
+import {getLogout} from "../../actions/loginTracks";
 
 export class Header extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ export class Header extends Component {
   IsLogout() {
     let {isLogin} = this.props.login;
     if (isLogin) {
-      return <Logout/>;
+      return <Logout logout={this.props.logout}/>;
     } else {
       return null;
     }
@@ -51,5 +52,6 @@ export default connect(
   }),
   dispatch => ({
     getUser: () => dispatch(getUserInfo()),
+    logout: () => dispatch(getLogout()),
   })
 )(Header);

@@ -2,11 +2,11 @@ import {
   GET_EMPLOYEES,
   PUT_EMPLOYEE,
   POST_EMPLOYEE,
-  DELETE_EMPLOYEE
+  DELETE_EMPLOYEE,
+  RESET_EMPLOYEE
 } from './actionsList';
 
 const initialState = [];
-// todo name DONE
 export default function Employees(state = initialState, action) {
   let {type, response} = action;
   switch (type) {
@@ -34,6 +34,9 @@ export default function Employees(state = initialState, action) {
     }
     case DELETE_EMPLOYEE: {
       return state.filter(emp => emp.id !== response.id);
+    }
+    case RESET_EMPLOYEE: {
+      return initialState
     }
     default: {
       return state

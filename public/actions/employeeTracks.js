@@ -1,4 +1,4 @@
-import is401 from "../components/utilities/authorizationService";
+import is401 from "../utilities/authorizationService";
 import {SubmissionError} from "redux-form";
 import axios from "axios";
 
@@ -7,11 +7,13 @@ import {
   PUT_EMPLOYEE,
   POST_EMPLOYEE,
   DELETE_EMPLOYEE,
+  RESET_EMPLOYEE,
 
   SET_LOGOUT,
 
   REFRESH_ERROR,
 } from '../reducers/actionsList';
+
 const getEmployees = (departmentId) => {
   return dispatch => {
     return axios.get(`/api/departments/${departmentId}`)
@@ -85,9 +87,15 @@ const deleteEmployee = (employee) => {
   }
 };
 
+const resetEmployees = () => {
+  return dispatch => {
+    dispatch({type: RESET_EMPLOYEE})
+  }
+};
 export {
   getEmployees,
   putEmployee,
   postEmployee,
-  deleteEmployee
+  deleteEmployee,
+  resetEmployees
 }

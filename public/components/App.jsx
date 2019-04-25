@@ -11,11 +11,59 @@ import Chat from "./Chat/Chat.jsx";
 
 import {getIsLogin} from "../actions/loginTracks";
 
-function RenderEmployee(props) {
+function IsLoginTrue() {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path='/departments' render={() => {
+          return (
+            <div className='root'>
+              <Departments/>
+              <Chat/>
+            </div>
+          )
+        }}/>
+        <Route exact path='/departments/:departmentId' render={(props) => {
+          return checkCorrectURL(props);
+        }}/>
+        <Redirect exact from='/guest' to='/departments'/>
+        <Redirect exact from='/' to='/departments'/>
+        <Route path='*' render={() =>
+          <div className='not-found'>
+            <Link to="/departments" replace>Page not found!</Link>
+          </div>}/>
+      </Switch>
+    </Router>
+  )
+}
+
+function IsLoginFalse() {
+  return (
+    <Switch>
+      <Route exact path='/guest' component={Login}/>
+      <Redirect exact from='/departments' to='/guest'/>
+      <Redirect exact from='/departments/:departmentId' to='/guest'/>
+      <Redirect exact from='/' to='/guest'/>
+      <Route exact path='*'
+             render={() =>
+               <div className='not-found'>
+                 <Link to="/guest" replace>Page not found!</Link>
+               </div>}/>
+    </Switch>
+  )
+
+}
+
+function checkCorrectURL(props) {
   let {match} = props;
   let {departmentId} = match.params;
   if (isFinite(departmentId)) {
-    return <Employee departmentId={departmentId}/>
+    return (
+      <div className='root'>
+        <Employee departmentId={departmentId}/>
+        <Chat/>
+      </div>
+    )
   } else {
     return (
       <div className='not-found'>
@@ -26,10 +74,6 @@ function RenderEmployee(props) {
 }
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.props.isLogin();
   }
@@ -38,51 +82,13 @@ class App extends Component {
     return this.props.login.isLogin !== nextProps.login.isLogin;
   }
 
+//todo move render to outside DONE
   render() {
     let {isLogin} = this.props.login;
     return (
       <Router>
         <Header/>
-        {isLogin ? (
-          <Router>
-            <Switch>
-              <Route exact path='/departments' render={() => {
-                return (
-                  <div className='root'>
-                    <Departments/>
-                    <Chat/>
-                  </div>
-                )
-              }}/>
-              <Route exact path='/departments/:departmentId' render={(props) => {
-                return (
-                  <div className='root'>
-                    {RenderEmployee(props)}
-                    <Chat/>
-                  </div>
-                )
-              }}/>
-              <Redirect exact from='/guest' to='/departments'/>
-              <Redirect exact from='/' to='/departments'/>
-              <Route path='*' render={() =>
-                <div className='not-found'>
-                  <Link to="/departments" replace>Page not found!</Link>
-                </div>}/>
-            </Switch>
-          </Router>
-        ) : (
-          <Switch>
-            <Route exact path='/guest' component={Login}/>
-            <Redirect exact from='/departments' to='/guest'/>
-            <Redirect exact from='/departments/:departmentId' to='/guest'/>
-            <Redirect exact from='/' to='/guest'/>
-            <Route exact path='*'
-                   render={() =>
-                     <div className='not-found'>
-                       <Link to="/guest" replace>Page not found!</Link>
-                     </div>}/>
-          </Switch>
-        )}
+        {isLogin ? <IsLoginTrue/> : <IsLoginFalse/>}
       </Router>
     )
   }

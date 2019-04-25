@@ -1,104 +1,65 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import Header from '../public/components/Header/Header.jsx';
-import {Provider} from 'react-redux';
-import {getUserInfo} from "../public/actions/headerTracks";
-import reducer from '../public/reducers/index';
-import {applyMiddleware, createStore} from 'redux';
+import {Header} from '../public/components/Header/Header.jsx';
 import {BrowserRouter} from "react-router-dom";
-import {composeWithDevTools} from "redux-devtools-extension";
-import thunk from "redux-thunk";
-import {getIsLogin} from "../public/actions/loginTracks";
+import renderer from 'react-test-renderer'
+import ReactRouterEnzymeContext from 'react-router-enzyme-context';
+import Logout from "../public/components/LoginLogout/Logout";
+
+describe('header testing', () => {
+  let header;
+  let initialState;
 
 
-// const initialState = {
-//   login: {
-//     isLogin: false
-//   },
-//   user: {
-//     id: 0,
-//     name: 'Guest',
-//     email: ''
-//   }
-// };
-// const mockStore = configureStore([thunk]);
-// let store;
-// let provider;
-// let header;
-// let logout;
-//
-// test('isLogin - true', () => {
-//   const props = {
-//     user: {
-//       name: '123',
-//       email: '1@1.com'
-//     },
-//     login: {
-//       isLogin: true
-//     },
-//     getUser: function () {
-//       return {
-//         name: '1',
-//         email: '1',
-//         id: '1'
-//       };
-//     }
-//   };
-//   const header = shallow(<Header user={props.user}
-//                                  login={props.login}
-//                                  getUser={props.getUser}/>);
-//   expect(header.contains(<Logout/>)).toEqual(true);
-// });
-//
-// test('isLogin - false', () => {
-//   const props = {
-//     user: {
-//       name: '123',
-//       email: '1@1.com'
-//     },
-//     login: {
-//       isLogin: false
-//     },
-//     getUser: function () {
-//       return {
-//         name: '1',
-//         email: '1',
-//         id: '1'
-//       };
-//     }
-//   };
-// const header = shallow(<Header user={props.user}
-//                                login={props.login}
-//                                getUser={props.getUser}/>);
-// expect(header.contains(<Logout/>)).toEqual(false);
-//   const spy = jest.spyOn(Header.prototype, 'componentDidMount');
-//   const wrapper = mount(<Header {...props} />);
-//   wrapper.instance().componentDidMount();
-//   expect(spy).toHaveBeenCalled();
-//
-// });
-
-describe('Testing', () => {
-  const initialState = {
-    login: {
-      isLogin: false
-    },
-    user: {
-      id: 0,
-      name: 'Guest',
-      email: ''
-    }
-  };
-  let store, wrapper;
   beforeEach(() => {
-    store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
-    wrapper = mount(<Provider store={store}><BrowserRouter><Header/></BrowserRouter></Provider>).find(Header);
+    initialState = {
+      login: {
+        isLogin: false
+      },
+      user: {
+        id: 0,
+        name: 'Guest',
+        email: ''
+      },
+      getUser: jest.fn(),
+      logout: jest.fn()
+    };
+
+    header = mount(<BrowserRouter><Header  {...initialState}/></BrowserRouter>);
   });
-  it('check Prop', () => {
-    console.log(wrapper.instance(Header).props.store.getState());
-    store.dispatch(getIsLogin);
-    wrapper.setProps({login: {isLogin: false}});
-    console.log(wrapper.instance(Header).props.store.getState());
-    expect(wrapper.length).toEqual(1);
+
+  it('init props', () => {
+    expect(header.html()).not.toMatch('Logout');
+  });
+  it('set isLogin true', () => {
+    header.setProps({
+      children: React.cloneElement(header.props().children, {login: {isLogin: true}}),
+    });
+    expect(header.html()).toMatch('Logout');
+  });
+
+
+  it('getUser init called times', () => {
+    expect(initialState.getUser).toHaveBeenCalledTimes(1);
+  });
+  it('logout simulate click', () => {
+    header.setProps({
+      children: React.cloneElement(header.props().children, {login: {isLogin: true}}),
+    });
+    header.find(Logout).simulate('click');
+    expect(initialState.logout).toHaveBeenCalledTimes(1);
+  });
+
+  it('check props header INIT', () => {
+    expect(header.find(Header).props()).toEqual({...initialState});
+  });
+  it('check props logout INIT - Logout Disabled', () => {
+    expect(header.find(Logout).length).toBe(0);
+  });
+  it('check props logout after INIT - Logout Enabled', () => {
+    header.setProps({
+      children: React.cloneElement(header.props().children, {login: {isLogin: true}}),
+    });
+    expect(header.find(Logout).props()).toEqual({logout: initialState.logout});
   });
 });

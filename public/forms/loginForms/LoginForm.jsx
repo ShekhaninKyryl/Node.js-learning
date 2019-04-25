@@ -25,8 +25,7 @@ function renderField(props) {
   }
   return (
     <span>
-      {touched &&
-      (error && <span className='error'>{error}</span>)}
+      {touched && (error && <span className='error'>{error}</span>)}
       <input className={style} {...input} placeholder={label} type={type}/>
     </span>
   );

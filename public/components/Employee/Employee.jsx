@@ -1,8 +1,15 @@
 import React, {Component} from "react";
 import TableEmployee from './TableEmployee.jsx'
 import {connect} from "react-redux";
-import {getEmployees} from "../../actions/employeeTracks";
 import {Link} from "react-router-dom";
+import {
+  deleteEmployee,
+  getEmployees,
+  postEmployee,
+  putEmployee,
+  resetEmployees
+} from "../../actions/employeeTracks";
+
 
 class Employee extends Component {
   constructor(props) {
@@ -30,15 +37,27 @@ class Employee extends Component {
         </div>
       )
     } else {
-      return (<TableEmployee departmentId={this.props.departmentId}/>
-      )
+      return <TableEmployee
+        departmentId={this.props.departmentId}
+        employees={this.props.employees}
+        saveEmployee={this.props.saveEmployee}
+        removeEmployee={this.props.removeEmployee}
+        putEmployee={this.props.putEmployee}
+        resetEmployees={this.props.resetEmployees}
+      />;
     }
   }
 }
 
 export default connect(
-  state => ({}),
+  state => ({
+    employees: state.employees
+  }),
   dispatch => ({
     getEmployees: (departmentId) => dispatch(getEmployees(departmentId)),
+    saveEmployee: (employee) => dispatch(postEmployee(employee)),
+    removeEmployee: (employee) => dispatch(deleteEmployee(employee)),
+    putEmployee: (employee) => dispatch(putEmployee(employee)),
+    resetEmployees: (employee) => dispatch(resetEmployees(employee)),
   })
 )(Employee);

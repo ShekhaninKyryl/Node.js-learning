@@ -1,19 +1,14 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import ChatHeader from "../../forms/ChatHeaderForm.jsx";
+import ChatHeader from "../../forms/chatForms/ChatHeaderForm.jsx";
 import {joinToRoom} from "../../actions/chatTracks";
 
 
 class ChatRoomJoin extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   // shouldComponentUpdate(nextProps, nextState, nextContext) {
-  //   console.log(this.props.user.id, nextProps.user.id);
-  //   return this.props.user.id !== nextProps.user.id;
+  //   return this.props.users.length !== nextProps.users.length;
   // }
-
 
   render() {
     return (

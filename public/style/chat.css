@@ -6,7 +6,7 @@
 
 .chat-head {
     background-color: #5b7ca5;
-    height: 6%;
+    height: 50px;
 }
 
 .chat-head > * > span,
@@ -30,11 +30,11 @@
 .chat-footer {
     width: 100%;
     background-color: #5b7ca5;
-    height: 6%;
+    height: 50px;
 }
 
 .chat-messages {
-    height: 88%;
+    height: calc(100% - 50px);
     overflow-y: scroll;
     overflow-wrap: break-word;
 }

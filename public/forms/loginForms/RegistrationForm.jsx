@@ -53,7 +53,6 @@ function RegistrationForm(props) {
       <Field name="department" label='Department' component={renderField} type="text"/>
       <Field name="password" label='Password' component={renderField} type="password"/>
       <Field name="password2" label='Repeat Password' component={renderField} type="password"/>
-
       <span>
         {error && <span className='error'>{error}</span>}
         <button className='table-button button-link' type='submit' disabled={pristine || invalid}>

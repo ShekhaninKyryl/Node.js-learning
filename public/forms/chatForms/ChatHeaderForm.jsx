@@ -61,10 +61,12 @@ function ChatHeader(props) {
     reset
   } = props;
 
-  if (submitSucceeded) {
-    setTimeout(() => reset(), 3000);
-  }
-  let style = submitSucceeded ? 'table-button button-save button-submit-succeeded' : 'table-button button-save';
+  // if (submitSucceeded) {
+  //   setTimeout(() => reset(), 3000);
+  // }
+  // let style = submitSucceeded ? 'table-button button-save button-submit-succeeded' : 'table-button button-save';
+
+  let style = 'table-button button-save';
 
   return (
     <form onSubmit={handleSubmit}>
@@ -73,7 +75,7 @@ function ChatHeader(props) {
         <Field name='room' component={renderField} label={room} autoComplete='off'
                autoCorrect="off" list='datalist'/>
         <datalist id='datalist'>
-            {employees.map(emp => <option key={emp.id} value={emp.email}>{emp.email}</option>)}
+          {employees.map(emp => <option key={emp.id} value={emp.email}>{emp.email}</option>)}
         </datalist>
       </span>
       <span className='chat-head-right'>

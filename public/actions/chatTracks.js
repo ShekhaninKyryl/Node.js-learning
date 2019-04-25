@@ -23,6 +23,7 @@ import {
   CHAT_CONNECT,
   CHAT_DISCONNECT
 } from '../reducers/actionsList';
+import {getIsLogin} from "./loginTracks";
 
 const socket = io({
   autoConnect: false
@@ -71,10 +72,12 @@ const sendUserInfo = (user) => {
 };
 
 const sendMessage = (wrappedMessage) => {
-  return dispatch => {
+  return async dispatch => {
     let {user, text} = wrappedMessage;
-    socket.emit(mesToServer, {user, text});
-    dispatch({type: CHAT_SEND_MESSAGE, message: {user, text}})
+    if (await dispatch(getIsLogin())) {
+      socket.emit(mesToServer, {user, text});
+      dispatch({type: CHAT_SEND_MESSAGE, message: {user, text}});
+    }
   }
 };
 

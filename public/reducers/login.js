@@ -2,11 +2,12 @@ import {
   SET_LOGIN,
   SET_LOGOUT
 } from './actionsList';
+import Cookies from 'js-cookie';
+
 
 const initialState = {
-  isLogin: true,
+  isLogin: !!Cookies.get('token'),
 };
-//todo name DONE
 export default function Login(state = initialState, action) {
   switch (action.type) {
     case SET_LOGIN: {

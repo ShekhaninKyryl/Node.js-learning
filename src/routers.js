@@ -55,7 +55,7 @@ const handlers = {
     fn: isAuthorizedUser,
     needRedirect: false,
     method: 'get',
-    regExp: '/api/guest',
+    regExp: '/api/islogin',
     additionalParse: false,
     render: 'guest'
   },

@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {getLogout} from "../../actions/loginTracks";
 import {Link} from "react-router-dom";
 
-export class Logout extends PureComponent {
+export default class Logout extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -16,13 +16,3 @@ export class Logout extends PureComponent {
     )
   }
 }
-
-export default connect(
-  state => ({
-    login: state.login
-  }),
-  dispatch => ({
-    logout: () => dispatch(getLogout()),
-  })
-)
-(Logout);

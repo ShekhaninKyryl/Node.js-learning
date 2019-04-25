@@ -1,8 +1,8 @@
 import React, {PureComponent} from "react";
 import {connect} from "react-redux";
 import {postLogin, putRegistration} from "../../actions/loginTracks";
-import LoginForm from "../../forms/LoginForm.jsx";
-import RegistrationForm from '../../forms/RegistrationForm.jsx';
+import LoginForm from "../../forms/loginForms/LoginForm.jsx";
+import RegistrationForm from '../../forms/loginForms/RegistrationForm.jsx';
 
 class Login extends PureComponent {
   constructor(props) {

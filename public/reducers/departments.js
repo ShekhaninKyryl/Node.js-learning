@@ -3,9 +3,8 @@ import {
   PUT_DEPARTMENT,
   POST_DEPARTMENT,
   DELETE_DEPARTMENT,
-
+  RESET_DEPARTMENTS,
 } from './actionsList';
-
 
 const initialState = [];
 
@@ -23,9 +22,7 @@ export default function Departments(state = initialState, action) {
         response
       ];
     }
-
     case POST_DEPARTMENT: {
-
       return state.map(dep => {
         if (dep.id === response.id) {
           let newDep = Object.assign({}, dep);
@@ -38,6 +35,9 @@ export default function Departments(state = initialState, action) {
     }
     case DELETE_DEPARTMENT: {
       return state.filter(dep => dep.id !== response.id);
+    }
+    case RESET_DEPARTMENTS: {
+      return initialState
     }
     default: {
       return state;

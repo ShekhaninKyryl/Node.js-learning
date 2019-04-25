@@ -4,6 +4,8 @@ import {
   CHAT_DISCONNECT
 } from '../actionsList';
 
+
+
 const initialState = {
   room: '#general',
   isConnected: false

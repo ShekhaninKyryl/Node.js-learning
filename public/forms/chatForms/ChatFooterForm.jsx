@@ -8,7 +8,7 @@ function ChatFooter(props) {
     invalid,
     error,
     reset,
-    submitSucceeded
+    submitSucceeded,
   } = props;
   {
     submitSucceeded && reset()
@@ -32,5 +32,5 @@ function ChatFooter(props) {
 
 export default reduxForm({
   form: 'chatFooter',
-    enableReinitialize: true
+  enableReinitialize: true
 })(ChatFooter)

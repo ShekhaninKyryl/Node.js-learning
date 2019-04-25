@@ -1,9 +1,8 @@
 .header-container {
-    overflow: hidden;
     background-color: #f1f1f1;
-    padding: 1%;
-    height: 7%;
+    padding: 15px 5px;
     box-sizing: border-box;
+    height: 80px;
 }
 .span-user-name,
 .span-user-email{

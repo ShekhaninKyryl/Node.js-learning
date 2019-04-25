@@ -1,17 +1,18 @@
 import React, {Component} from "react";
 import RowDepartment from './RowDepartment.jsx'
-import FormDepartment from './FormDepartment.jsx';
-import {connect} from "react-redux";
+import PutDepartmentsForm from "../../forms/departmentForms/DepartmentPutForm.jsx";
 
-class TableDepartment extends Component {
-  constructor(props) {
-    super(props);
-  }
-
+//todo formik
+export default class TableDepartment extends Component {
   render() {
     let {departments} = this.props;
     let rows = departments.map(dep => {
-      return <RowDepartment key={dep.id} department={dep}/>
+      return <RowDepartment
+        key={dep.id}
+        department={dep}
+        saveDepartment={this.props.saveDepartment}
+        removeDepartment={this.props.removeDepartment}
+        resetDepartments={this.props.resetDepartments}/>
     });
     return (
       <div className='table-main'>
@@ -24,15 +25,9 @@ class TableDepartment extends Component {
           {rows}
         </div>
         <div className='table-footer'>
-          <FormDepartment/>
+          <PutDepartmentsForm onSubmit={this.props.putDepartment}/>
         </div>
       </div>
     )
   }
 }
-
-export default connect(
-  state => ({
-    departments: state.departments
-  })
-)(TableDepartment)

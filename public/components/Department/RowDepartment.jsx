@@ -1,23 +1,9 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
-import {postDepartment, deleteDepartment} from "../../actions/departmentTracks";
-import {DepartmentForms, DeleteRowDepartmentForm, validate} from "../../forms/DepartmentForms.jsx";
-import {reduxForm} from "redux-form";
 import {Link} from "react-router-dom";
+import DepartmentsPostForm from "../../forms/departmentForms/DepartmentPostForm.jsx";
+import DeleteDepartmentForm from "../../forms/departmentForms/DepartmentDeleteForm.jsx";
 
-class RowDepartment extends Component {
-  constructor(props) {
-    super(props);
-    this.RowDepartmentForm = reduxForm({
-      form: `dep${this.props.department.id}`,
-      validate,
-      enableReinitialize: true
-    })(DepartmentForms);
-    this.DeleteRowDepartmentForm = reduxForm({
-      form: `depDelete${this.props.department.id}`,
-    })(DeleteRowDepartmentForm);
-  }
-
+export default class RowDepartment extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     for (let key in this.props.department) {
       if (this.props.department[key] === nextProps.department[key]) {
@@ -27,33 +13,25 @@ class RowDepartment extends Component {
     }
     return false;
   }
-
   render() {
     let {id} = this.props.department;
-    const RowDepForm = this.RowDepartmentForm;
-    const DelRowDepForm = this.DeleteRowDepartmentForm;
     let toEmployeeURL = `/departments/${id}`;
     return (
       <div className='table-row'>
-        <RowDepForm initialValues={this.props.department} onSubmit={this.props.saveDepartment}/>
-        <DelRowDepForm initialValues={this.props.department} onSubmit={this.props.removeDepartment}/>
+        <DepartmentsPostForm
+          form={`dep${this.props.department.id}`}
+          initialValues={this.props.department}
+          onSubmit={this.props.saveDepartment}/>
+        <DeleteDepartmentForm
+          form={`depDelete${this.props.department.id}`}
+          initialValues={this.props.department}
+          onSubmit={this.props.removeDepartment}/>
         <span className='long-span'>
-        <button className='table-button button-link'>
-          <Link to={toEmployeeURL}>Employee</Link>
-        </button>
-          </span>
+          <button className='table-button button-link'>
+            <Link onClick={()=>this.props.resetDepartments()} to={toEmployeeURL}>Employee</Link>
+          </button>
+        </span>
       </div>
     );
   }
 }
-
-export default connect(
-  state => ({
-    departments: state.departments,
-    err: state.error
-  }),
-  dispatch => ({
-    saveDepartment: (department) => dispatch(postDepartment(department)),
-    removeDepartment: (department) => dispatch(deleteDepartment(department)),
-  })
-)(RowDepartment)

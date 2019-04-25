@@ -1,4 +1,4 @@
-import is401 from "../components/utilities/authorizationService";
+import is401 from "../utilities/authorizationService";
 import {SubmissionError} from "redux-form";
 import axios from "axios";
 import {
@@ -6,6 +6,7 @@ import {
   PUT_DEPARTMENT,
   POST_DEPARTMENT,
   DELETE_DEPARTMENT,
+  RESET_DEPARTMENTS,
 
   SET_LOGOUT,
 
@@ -18,7 +19,6 @@ const getDepartments = () => {
     axios.get('/api/departments')
       .then(response => response.data)
       .then(response => {
-        console.log('Get departments:', response);
         dispatch({type: GET_DEPARTMENTS, response});
         dispatch({type: REFRESH_ERROR});
       })
@@ -90,9 +90,16 @@ const deleteDepartment = (department) => {
   }
 };
 
+const resetDepartments=()=>{
+  return dispatch => {
+    dispatch({type: RESET_DEPARTMENTS})
+  }
+}
+
 export {
   getDepartments,
   putDepartment,
   postDepartment,
-  deleteDepartment
+  deleteDepartment,
+  resetDepartments
 }
