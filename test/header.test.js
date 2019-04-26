@@ -50,12 +50,6 @@ describe('header testing', () => {
     expect(initialState.logout).toHaveBeenCalledTimes(1);
   });
 
-  it('check props header INIT', () => {
-    expect(header.find(Header).props()).toEqual({...initialState});
-  });
-  it('check props logout INIT - Logout Disabled', () => {
-    expect(header.find(Logout).length).toBe(0);
-  });
   it('check props logout after INIT - Logout Enabled', () => {
     header.setProps({
       children: React.cloneElement(header.props().children, {login: {isLogin: true}}),

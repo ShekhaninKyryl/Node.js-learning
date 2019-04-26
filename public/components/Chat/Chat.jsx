@@ -9,8 +9,8 @@ import {
   chatClose,
   sendUserInfo,
   sendMessage,
+  joinToRoom,
 } from "../../actions/chatTracks";
-
 
 class Chat extends Component {
 
@@ -41,8 +41,16 @@ class Chat extends Component {
   render() {
     return (
       <div className='chat-main'>
-        <ChatRoomJoin/>
-        <ChatMessages/>
+        <ChatRoomJoin
+          users={this.props.users}
+          chat={this.props.chat}
+          user={this.props.user}
+          joinToRoom={this.props.joinToRoom}/>
+        <ChatMessages
+          users={this.props.users}
+          user={this.props.user}
+          messages={this.props.messages}
+          joinToRoom={this.props.joinToRoom}/>
         <div className='chat-footer'>
           <ChatFooter initialValues={{user: this.props.user.id}} onSubmit={this.props.sendMessage}/>
         </div>
@@ -53,13 +61,17 @@ class Chat extends Component {
 
 export default connect(
   state => ({
+    users: state.users,
+    chat: state.chat,
     user: state.user,
+    messages: state.messages,
   }),
   dispatch => ({
     chatConnect: () => dispatch(chatConnect()),
     chatClose: () => dispatch(chatClose()),
     sendUserInfo: (user) => dispatch(sendUserInfo(user)),
     sendMessage: (wrappedMessage) => dispatch(sendMessage(wrappedMessage)),
+    joinToRoom: (wrappedRoomOrId) => dispatch(joinToRoom(wrappedRoomOrId))
   })
 )(Chat);
 

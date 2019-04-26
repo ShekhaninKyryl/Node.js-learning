@@ -1,15 +1,8 @@
 import React, {Component} from "react";
-import {connect} from "react-redux";
 import ChatHeader from "../../forms/chatForms/ChatHeaderForm.jsx";
-import {joinToRoom} from "../../actions/chatTracks";
 
 
-class ChatRoomJoin extends Component {
-
-  // shouldComponentUpdate(nextProps, nextState, nextContext) {
-  //   return this.props.users.length !== nextProps.users.length;
-  // }
-
+export default class ChatRoomJoin extends Component {
   render() {
     return (
       <div className='chat-head'>
@@ -22,14 +15,3 @@ class ChatRoomJoin extends Component {
     )
   }
 }
-
-export default connect(
-  state => ({
-    users: state.users,
-    chat: state.chat,
-    user: state.user
-  }),
-  dispatch => ({
-    joinToRoom: (wrappedRoomOrId) => dispatch(joinToRoom(wrappedRoomOrId))
-  })
-)(ChatRoomJoin)

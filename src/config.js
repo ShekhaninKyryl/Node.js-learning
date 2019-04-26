@@ -12,8 +12,6 @@ const SEQUELIZE = {
   FORCE: global.SEQ_FORCE ? global.SEQ_FORCE : process.env.SEQ_FORCE,
   LOGGING: global.SEQ_LOGGING === false ? global.SEQ_LOGGING : console.log,
 };
-
-console.log(SEQUELIZE);
 const CRYPTO = {
   ALGORITHM: process.env.CRYPTO_ALGORITHM,
   PASSWORD: process.env.CRYPTO_PASSWORD,
